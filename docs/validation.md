@@ -88,4 +88,4 @@ O aplicativo `.app` e o DMG locais receberam status **Accepted** no serviço de 
 
 Esses resultados verificam assinatura, notarização e integridade do pacote. A instalação e a execução da versão release produzida ainda não foram testadas; os ensaios de interface registrados anteriormente utilizaram o aplicativo debug. Não houve teste deste pacote em Windows, Linux ou datashow físico.
 
-O arquivo de código-fonte destinado à publicação foi preparado sem `hc_xml.zip`. A revalidação desse arquivo em uma cópia limpa está em andamento e ainda não possui resultado final registrado aqui.
+O arquivo de código-fonte destinado à publicação foi preparado sem `hc_xml.zip`. Em uma cópia limpa, sem esse pacote privado, passaram `npm run build`, os 10 testes frontend e `cargo test --locked --no-default-features`. O DMG entregue também passou em nova conferência SHA-256, `stapler validate`, `hdiutil verify` e avaliação do Gatekeeper.
