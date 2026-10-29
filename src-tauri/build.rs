@@ -1,0 +1,30 @@
+fn main() {
+    tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
+        tauri_build::AppManifest::new().commands(&[
+            "list_categories",
+            "create_category",
+            "rename_category",
+            "bulk_set_category",
+            "bulk_song_usage",
+            "bulk_delete_songs",
+            "preview_import",
+            "import_songs",
+            "export_songs",
+            "get_snapshot",
+            "presentation_action",
+            "list_monitors",
+            "open_projection",
+            "projection_fullscreen",
+            "projection_status",
+            "list_songs",
+            "save_song",
+            "delete_song",
+            "song_usage",
+            "get_setlist",
+            "add_setlist_item",
+            "remove_setlist_item",
+            "reorder_setlist",
+        ]),
+    ))
+    .expect("Falha ao configurar permissões");
+}

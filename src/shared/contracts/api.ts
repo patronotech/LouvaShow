@@ -1,0 +1,27 @@
+import { invoke } from '@tauri-apps/api/core';
+import type { Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
+export const api = {
+ exportSongs: (ids:string[],format:'json'|'openlyrics') => invoke<{fileName:string;count:number}|null>('export_songs',{ids,format}),
+ listCategories: () => invoke<Category[]>('list_categories'),
+ createCategory: (name:string) => invoke<Category>('create_category',{name}),
+ renameCategory: (id:string,name:string) => invoke<Category>('rename_category',{id,name}),
+ assignCategory: (ids:string[],categoryId:string) => invoke<void>('bulk_set_category',{ids,categoryId}),
+ songsUsage: (ids:string[]) => invoke<number>('bulk_song_usage',{ids}),
+ deleteSongs: (ids:string[]) => invoke<void>('bulk_delete_songs',{ids}),
+ previewImport: (files:ImportFile[]) => invoke<ImportPreview>('preview_import',{files}),
+ importSongs: (songs:ImportSong[],categoryId:string) => invoke<ImportResult>('import_songs',{songs,categoryId}),
+ getSnapshot: () => invoke<Snapshot>('get_snapshot'),
+ action: (action:PresentationAction) => invoke<Snapshot>('presentation_action',{action}),
+ listMonitors: () => invoke<Display[]>('list_monitors'),
+ openProjection: (monitorId:string|null) => invoke<ProjectionStatus>('open_projection',{monitorId}),
+ fullscreen: (enabled:boolean) => invoke<ProjectionStatus>('projection_fullscreen',{enabled}),
+ projectionStatus: () => invoke<ProjectionStatus>('projection_status'),
+ listSongs: () => invoke<Song[]>('list_songs'),
+ saveSong: (input:SaveSongInput) => invoke<Song>('save_song',{input}),
+ deleteSong: (id:string) => invoke<void>('delete_song',{id}),
+ songUsage: (id:string) => invoke<number>('song_usage',{id}),
+ getSetlist: () => invoke<Setlist>('get_setlist'),
+ addSetlistItem: (songId:string) => invoke<Setlist>('add_setlist_item',{songId}),
+ removeSetlistItem: (itemId:string) => invoke<Setlist>('remove_setlist_item',{itemId}),
+ reorderSetlist: (orderedIds:string[]) => invoke<Setlist>('reorder_setlist',{orderedIds}),
+};

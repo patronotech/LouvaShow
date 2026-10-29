@@ -1,0 +1,33 @@
+{
+  "identifier": "operator",
+  "windows": [
+    "operator"
+  ],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-get-snapshot",
+    "allow-presentation-action",
+    "allow-list-monitors",
+    "allow-open-projection",
+    "allow-projection-fullscreen",
+    "allow-projection-status",
+    "allow-list-songs",
+    "allow-save-song",
+    "allow-delete-song",
+    "allow-song-usage",
+    "allow-get-setlist",
+    "allow-add-setlist-item",
+    "allow-remove-setlist-item",
+    "allow-reorder-setlist",
+    "allow-list-categories",
+    "allow-create-category",
+    "allow-rename-category",
+    "allow-bulk-set-category",
+    "allow-bulk-song-usage",
+    "allow-bulk-delete-songs",
+    "allow-preview-import",
+    "allow-import-songs",
+    "allow-export-songs"
+  ]
+}
