@@ -117,3 +117,9 @@ Esses resultados não representam testes em datashow, Windows ou Linux.
 A revisão estática confirmou que o comando para abrir a comunidade aceita apenas a janela do operador e utiliza um endereço HTTPS fixo. A interface não pode fornecer uma URL ou aplicativo arbitrário. A projeção não recebeu essa permissão, e a abertura automática de links pelo plugin está desabilitada. O acesso externo ocorre somente pelo botão explícito; a biblioteca e a apresentação continuam locais.
 
 No ensaio nativo, o botão do cabeçalho abriu o diálogo, confirmado visualmente. Acionar “Abrir grupo no WhatsApp” retornou a mensagem de convite enviado e abriu no navegador a URL pública esperada, com a identificação do LouvaShow e o convite para conversa em grupo. Não houve entrada no grupo nem envio de mensagem; a aba de teste foi fechada.
+
+## Pacote local v0.3.0 — macOS arm64
+
+Aplicativo e DMG receberam **Accepted** na notarização da Apple. Assinaturas, tickets anexados e Gatekeeper foram verificados; o DMG passou na conferência de integridade e foi montado para comparar os hashes de todos os arquivos de runtime. O pacote contém somente o aplicativo e o atalho de instalação. O hinário opcional permanece restrito ao build local, fora do GitHub.
+
+O ensaio de interface acima utilizou o build debug isolado. A instalação e execução deste pacote release, Windows, Linux e datashow físico continuam sem validação manual registrada.
