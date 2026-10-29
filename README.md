@@ -27,16 +27,20 @@ O primeiro build baixa dependências. O aplicativo compilado deve funcionar sem 
 
 ## Operação
 
+A navegação separa quatro áreas: **Operação ao vivo** para enviar blocos, **Repertórios** para montar a sequência de cada evento, **Músicas** para revisar e cadastrar letras e **Configurações** para preparar a saída e consultar atalhos. Trocar de área preserva a música preparada e o conteúdo ao vivo. Na área Músicas, os blocos são somente leitura; a projeção direta fica na Operação ao vivo.
+
+Arraste as bordas das laterais para ajustar sua largura ou recolhê-las. Pelo teclado, foque o separador e use as setas; Enter recolhe ou reabre, e Escape cancela um arraste. As dimensões ficam salvas por área. A prévia ao vivo permanece fixa enquanto os blocos e o repertório rolam de forma independente. Em janelas estreitas, use os botões Mostrar para alternar as laterais. Para restaurar as dimensões iniciais, acesse **Configurações → Aparência**.
+
 1. Cadastre uma música usando conteúdo próprio ou autorizado. Separe os blocos da letra por linhas em branco, revise-os e salve.
 2. Prepare uma música na biblioteca. A seleção e a edição são independentes do conteúdo ao vivo.
-3. Crie ou selecione uma playlist com o nome do evento, como “Culto de domingo · manhã”, e monte o repertório. Uma música pode aparecer mais de uma vez; cada ocorrência tem sua própria identidade.
+3. Crie ou selecione um repertório com o nome do evento, como “Culto de domingo · manhã”, e adicione as músicas. Uma música pode aparecer mais de uma vez; cada ocorrência tem sua própria identidade.
 4. Confira a tela de saída e abra a projeção explicitamente. Com apenas um monitor, use a janela de prévia.
 5. Escolha um bloco para projetar. Use os controles anterior/próximo para navegar dentro da música.
 6. Apague e restaure a saída quando necessário. Ao fechar somente a janela de projeção, a sessão continua no aplicativo.
 
-As teclas disponíveis aparecem na interface. Atalhos de apresentação são ignorados em campos de edição e diálogos. Confirme a saída real antes de cada culto.
+As teclas disponíveis aparecem na interface. Atalhos de apresentação atuam apenas em Operação ao vivo e são ignorados em campos de edição e diálogos. Os botões explícitos da barra de operação continuam disponíveis nas demais áreas. Confirme a saída real antes de cada culto.
 
-Playlists podem ser criadas, renomeadas e excluídas. A seleção e a ordem ficam salvas neste computador. Trocar de playlist preserva a música em preparação e o conteúdo ao vivo. Excluir uma playlist remove somente sua lista de ocorrências; as músicas permanecem na biblioteca e nas outras playlists. É necessário manter pelo menos uma playlist.
+Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem ficam salvas neste computador. Trocar de repertório preserva a música em preparação e o conteúdo ao vivo. Excluir um repertório remove somente sua lista de ocorrências; as músicas permanecem na biblioteca e nos outros repertórios. É necessário manter pelo menos um repertório.
 
 ## Desenvolvimento e verificação
 
@@ -65,11 +69,11 @@ O processo de assinatura, notarização e inspeção dos pacotes está em [Build
 
 Os formatos e limites de intercâmbio da biblioteca estão em [Importação e exportação](docs/import-export.md), incluindo a distinção entre OpenLyrics e formatos próprios de outros programas.
 
-A exportação atual transporta músicas e seus metadados; não inclui playlists, ordem do repertório, preferências ou sessão de projeção. Ela não é um backup completo do aplicativo.
+A exportação atual transporta músicas e seus metadados; não inclui repertórios, sua ordem de músicas, preferências ou sessão de projeção. Ela não é um backup completo do aplicativo.
 
 ## Limites desta sessão
 
-As playlists por evento são locais; a versão atual não agenda eventos nem sincroniza repertórios entre computadores. Imagens e vídeos de fundo foram adiados para preservar o fluxo completo de projeção; os temas iniciais usam fundo sólido e são persistidos. A preferência de monitor ainda não é persistida. A sessão de apresentação permanece ao reabrir a janela de saída, mas não é restaurada após encerrar todo o aplicativo.
+Os repertórios por evento são locais; a versão atual não agenda eventos nem sincroniza repertórios entre computadores. Imagens e vídeos de fundo foram adiados para preservar o fluxo completo de projeção; os temas iniciais usam fundo sólido e são persistidos. A preferência de monitor ainda não é persistida. A sessão de apresentação permanece ao reabrir a janela de saída, mas não é restaurada após encerrar todo o aplicativo.
 
 Windows, Linux, projetor físico, reprodução de vídeo e instaladores públicos precisam de validação própria. Não há controle de ligar/desligar o projetor: ele é uma tela reconhecida pelo sistema operacional.
 

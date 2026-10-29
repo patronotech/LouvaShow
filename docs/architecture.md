@@ -12,6 +12,12 @@ O formulário mantém o rascunho de edição; a interface do operador mantém a 
 
 Ao apresentar, o coordenador conserva uma cópia do conteúdo da música usada na sessão. Navegar opera nessa cópia, sem reler disco a cada bloco. Uma edição posterior não altera o conteúdo já projetado. A sessão dura enquanto o processo estiver aberto; persistir a sessão entre reinícios é uma evolução separada da biblioteca persistente.
 
+## Contextos do operador
+
+A navegação entre Operação ao vivo, Repertórios, Músicas e Configurações é estado de interface e não envia comandos de apresentação. A música preparada e o snapshot permanecem no componente do operador. A área Músicas renderiza os blocos como conteúdo de revisão, sem ação de projetar. Atalhos de apresentação são limitados ao contexto ao vivo; os controles explícitos da barra de operação continuam disponíveis nos demais contextos.
+
+As dimensões e o recolhimento dos painéis são preferências de interface versionadas por contexto no armazenamento local da WebView. Não alteram músicas, repertórios ou temas do SQLite. A leitura valida tipos, versão e números finitos e limita as dimensões. O ajuste automático à largura disponível não sobrescreve as dimensões preferidas. O arraste só persiste ao terminar; Escape, cancelamento do ponteiro, perda de captura ou foco restauram o estado anterior. Painéis recolhidos usam `hidden` e `inert` para retirar seus controles da navegação por teclado.
+
 ## Snapshots e revisões
 
 Toda mudança da apresentação produz um snapshot serializável com revisão monotônica. A janela registra o listener antes de solicitar o estado atual e aplica apenas revisões superiores à última aceita. Isso impede regressão quando a resposta da consulta chega depois de um evento mais recente.
@@ -24,15 +30,15 @@ Músicas, blocos e itens de repertório possuem identificadores estáveis. A pos
 
 O backend executa migrações versionadas, consultas parametrizadas, transações e foreign keys. Um banco inválido gera erro recuperável ou impede a inicialização; não autoriza reset silencioso. A interface salva formulários explicitamente. A exclusão de música deve informar antes a remoção de referências do repertório.
 
-## Playlists por evento
+## Repertórios por evento
 
-Cada playlist é um `Setlist` nomeado, com itens independentes e identificador estável. O nome identifica o evento sem introduzir uma agenda. A playlist selecionada é persistida nas preferências locais; criar uma playlist também a seleciona. Renomear altera somente o nome.
+Cada repertório é um `Setlist` nomeado, com itens independentes e identificador estável. O nome identifica o evento sem introduzir uma agenda. O repertório selecionado é persistido nas preferências locais; criar um repertório também o seleciona. Renomear altera somente o nome.
 
 Inclusão, remoção e reordenação de itens recebem `setlistId` explicitamente. O backend valida que os itens pertencem àquela lista e exige uma permutação completa na reordenação. Uma seleção diferente na interface não pode redirecionar uma operação pendente para outra lista. O frontend serializa as operações da biblioteca e desabilita a troca enquanto uma operação está em andamento.
 
-Excluir a playlist ativa escolhe e persiste outra lista na mesma transação. A última playlist não pode ser excluída. Excluir uma playlist remove seus itens, preservando as músicas e o snapshot ao vivo. Excluir uma música da biblioteca remove suas ocorrências em todas as playlists e recompõe as posições das listas afetadas. Nenhuma dessas operações comanda a apresentação.
+Excluir o repertório ativo escolhe e persiste outra lista na mesma transação. O último repertório não pode ser excluído. Excluir um repertório remove seus itens, preservando as músicas e o snapshot ao vivo. Excluir uma música da biblioteca remove suas ocorrências em todos os repertórios e recompõe as posições das listas afetadas. Nenhuma dessas operações comanda a apresentação.
 
-A exportação JSON/OpenLyrics atual intercambia músicas, não playlists, seleção ativa, temas ou sessão. Ela não representa um backup completo do banco local.
+A exportação JSON/OpenLyrics atual intercambia músicas, não repertórios, seleção ativa, temas ou sessão. Ela não representa um backup completo do banco local.
 
 ## Limite nativo e janelas
 

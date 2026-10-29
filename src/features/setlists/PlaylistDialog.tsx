@@ -3,7 +3,7 @@ import type { Setlist } from '../../shared/contracts';
 
 export type PlaylistDialogMode = 'create' | 'rename' | 'delete';
 export function playlistNameError(name: string): string | null {
-  if (!name.trim()) return 'Informe um nome para a playlist.';
+  if (!name.trim()) return 'Informe um nome para o repertório.';
   if ([...name.trim()].length > 120) return 'Use no máximo 120 caracteres no nome.';
   return null;
 }
@@ -30,10 +30,10 @@ export function PlaylistDialog({ mode, setlist, busy, onSubmit, onClose }: {
   }
   return <dialog ref={ref} className="playlist-dialog" aria-labelledby="playlist-dialog-title" onCancel={event => { event.preventDefault(); if (!busy) onClose(); }}>
     <form onSubmit={event => { event.preventDefault(); void submit(); }}>
-      <h2 id="playlist-dialog-title">{mode === 'create' ? 'Nova playlist do evento' : mode === 'rename' ? 'Renomear playlist' : `Excluir “${setlist?.name}”?`}</h2>
-      {mode === 'delete' ? <><p>A playlist e suas {setlist?.items.length ?? 0} ocorrências serão removidas. As músicas continuam na biblioteca e nas demais playlists.</p><p>A música em preparação e a saída ao vivo serão preservadas. Esta exclusão não pode ser desfeita.</p></> : <><p>{mode === 'create' ? 'Organize as músicas de um culto, encontro ou celebração. A nova playlist será selecionada.' : 'Escolha um nome que identifique o evento.'} A preparação e a saída ao vivo permanecem iguais.</p><label>Nome da playlist<input autoFocus required maxLength={120} disabled={busy} value={name} placeholder="Ex.: Culto de domingo · manhã" onChange={event => setName(event.target.value)} /></label></>}
+      <h2 id="playlist-dialog-title">{mode === 'create' ? 'Novo repertório do evento' : mode === 'rename' ? 'Renomear repertório' : `Excluir “${setlist?.name}”?`}</h2>
+      {mode === 'delete' ? <><p>O repertório será excluído, incluindo {setlist?.items.length ?? 0} {setlist?.items.length === 1 ? 'ocorrência' : 'ocorrências'}. As músicas continuam na biblioteca e nos demais repertórios.</p><p>A música em preparação e a saída ao vivo serão preservadas. Esta exclusão não pode ser desfeita.</p></> : <><p>{mode === 'create' ? 'Organize as músicas de um culto, encontro ou celebração. O novo repertório será selecionado.' : 'Escolha um nome que identifique o evento.'} A preparação e a saída ao vivo permanecem iguais.</p><label>Nome do repertório<input autoFocus required maxLength={120} disabled={busy} value={name} placeholder="Ex.: Culto de domingo · manhã" onChange={event => setName(event.target.value)} /></label></>}
       {error && <p role="alert" className="error-message">{error} Você pode corrigir e tentar novamente.</p>}
-      <div className="dialog-actions"><button type="button" autoFocus={mode === 'delete'} disabled={busy} onClick={onClose}>Cancelar</button><button type="submit" className={mode === 'delete' ? 'danger' : 'primary'} disabled={busy}>{busy ? 'Salvando…' : mode === 'create' ? 'Criar playlist' : mode === 'rename' ? 'Salvar nome' : 'Excluir playlist'}</button></div>
+      <div className="dialog-actions"><button type="button" autoFocus={mode === 'delete'} disabled={busy} onClick={onClose}>Cancelar</button><button type="submit" className={mode === 'delete' ? 'danger' : 'primary'} disabled={busy}>{busy ? 'Salvando…' : mode === 'create' ? 'Criar repertório' : mode === 'rename' ? 'Salvar nome' : 'Excluir repertório'}</button></div>
     </form>
   </dialog>;
 }
