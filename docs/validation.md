@@ -81,3 +81,11 @@ Formatos próprios do Holyrics e Super Cânticos permanecem sem compatibilidade 
 ## Ajuste de rolagem do operador — 2026-10-29
 
 Build TypeScript/Vite e bundle macOS debug concluídos. No aplicativo nativo, a música com cinco blocos foi rolada até o último bloco: prévia da saída, biblioteca e barra de operação permaneceram na mesma posição. Repertório e temas usam uma área de rolagem própria abaixo da prévia.
+
+## Pacote local v0.2.0 — macOS arm64
+
+O aplicativo `.app` e o DMG locais receberam status **Accepted** no serviço de notarização da Apple. Os tickets anexados foram validados com `stapler`, e o Gatekeeper aceitou os artefatos. O DMG foi montado e os hashes dos arquivos de runtime foram comparados com o aplicativo de origem.
+
+Esses resultados verificam assinatura, notarização e integridade do pacote. A instalação e a execução da versão release produzida ainda não foram testadas; os ensaios de interface registrados anteriormente utilizaram o aplicativo debug. Não houve teste deste pacote em Windows, Linux ou datashow físico.
+
+O arquivo de código-fonte destinado à publicação foi preparado sem `hc_xml.zip`. A revalidação desse arquivo em uma cópia limpa está em andamento e ainda não possui resultado final registrado aqui.

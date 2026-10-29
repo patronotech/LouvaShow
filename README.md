@@ -2,7 +2,7 @@
 
 Aplicativo desktop para preparar repertórios e projetar letras em igrejas, com operação local e offline. O objetivo é oferecer uma ferramenta gratuita e open source, simples para voluntários. Não requer conta, assinatura, servidor ou chave de IA.
 
-**Versão inicial em desenvolvimento. A licença ainda precisa ser escolhida pelo mantenedor antes da publicação pública.** Não há licença de distribuição concedida por este documento.
+**Versão inicial em desenvolvimento. A licença ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição.
 
 ## Começar
 
