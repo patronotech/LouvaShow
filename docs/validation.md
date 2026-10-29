@@ -89,3 +89,31 @@ O aplicativo `.app` e o DMG locais receberam status **Accepted** no serviço de 
 Esses resultados verificam assinatura, notarização e integridade do pacote. A instalação e a execução da versão release produzida ainda não foram testadas; os ensaios de interface registrados anteriormente utilizaram o aplicativo debug. Não houve teste deste pacote em Windows, Linux ou datashow físico.
 
 O arquivo de código-fonte destinado à publicação foi preparado sem `hc_xml.zip`. Em uma cópia limpa, sem esse pacote privado, passaram `npm run build`, os 10 testes frontend e `cargo test --locked --no-default-features`. O DMG entregue também passou em nova conferência SHA-256, `stapler validate`, `hdiutil verify` e avaliação do Gatekeeper.
+
+A matriz de integração contínua da versão 0.2.0 também concluiu com sucesso. Esse resultado confirma os checks configurados no workflow; não comprova uso da interface, monitores, instalação ou operação ao vivo em cada sistema.
+
+## Playlists por evento — v0.3.0
+
+A revisão estática conferiu identificação explícita da playlist nas mutações, validação de pertencimento dos itens, persistência da seleção, fallback transacional após exclusão e preservação da biblioteca e do coordenador de apresentação. As permissões de criar, selecionar, renomear e excluir playlists pertencem somente à janela do operador. A exportação continua limitada às músicas.
+
+Passaram 26 testes Rust na configuração pública, 28 com o hinário local e 13 testes frontend, além de formatação Rust e Clippy. A suíte inclui isolamento entre listas, rejeição de itens de outra lista, persistência após reabertura, seleção de fallback, exclusão preservando músicas/snapshot, normalização das listas afetadas e validação de nomes.
+
+O ensaio nativo no macOS utilizou um identificador de aplicativo isolado e dados demonstrativos, sem acessar a biblioteca real do usuário. Foram criadas duas playlists de eventos, com duas ocorrências da demonstração na primeira e uma na segunda. Criar, alternar e renomear as listas manteve a prévia no bloco Abertura, 1/3, ao vivo. O nome com acentos foi inserido por colagem. O botão de mover para baixo alterou a ordem dos itens, conferida na árvore de acessibilidade. Fechar e reabrir o aplicativo recuperou a seleção da primeira playlist com seus dois itens. Uma captura de tela confirmou o layout.
+
+A exclusão de playlists não foi acionada nesse ensaio nativo; sua cobertura neste incremento é automatizada. O ensaio de reabertura confirmou a seleção e a quantidade de itens, sem uma conferência independente da ordem após o reinício.
+
+- [x] Criar duas playlists por evento, adicionar músicas repetidas e conferir isolamento ao alternar.
+- [x] Renomear com acentos; reabrir o aplicativo e conferir seleção e quantidade de itens persistidas.
+- [x] Mover um item pelo botão para baixo e conferir a mudança na interface.
+- [ ] Conferir a ordem após reiniciar; reordenar por teclado e arraste sem alterar outra playlist.
+- [ ] Excluir a playlist ativa; conferir fallback, biblioteca preservada e saída ao vivo inalterada.
+- [ ] Conferir bloqueio da exclusão da última playlist.
+- [ ] Testar erros recuperáveis no diálogo e atalhos de apresentação inativos durante a edição.
+
+Esses resultados não representam testes em datashow, Windows ou Linux.
+
+### Créditos e comunidade
+
+A revisão estática confirmou que o comando para abrir a comunidade aceita apenas a janela do operador e utiliza um endereço HTTPS fixo. A interface não pode fornecer uma URL ou aplicativo arbitrário. A projeção não recebeu essa permissão, e a abertura automática de links pelo plugin está desabilitada. O acesso externo ocorre somente pelo botão explícito; a biblioteca e a apresentação continuam locais.
+
+No ensaio nativo, o botão do cabeçalho abriu o diálogo, confirmado visualmente. Acionar “Abrir grupo no WhatsApp” retornou a mensagem de convite enviado e abriu no navegador a URL pública esperada, com a identificação do LouvaShow e o convite para conversa em grupo. Não houve entrada no grupo nem envio de mensagem; a aba de teste foi fechada.

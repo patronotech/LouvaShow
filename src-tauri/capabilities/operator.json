@@ -4,6 +4,7 @@
     "operator"
   ],
   "permissions": [
+    "allow-open-community-group",
     "core:event:allow-listen",
     "core:event:allow-unlisten",
     "allow-get-snapshot",
@@ -28,6 +29,11 @@
     "allow-bulk-delete-songs",
     "allow-preview-import",
     "allow-import-songs",
-    "allow-export-songs"
+    "allow-export-songs",
+    "allow-list-setlists",
+    "allow-select-setlist",
+    "allow-create-setlist",
+    "allow-rename-setlist",
+    "allow-delete-setlist"
   ]
 }

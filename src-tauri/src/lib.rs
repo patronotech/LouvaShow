@@ -17,6 +17,11 @@ pub struct AppState {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
+        .plugin(
+            tauri_plugin_opener::Builder::new()
+                .open_js_links_on_click(false)
+                .build(),
+        )
         .setup(|app| {
             let dir = app.path().app_data_dir()?;
             std::fs::create_dir_all(&dir)?;
@@ -55,6 +60,7 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            commands::open_community_group,
             commands::library::list_categories,
             commands::library::create_category,
             commands::library::rename_category,
@@ -75,6 +81,11 @@ pub fn run() {
             commands::library::delete_song,
             commands::library::song_usage,
             commands::library::get_setlist,
+            commands::library::list_setlists,
+            commands::library::select_setlist,
+            commands::library::create_setlist,
+            commands::library::rename_setlist,
+            commands::library::delete_setlist,
             commands::library::add_setlist_item,
             commands::library::remove_setlist_item,
             commands::library::reorder_setlist

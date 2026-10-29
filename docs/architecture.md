@@ -24,6 +24,16 @@ Músicas, blocos e itens de repertório possuem identificadores estáveis. A pos
 
 O backend executa migrações versionadas, consultas parametrizadas, transações e foreign keys. Um banco inválido gera erro recuperável ou impede a inicialização; não autoriza reset silencioso. A interface salva formulários explicitamente. A exclusão de música deve informar antes a remoção de referências do repertório.
 
+## Playlists por evento
+
+Cada playlist é um `Setlist` nomeado, com itens independentes e identificador estável. O nome identifica o evento sem introduzir uma agenda. A playlist selecionada é persistida nas preferências locais; criar uma playlist também a seleciona. Renomear altera somente o nome.
+
+Inclusão, remoção e reordenação de itens recebem `setlistId` explicitamente. O backend valida que os itens pertencem àquela lista e exige uma permutação completa na reordenação. Uma seleção diferente na interface não pode redirecionar uma operação pendente para outra lista. O frontend serializa as operações da biblioteca e desabilita a troca enquanto uma operação está em andamento.
+
+Excluir a playlist ativa escolhe e persiste outra lista na mesma transação. A última playlist não pode ser excluída. Excluir uma playlist remove seus itens, preservando as músicas e o snapshot ao vivo. Excluir uma música da biblioteca remove suas ocorrências em todas as playlists e recompõe as posições das listas afetadas. Nenhuma dessas operações comanda a apresentação.
+
+A exportação JSON/OpenLyrics atual intercambia músicas, não playlists, seleção ativa, temas ou sessão. Ela não representa um backup completo do banco local.
+
 ## Limite nativo e janelas
 
 A janela do operador invoca operações explícitas. A projeção precisa apenas consultar e observar o estado. Capabilities e validações nativas devem impedir que a projeção altere a biblioteca, execute shell ou leia arquivos indiscriminadamente.

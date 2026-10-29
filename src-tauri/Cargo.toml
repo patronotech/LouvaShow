@@ -1,6 +1,6 @@
 [package]
 name = "louvashow"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 
 [lib]
@@ -23,6 +23,7 @@ tauri-plugin-dialog = "2"
 zip = { version = "9.1.3", default-features = false, features = ["deflate"] }
 
 tempfile = "3"
+tauri-plugin-opener = "=2.7.2"
 
 [features]
 default = []

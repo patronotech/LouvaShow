@@ -1,6 +1,7 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
+import type { Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, SetlistSummary, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
 export const api = {
+ openCommunityGroup: () => invoke<void>('open_community_group'),
  exportSongs: (ids:string[],format:'json'|'openlyrics') => invoke<{fileName:string;count:number}|null>('export_songs',{ids,format}),
  listCategories: () => invoke<Category[]>('list_categories'),
  createCategory: (name:string) => invoke<Category>('create_category',{name}),
@@ -20,8 +21,13 @@ export const api = {
  saveSong: (input:SaveSongInput) => invoke<Song>('save_song',{input}),
  deleteSong: (id:string) => invoke<void>('delete_song',{id}),
  songUsage: (id:string) => invoke<number>('song_usage',{id}),
+ listSetlists: () => invoke<SetlistSummary[]>('list_setlists'),
+ selectSetlist: (id:string) => invoke<Setlist>('select_setlist',{id}),
+ createSetlist: (name:string) => invoke<Setlist>('create_setlist',{name}),
+ renameSetlist: (id:string,name:string) => invoke<Setlist>('rename_setlist',{id,name}),
+ deleteSetlist: (id:string) => invoke<Setlist>('delete_setlist',{id}),
  getSetlist: () => invoke<Setlist>('get_setlist'),
- addSetlistItem: (songId:string) => invoke<Setlist>('add_setlist_item',{songId}),
- removeSetlistItem: (itemId:string) => invoke<Setlist>('remove_setlist_item',{itemId}),
- reorderSetlist: (orderedIds:string[]) => invoke<Setlist>('reorder_setlist',{orderedIds}),
+ addSetlistItem: (setlistId:string,songId:string) => invoke<Setlist>('add_setlist_item',{setlistId,songId}),
+ removeSetlistItem: (setlistId:string,itemId:string) => invoke<Setlist>('remove_setlist_item',{setlistId,itemId}),
+ reorderSetlist: (setlistId:string,orderedIds:string[]) => invoke<Setlist>('reorder_setlist',{setlistId,orderedIds}),
 };

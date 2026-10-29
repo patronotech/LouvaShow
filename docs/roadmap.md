@@ -8,7 +8,7 @@ A prioridade é completar e validar o fluxo de projeção antes de expandir inte
 - Validar múltiplos monitores reais, DPI, desconexão e reconexão em cada sistema suportado.
 - Completar ou aprofundar temas, importação de imagem/vídeo, falhas de codec e legibilidade.
 - Persistir preferências locais versionadas e revalidar o monitor sugerido a cada abertura.
-- Ampliar gestão de repertórios, exportação/importação e backup recuperável.
+- Expandir o intercâmbio para playlists por evento e implementar backup completo recuperável. A gestão local de playlists já permite criar, selecionar, renomear e excluir listas; a exportação atual transporta somente músicas.
 - Validar acessibilidade por teclado e leitor de tela na interface real.
 - Escolher a licença com decisão explícita do mantenedor antes da publicação.
 - Preparar builds assinados e conferir o conteúdo de cada pacote público.

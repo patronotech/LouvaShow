@@ -56,6 +56,14 @@ pub struct Setlist {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct SetlistSummary {
+    pub id: String,
+    pub name: String,
+    pub item_count: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SetlistItem {
     pub id: String,
     pub setlist_id: String,

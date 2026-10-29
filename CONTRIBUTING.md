@@ -13,3 +13,7 @@ Antes de uma contribuição pública, confirme a escolha da licença com o mante
 Mensagens da interface devem ser claras em português do Brasil. Controles essenciais precisam de texto, foco visível e alternativa por teclado. Erros devem permitir recuperação e não apagar dados silenciosamente.
 
 Uma mudança está pronta para revisão quando contém a motivação, o comportamento resultante, as verificações realizadas e as limitações conhecidas. Publicação e instaladores exigem revisão própria do conteúdo de runtime.
+
+## Comunidade
+
+Para sugestões, colaboração e relatos de bugs, participe do [grupo do LouvaShow no WhatsApp](https://chat.whatsapp.com/FTsYpsy6YbG8Z3gDI2u1Bp?mode=gi_t).

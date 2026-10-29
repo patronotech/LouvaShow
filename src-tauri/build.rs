@@ -1,6 +1,7 @@
 fn main() {
     tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
         tauri_build::AppManifest::new().commands(&[
+            "open_community_group",
             "list_categories",
             "create_category",
             "rename_category",
@@ -21,6 +22,11 @@ fn main() {
             "delete_song",
             "song_usage",
             "get_setlist",
+            "list_setlists",
+            "select_setlist",
+            "create_setlist",
+            "rename_setlist",
+            "delete_setlist",
             "add_setlist_item",
             "remove_setlist_item",
             "reorder_setlist",

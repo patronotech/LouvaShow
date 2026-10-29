@@ -6,6 +6,7 @@ use crate::{
     AppState,
 };
 use tauri::{Emitter, Manager, State};
+use tauri_plugin_opener::OpenerExt;
 pub fn operator(window: &tauri::WebviewWindow) -> Result<(), String> {
     if window.label() != "operator" {
         Err("Operação permitida somente na janela do operador.".into())
@@ -13,6 +14,27 @@ pub fn operator(window: &tauri::WebviewWindow) -> Result<(), String> {
         Ok(())
     }
 }
+
+/// Only this fixed community URL can cross the native opener boundary. Neither
+/// URLs nor executable/application names are accepted from the webview.
+#[tauri::command]
+pub async fn open_community_group(
+    window: tauri::WebviewWindow,
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    operator(&window)?;
+    tauri::async_runtime::spawn_blocking(move || {
+        app.opener()
+            .open_url(
+                "https://chat.whatsapp.com/FTsYpsy6YbG8Z3gDI2u1Bp?mode=gi_t",
+                None::<&str>,
+            )
+            .map_err(|_| "Não foi possível abrir o navegador. Tente novamente ou use o link disponível no README do projeto.".to_string())
+    })
+    .await
+    .map_err(|_| "Não foi possível abrir o grupo da comunidade.".to_string())?
+}
+
 #[tauri::command]
 pub fn get_snapshot(state: State<AppState>) -> Result<Snapshot, String> {
     Ok(state

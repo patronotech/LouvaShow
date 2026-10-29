@@ -1,5 +1,5 @@
 use crate::{
-    domain::library::{Category, SaveSongInput, Setlist, Song},
+    domain::library::{Category, SaveSongInput, Setlist, SetlistSummary, Song},
     infrastructure::database::Database,
     AppState,
 };
@@ -83,28 +83,37 @@ pub async fn get_setlist(
 pub async fn add_setlist_item(
     window: tauri::WebviewWindow,
     state: State<'_, AppState>,
+    setlist_id: String,
     song_id: String,
 ) -> Result<Setlist, String> {
     super::operator(&window)?;
-    run(&state, move |db| db.add_setlist_item(&song_id)).await
+    run(&state, move |db| db.add_setlist_item(&setlist_id, &song_id)).await
 }
 #[tauri::command]
 pub async fn remove_setlist_item(
     window: tauri::WebviewWindow,
     state: State<'_, AppState>,
+    setlist_id: String,
     item_id: String,
 ) -> Result<Setlist, String> {
     super::operator(&window)?;
-    run(&state, move |db| db.remove_setlist_item(&item_id)).await
+    run(&state, move |db| {
+        db.remove_setlist_item(&setlist_id, &item_id)
+    })
+    .await
 }
 #[tauri::command]
 pub async fn reorder_setlist(
     window: tauri::WebviewWindow,
     state: State<'_, AppState>,
+    setlist_id: String,
     ordered_ids: Vec<String>,
 ) -> Result<Setlist, String> {
     super::operator(&window)?;
-    run(&state, move |db| db.reorder_setlist(ordered_ids)).await
+    run(&state, move |db| {
+        db.reorder_setlist(&setlist_id, ordered_ids)
+    })
+    .await
 }
 
 #[tauri::command]
@@ -184,4 +193,54 @@ pub async fn bulk_delete_songs(
         Ok(())
     })
     .await
+}
+
+#[tauri::command]
+pub async fn list_setlists(
+    window: tauri::WebviewWindow,
+    state: State<'_, AppState>,
+) -> Result<Vec<SetlistSummary>, String> {
+    super::operator(&window)?;
+    run(&state, |db| db.list_setlists()).await
+}
+
+#[tauri::command]
+pub async fn select_setlist(
+    window: tauri::WebviewWindow,
+    state: State<'_, AppState>,
+    id: String,
+) -> Result<Setlist, String> {
+    super::operator(&window)?;
+    run(&state, move |db| db.select_setlist(&id)).await
+}
+
+#[tauri::command]
+pub async fn create_setlist(
+    window: tauri::WebviewWindow,
+    state: State<'_, AppState>,
+    name: String,
+) -> Result<Setlist, String> {
+    super::operator(&window)?;
+    run(&state, move |db| db.create_setlist(&name)).await
+}
+
+#[tauri::command]
+pub async fn rename_setlist(
+    window: tauri::WebviewWindow,
+    state: State<'_, AppState>,
+    id: String,
+    name: String,
+) -> Result<Setlist, String> {
+    super::operator(&window)?;
+    run(&state, move |db| db.rename_setlist(&id, &name)).await
+}
+
+#[tauri::command]
+pub async fn delete_setlist(
+    window: tauri::WebviewWindow,
+    state: State<'_, AppState>,
+    id: String,
+) -> Result<Setlist, String> {
+    super::operator(&window)?;
+    run(&state, move |db| db.delete_setlist(&id)).await
 }

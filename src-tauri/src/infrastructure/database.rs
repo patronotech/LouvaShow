@@ -1,6 +1,9 @@
 use crate::domain::{
     importing::ImportSong,
-    library::{Category, ImportResult, SaveSongInput, Setlist, SetlistItem, Song, SongBlock},
+    library::{
+        Category, ImportResult, SaveSongInput, Setlist, SetlistItem, SetlistSummary, Song,
+        SongBlock,
+    },
 };
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
@@ -288,16 +291,28 @@ impl Database {
             .transaction()
             .map_err(|e| db_error("iniciar a exclusão em lote", e))?;
         Self::require_songs(&tx, ids)?;
+        let mut affected = HashSet::new();
+        {
+            let mut query = tx
+                .prepare_cached("SELECT DISTINCT setlist_id FROM setlist_items WHERE song_id=?1")
+                .map_err(|e| db_error("consultar playlists afetadas", e))?;
+            for id in ids {
+                let rows = query
+                    .query_map([id], |row| row.get::<_, String>(0))
+                    .map_err(|e| db_error("consultar playlists afetadas", e))?;
+                for row in rows {
+                    affected.insert(row.map_err(|e| db_error("consultar playlists afetadas", e))?);
+                }
+            }
+        }
         for id in ids {
             tx.execute("DELETE FROM songs WHERE id=?1", [id])
                 .map_err(|e| db_error("excluir as músicas selecionadas", e))?;
         }
-        Self::normalize_positions(&tx)?;
-        tx.execute(
-            "UPDATE setlists SET updated_at=?1 WHERE id=?2",
-            params![Utc::now().to_rfc3339(), SETLIST_ID],
-        )
-        .map_err(|e| db_error("atualizar o repertório", e))?;
+        for id in affected {
+            Self::normalize_positions(&tx, &id)?;
+            Self::touch_setlist(&tx, &id)?;
+        }
         tx.commit()
             .map_err(|e| db_error("concluir a exclusão em lote", e))
     }
@@ -677,28 +692,146 @@ impl Database {
     /// Caller must show song_usage before confirmation. Existing live snapshots are
     /// independent owned data and are deliberately not accessed here.
     pub fn delete_song(&mut self, id: &str) -> Result<(), String> {
-        self.get_song(id)?;
-        let tx = self
-            .connection
-            .transaction()
-            .map_err(|e| db_error("iniciar a exclusão", e))?;
-        tx.execute("DELETE FROM songs WHERE id=?1", [id])
-            .map_err(|e| db_error("excluir a música", e))?;
-        Self::normalize_positions(&tx)?;
-        tx.execute(
-            "UPDATE setlists SET updated_at=?1 WHERE id=?2",
-            params![Utc::now().to_rfc3339(), SETLIST_ID],
-        )
-        .map_err(|e| db_error("atualizar o repertório", e))?;
-        tx.commit().map_err(|e| db_error("concluir a exclusão", e))
+        self.bulk_delete_songs(&[id.to_owned()])
+    }
+
+    fn setlist_name(name: &str) -> Result<&str, String> {
+        let name = name.trim();
+        if name.is_empty() || name.chars().count() > 120 {
+            return Err("Informe um nome de playlist entre 1 e 120 caracteres.".into());
+        }
+        Ok(name)
+    }
+
+    fn require_setlist(connection: &Connection, id: &str) -> Result<(), String> {
+        let exists: bool = connection
+            .query_row(
+                "SELECT EXISTS(SELECT 1 FROM setlists WHERE id=?1)",
+                [id],
+                |row| row.get(0),
+            )
+            .map_err(|e| db_error("verificar a playlist", e))?;
+        if !exists {
+            return Err("A playlist não existe mais. Atualize a lista e escolha outra.".into());
+        }
+        Ok(())
+    }
+
+    fn active_setlist_id(connection: &Connection) -> Result<String, String> {
+        connection.query_row("SELECT id FROM setlists ORDER BY CASE WHEN id=(SELECT value FROM settings WHERE key='active-setlist') THEN 0 WHEN id=?1 THEN 1 ELSE 2 END,created_at,id LIMIT 1", [SETLIST_ID], |row| row.get(0))
+            .optional().map_err(|e| db_error("consultar a playlist ativa", e))?
+            .ok_or_else(|| "Nenhuma playlist foi encontrada no banco. Os dados foram preservados; restaure um backup válido.".into())
+    }
+
+    fn persist_active_setlist(connection: &Connection, id: &str) -> Result<(), String> {
+        connection.execute("INSERT INTO settings(key,value) VALUES('active-setlist',?1) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE value<>excluded.value", [id])
+            .map_err(|e| db_error("salvar a playlist ativa", e))?;
+        Ok(())
+    }
+
+    pub fn list_setlists(&self) -> Result<Vec<SetlistSummary>, String> {
+        let mut statement = self.connection.prepare("SELECT s.id,s.name,count(i.id) FROM setlists s LEFT JOIN setlist_items i ON i.setlist_id=s.id GROUP BY s.id ORDER BY s.created_at,s.id")
+            .map_err(|e| db_error("listar as playlists", e))?;
+        let rows = statement
+            .query_map([], |row| {
+                Ok(SetlistSummary {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    item_count: row.get::<_, u32>(2)? as usize,
+                })
+            })
+            .map_err(|e| db_error("ler as playlists", e))?
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|e| db_error("ler as playlists", e))?;
+        Ok(rows)
     }
 
     pub fn get_setlist(&self) -> Result<Setlist, String> {
-        let mut setlist = self
+        let id = Self::active_setlist_id(&self.connection)?;
+        let setlist = Self::read_setlist(&self.connection, &id)?;
+        Self::persist_active_setlist(&self.connection, &id)?;
+        Ok(setlist)
+    }
+
+    pub fn select_setlist(&mut self, id: &str) -> Result<Setlist, String> {
+        let tx = self
             .connection
+            .transaction()
+            .map_err(|e| db_error("iniciar a seleção da playlist", e))?;
+        let setlist = Self::read_setlist(&tx, id)?;
+        Self::persist_active_setlist(&tx, id)?;
+        tx.commit()
+            .map_err(|e| db_error("concluir a seleção da playlist", e))?;
+        Ok(setlist)
+    }
+
+    pub fn create_setlist(&mut self, name: &str) -> Result<Setlist, String> {
+        let name = Self::setlist_name(name)?;
+        let id = Uuid::new_v4().to_string();
+        let now = Utc::now().to_rfc3339();
+        let tx = self
+            .connection
+            .transaction()
+            .map_err(|e| db_error("iniciar a criação da playlist", e))?;
+        tx.execute(
+            "INSERT INTO setlists(id,name,created_at,updated_at) VALUES(?1,?2,?3,?3)",
+            params![id, name, now],
+        )
+        .map_err(|e| db_error("criar a playlist", e))?;
+        Self::persist_active_setlist(&tx, &id)?;
+        let setlist = Self::read_setlist(&tx, &id)?;
+        tx.commit().map_err(|e| db_error("salvar a playlist", e))?;
+        Ok(setlist)
+    }
+
+    pub fn rename_setlist(&mut self, id: &str, name: &str) -> Result<Setlist, String> {
+        let name = Self::setlist_name(name)?;
+        let tx = self
+            .connection
+            .transaction()
+            .map_err(|e| db_error("iniciar a alteração da playlist", e))?;
+        Self::require_setlist(&tx, id)?;
+        tx.execute(
+            "UPDATE setlists SET name=?1,updated_at=?2 WHERE id=?3",
+            params![name, Utc::now().to_rfc3339(), id],
+        )
+        .map_err(|e| db_error("renomear a playlist", e))?;
+        let setlist = Self::read_setlist(&tx, id)?;
+        tx.commit()
+            .map_err(|e| db_error("salvar o nome da playlist", e))?;
+        Ok(setlist)
+    }
+
+    pub fn delete_setlist(&mut self, id: &str) -> Result<Setlist, String> {
+        let tx = self
+            .connection
+            .transaction()
+            .map_err(|e| db_error("iniciar a exclusão da playlist", e))?;
+        Self::require_setlist(&tx, id)?;
+        let count: i64 = tx
+            .query_row("SELECT count(*) FROM setlists", [], |row| row.get(0))
+            .map_err(|e| db_error("contar as playlists", e))?;
+        if count <= 1 {
+            return Err(
+                "Não é possível excluir a última playlist. Crie outra antes de excluir esta."
+                    .into(),
+            );
+        }
+        tx.execute("DELETE FROM setlists WHERE id=?1", [id])
+            .map_err(|e| db_error("excluir a playlist", e))?;
+        let active = Self::active_setlist_id(&tx)?;
+        Self::persist_active_setlist(&tx, &active)?;
+        let setlist = Self::read_setlist(&tx, &active)?;
+        tx.commit()
+            .map_err(|e| db_error("concluir a exclusão da playlist", e))?;
+        Ok(setlist)
+    }
+
+    fn read_setlist(connection: &Connection, id: &str) -> Result<Setlist, String> {
+        let mut setlist = connection
             .query_row(
                 "SELECT id,name,created_at,updated_at FROM setlists WHERE id=?1",
-                [SETLIST_ID],
+                [id],
                 |row| {
                     Ok(Setlist {
                         id: row.get(0)?,
@@ -709,11 +842,13 @@ impl Database {
                     })
                 },
             )
-            .map_err(|e| db_error("abrir o repertório", e))?;
-        let mut statement = self.connection.prepare("SELECT id,setlist_id,song_id,position FROM setlist_items WHERE setlist_id=?1 ORDER BY position,id")
-            .map_err(|e| db_error("abrir os itens do repertório", e))?;
+            .optional()
+            .map_err(|e| db_error("abrir a playlist", e))?
+            .ok_or("A playlist não existe mais. Atualize a lista e escolha outra.")?;
+        let mut statement = connection.prepare("SELECT id,setlist_id,song_id,position FROM setlist_items WHERE setlist_id=?1 ORDER BY position,id")
+            .map_err(|e| db_error("abrir os itens da playlist", e))?;
         setlist.items = statement
-            .query_map([SETLIST_ID], |row| {
+            .query_map([id], |row| {
                 Ok(SetlistItem {
                     id: row.get(0)?,
                     setlist_id: row.get(1)?,
@@ -721,111 +856,121 @@ impl Database {
                     position: row.get::<_, u32>(3)? as usize,
                 })
             })
-            .map_err(|e| db_error("abrir os itens do repertório", e))?
+            .map_err(|e| db_error("abrir os itens da playlist", e))?
             .collect::<Result<Vec<_>, _>>()
-            .map_err(|e| db_error("ler os itens do repertório", e))?;
+            .map_err(|e| db_error("ler os itens da playlist", e))?;
         Ok(setlist)
     }
 
-    pub fn add_setlist_item(&mut self, song_id: &str) -> Result<Setlist, String> {
-        self.get_song(song_id)?;
+    pub fn add_setlist_item(&mut self, setlist_id: &str, song_id: &str) -> Result<Setlist, String> {
         let tx = self
             .connection
             .transaction()
             .map_err(|e| db_error("iniciar a inclusão", e))?;
-        tx.execute("INSERT INTO setlist_items(id,setlist_id,song_id,position) SELECT ?1,?2,?3,count(*) FROM setlist_items WHERE setlist_id=?2",
-            params![Uuid::new_v4().to_string(), SETLIST_ID, song_id]).map_err(|e| db_error("adicionar ao repertório", e))?;
-        tx.execute(
-            "UPDATE setlists SET updated_at=?1 WHERE id=?2",
-            params![Utc::now().to_rfc3339(), SETLIST_ID],
-        )
-        .map_err(|e| db_error("atualizar o repertório", e))?;
-        tx.commit()
-            .map_err(|e| db_error("salvar o repertório", e))?;
-        self.get_setlist()
+        Self::require_setlist(&tx, setlist_id)?;
+        Self::require_songs(&tx, &[song_id.to_owned()])?;
+        tx.execute("INSERT INTO setlist_items(id,setlist_id,song_id,position) SELECT ?1,?2,?3,count(*) FROM setlist_items WHERE setlist_id=?2", params![Uuid::new_v4().to_string(),setlist_id,song_id])
+            .map_err(|e| db_error("adicionar à playlist", e))?;
+        Self::touch_setlist(&tx, setlist_id)?;
+        let setlist = Self::read_setlist(&tx, setlist_id)?;
+        tx.commit().map_err(|e| db_error("salvar a playlist", e))?;
+        Ok(setlist)
     }
 
-    pub fn remove_setlist_item(&mut self, item_id: &str) -> Result<Setlist, String> {
+    pub fn remove_setlist_item(
+        &mut self,
+        setlist_id: &str,
+        item_id: &str,
+    ) -> Result<Setlist, String> {
         let tx = self
             .connection
             .transaction()
             .map_err(|e| db_error("iniciar a remoção", e))?;
+        Self::require_setlist(&tx, setlist_id)?;
         let count = tx
             .execute(
                 "DELETE FROM setlist_items WHERE id=?1 AND setlist_id=?2",
-                params![item_id, SETLIST_ID],
+                params![item_id, setlist_id],
             )
-            .map_err(|e| db_error("remover do repertório", e))?;
+            .map_err(|e| db_error("remover da playlist", e))?;
         if count == 0 {
-            return Err("O item já não está no repertório. Atualize a lista.".into());
+            return Err("O item já não está nesta playlist. Atualize a lista.".into());
         }
-        Self::normalize_positions(&tx)?;
-        tx.execute(
-            "UPDATE setlists SET updated_at=?1 WHERE id=?2",
-            params![Utc::now().to_rfc3339(), SETLIST_ID],
-        )
-        .map_err(|e| db_error("atualizar o repertório", e))?;
-        tx.commit()
-            .map_err(|e| db_error("salvar o repertório", e))?;
-        self.get_setlist()
+        Self::normalize_positions(&tx, setlist_id)?;
+        Self::touch_setlist(&tx, setlist_id)?;
+        let setlist = Self::read_setlist(&tx, setlist_id)?;
+        tx.commit().map_err(|e| db_error("salvar a playlist", e))?;
+        Ok(setlist)
     }
 
-    pub fn reorder_setlist(&mut self, ordered_ids: Vec<String>) -> Result<Setlist, String> {
+    pub fn reorder_setlist(
+        &mut self,
+        setlist_id: &str,
+        ordered_ids: Vec<String>,
+    ) -> Result<Setlist, String> {
         let tx = self
             .connection
             .transaction()
             .map_err(|e| db_error("iniciar a reordenação", e))?;
+        Self::require_setlist(&tx, setlist_id)?;
         let current = {
             let mut statement = tx
                 .prepare("SELECT id FROM setlist_items WHERE setlist_id=?1")
-                .map_err(|e| db_error("ler o repertório", e))?;
+                .map_err(|e| db_error("ler a playlist", e))?;
             let result = statement
-                .query_map([SETLIST_ID], |r| r.get::<_, String>(0))
-                .map_err(|e| db_error("ler o repertório", e))?
+                .query_map([setlist_id], |r| r.get::<_, String>(0))
+                .map_err(|e| db_error("ler a playlist", e))?
                 .collect::<Result<HashSet<_>, _>>()
-                .map_err(|e| db_error("ler o repertório", e))?;
+                .map_err(|e| db_error("ler a playlist", e))?;
             result
         };
         let requested: HashSet<_> = ordered_ids.iter().cloned().collect();
         if ordered_ids.len() != requested.len() || requested != current {
             return Err(
-                "O repertório mudou ou a ordem é inválida. Atualize a lista e tente novamente."
+                "A playlist mudou ou a ordem é inválida. Atualize a lista e tente novamente."
                     .into(),
             );
         }
         for (position, id) in ordered_ids.iter().enumerate() {
             tx.execute(
                 "UPDATE setlist_items SET position=?1 WHERE id=?2 AND setlist_id=?3",
-                params![position as i64, id, SETLIST_ID],
+                params![position as i64, id, setlist_id],
             )
-            .map_err(|e| db_error("reordenar o repertório", e))?;
+            .map_err(|e| db_error("reordenar a playlist", e))?;
         }
-        tx.execute(
-            "UPDATE setlists SET updated_at=?1 WHERE id=?2",
-            params![Utc::now().to_rfc3339(), SETLIST_ID],
-        )
-        .map_err(|e| db_error("atualizar o repertório", e))?;
+        Self::touch_setlist(&tx, setlist_id)?;
+        let setlist = Self::read_setlist(&tx, setlist_id)?;
         tx.commit()
             .map_err(|e| db_error("salvar a nova ordem", e))?;
-        self.get_setlist()
+        Ok(setlist)
     }
 
-    fn normalize_positions(connection: &Connection) -> Result<(), String> {
+    fn touch_setlist(connection: &Connection, id: &str) -> Result<(), String> {
+        connection
+            .execute(
+                "UPDATE setlists SET updated_at=?1 WHERE id=?2",
+                params![Utc::now().to_rfc3339(), id],
+            )
+            .map_err(|e| db_error("atualizar a playlist", e))?;
+        Ok(())
+    }
+
+    fn normalize_positions(connection: &Connection, setlist_id: &str) -> Result<(), String> {
         let mut statement = connection
             .prepare("SELECT id FROM setlist_items WHERE setlist_id=?1 ORDER BY position,id")
-            .map_err(|e| db_error("organizar o repertório", e))?;
+            .map_err(|e| db_error("organizar a playlist", e))?;
         let ids = statement
-            .query_map([SETLIST_ID], |row| row.get::<_, String>(0))
-            .map_err(|e| db_error("organizar o repertório", e))?
+            .query_map([setlist_id], |row| row.get::<_, String>(0))
+            .map_err(|e| db_error("organizar a playlist", e))?
             .collect::<Result<Vec<_>, _>>()
-            .map_err(|e| db_error("organizar o repertório", e))?;
+            .map_err(|e| db_error("organizar a playlist", e))?;
         for (position, id) in ids.iter().enumerate() {
             connection
                 .execute(
-                    "UPDATE setlist_items SET position=?1 WHERE id=?2",
-                    params![position as i64, id],
+                    "UPDATE setlist_items SET position=?1 WHERE id=?2 AND setlist_id=?3",
+                    params![position as i64, id, setlist_id],
                 )
-                .map_err(|e| db_error("organizar o repertório", e))?;
+                .map_err(|e| db_error("organizar a playlist", e))?;
         }
         Ok(())
     }
@@ -863,6 +1008,177 @@ mod tests {
                 text: format!("Texto sintético de {title}\nSegunda linha"),
             }],
         }
+    }
+
+    #[test]
+    fn playlists_isolate_duplicate_items_and_reject_cross_playlist_edits() {
+        let mut db = Database::open(":memory:").unwrap();
+        let song = db.save_song(input("Música compartilhada")).unwrap();
+        db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+        let first = db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+        let second = db.create_setlist("Culto de domingo").unwrap();
+        let second = db.add_setlist_item(&second.id, &song.id).unwrap();
+        let a = first.items[0].id.clone();
+        let b = first.items[1].id.clone();
+        let other = second.items[0].id.clone();
+        assert_ne!(a, b);
+        assert_ne!(a, other);
+        assert!(db.remove_setlist_item(&first.id, &other).is_err());
+        assert!(db
+            .reorder_setlist(&first.id, vec![a.clone(), other])
+            .is_err());
+        assert!(db.reorder_setlist("missing", vec![]).is_err());
+        assert_eq!(
+            Database::read_setlist(&db.connection, &first.id)
+                .unwrap()
+                .items[0]
+                .id,
+            a
+        );
+        let reordered = db.reorder_setlist(&first.id, vec![b.clone(), a]).unwrap();
+        assert_eq!(reordered.items[0].id, b);
+        assert_eq!(db.get_setlist().unwrap().id, second.id);
+        assert_eq!(db.get_setlist().unwrap().items.len(), 1);
+        assert_eq!(
+            db.list_setlists()
+                .unwrap()
+                .iter()
+                .find(|s| s.id == first.id)
+                .unwrap()
+                .item_count,
+            2
+        );
+        db.remove_setlist_item(&first.id, &b).unwrap();
+        assert_eq!(db.get_setlist().unwrap().items.len(), 1);
+        assert_eq!(db.song_usage(&song.id).unwrap(), 2);
+    }
+
+    #[test]
+    fn playlist_selection_persists_and_legacy_fallback_keeps_existing_items() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("playlists.sqlite3");
+        let other_id;
+        {
+            let mut db = Database::open(&path).unwrap();
+            let song = db.save_song(input("Legado")).unwrap();
+            db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+            assert_eq!(db.get_setlist().unwrap().id, SETLIST_ID);
+            other_id = db.create_setlist("Evento futuro").unwrap().id;
+        }
+        {
+            let mut db = Database::open(&path).unwrap();
+            assert_eq!(db.get_setlist().unwrap().id, other_id);
+            db.set_setting("active-setlist", "missing").unwrap();
+            let legacy = db.get_setlist().unwrap();
+            assert_eq!(legacy.id, SETLIST_ID);
+            assert_eq!(legacy.items.len(), 1);
+            assert_eq!(
+                db.get_setting("active-setlist").unwrap().as_deref(),
+                Some(SETLIST_ID)
+            );
+            assert!(db.select_setlist("missing").is_err());
+            assert_eq!(db.get_setlist().unwrap().id, SETLIST_ID);
+            let fallback = db.delete_setlist(SETLIST_ID).unwrap();
+            assert_eq!(fallback.id, other_id);
+        }
+        {
+            let db = Database::open(&path).unwrap();
+            assert_eq!(db.get_setlist().unwrap().id, other_id);
+            assert_eq!(db.list_setlists().unwrap().len(), 1);
+            assert_eq!(db.list_songs().unwrap().len(), 1);
+        }
+    }
+
+    #[test]
+    fn playlist_crud_keeps_library_and_live_snapshot_unchanged() {
+        use crate::domain::presentation::Snapshot;
+        let mut db = Database::open(":memory:").unwrap();
+        let song = db.save_song(input("Ao vivo")).unwrap();
+        let mut presentation = Snapshot::default();
+        presentation
+            .present(song.clone(), &song.blocks[0].id)
+            .unwrap();
+        let live_before = serde_json::to_value(&presentation).unwrap();
+        db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+        let event = db.create_setlist("  Ensaio de sábado  ").unwrap();
+        assert_eq!(event.name, "Ensaio de sábado");
+        db.add_setlist_item(&event.id, &song.id).unwrap();
+        assert_eq!(
+            db.rename_setlist(&event.id, "Culto de domingo")
+                .unwrap()
+                .name,
+            "Culto de domingo"
+        );
+        db.select_setlist(SETLIST_ID).unwrap();
+        assert_eq!(db.delete_setlist(&event.id).unwrap().id, SETLIST_ID);
+        assert!(db
+            .delete_setlist(SETLIST_ID)
+            .unwrap_err()
+            .contains("última playlist"));
+        assert_eq!(db.list_songs().unwrap().len(), 1);
+        assert_eq!(
+            db.get_song(&song.id).unwrap().blocks[0].text,
+            song.blocks[0].text
+        );
+        assert_eq!(serde_json::to_value(&presentation).unwrap(), live_before);
+        // Delete the playlist that supplied the current song, not the song.
+        let remaining = db.create_setlist("Retorno").unwrap();
+        db.delete_setlist(SETLIST_ID).unwrap();
+        assert_eq!(db.get_setlist().unwrap().id, remaining.id);
+        assert_eq!(serde_json::to_value(&presentation).unwrap(), live_before);
+    }
+
+    #[test]
+    fn song_deletion_compacts_and_touches_every_affected_playlist_only() {
+        let mut db = Database::open(":memory:").unwrap();
+        let removed = db.save_song(input("Remover")).unwrap();
+        let kept = db.save_song(input("Manter")).unwrap();
+        let second = db.create_setlist("Domingo").unwrap();
+        let untouched = db.create_setlist("Sem alteração").unwrap();
+        for id in [SETLIST_ID, second.id.as_str()] {
+            db.add_setlist_item(id, &removed.id).unwrap();
+            db.add_setlist_item(id, &kept.id).unwrap();
+            db.add_setlist_item(id, &removed.id).unwrap();
+        }
+        db.connection
+            .execute("UPDATE setlists SET updated_at='sentinel'", [])
+            .unwrap();
+        assert_eq!(
+            db.bulk_song_usage(std::slice::from_ref(&removed.id))
+                .unwrap(),
+            4
+        );
+        db.bulk_delete_songs(&[removed.id]).unwrap();
+        for id in [SETLIST_ID, second.id.as_str()] {
+            let setlist = Database::read_setlist(&db.connection, id).unwrap();
+            assert_ne!(setlist.updated_at, "sentinel");
+            assert_eq!(setlist.items.len(), 1);
+            assert_eq!(setlist.items[0].song_id, kept.id);
+            assert_eq!(setlist.items[0].position, 0);
+        }
+        assert_eq!(
+            Database::read_setlist(&db.connection, &untouched.id)
+                .unwrap()
+                .updated_at,
+            "sentinel"
+        );
+        assert_eq!(db.get_setlist().unwrap().id, untouched.id);
+    }
+
+    #[test]
+    fn playlist_name_validation_rolls_back_and_rename_does_not_select() {
+        let mut db = Database::open(":memory:").unwrap();
+        assert!(db.create_setlist("   ").is_err());
+        assert!(db.create_setlist(&"á".repeat(121)).is_err());
+        let valid = db.create_setlist(&"á".repeat(120)).unwrap();
+        assert!(db.rename_setlist(&valid.id, " ").is_err());
+        db.rename_setlist(SETLIST_ID, "Minha playlist inicial")
+            .unwrap();
+        assert_eq!(db.get_setlist().unwrap().id, valid.id);
+        assert_eq!(db.list_setlists().unwrap().len(), 2);
+        assert!(db.add_setlist_item("missing", "missing").is_err());
+        assert!(db.delete_setlist("missing").is_err());
+        assert_eq!(db.get_setlist().unwrap().name, "á".repeat(120));
     }
 
     #[test]
@@ -937,9 +1253,9 @@ mod tests {
             .unwrap();
         let songs = db.list_songs().unwrap();
         for song in &songs {
-            db.add_setlist_item(&song.id).unwrap();
+            db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
         }
-        db.add_setlist_item(&songs[0].id).unwrap();
+        db.add_setlist_item(SETLIST_ID, &songs[0].id).unwrap();
         let ids = songs.iter().map(|s| s.id.clone()).collect::<Vec<_>>();
         assert_eq!(db.bulk_song_usage(&ids).unwrap(), 3);
         assert!(db
@@ -1143,16 +1459,16 @@ mod tests {
     fn repeated_songs_reorder_by_item_identity_and_invalid_order_rolls_back() {
         let mut db = Database::open(":memory:").unwrap();
         let song = db.save_song(input("Uma música")).unwrap();
-        db.add_setlist_item(&song.id).unwrap();
-        let before = db.add_setlist_item(&song.id).unwrap();
+        db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+        let before = db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
         let ids: Vec<_> = before.items.iter().map(|item| item.id.clone()).collect();
         assert_ne!(ids[0], ids[1]);
         assert!(db
-            .reorder_setlist(vec![ids[0].clone(), ids[0].clone()])
+            .reorder_setlist(SETLIST_ID, vec![ids[0].clone(), ids[0].clone()])
             .is_err());
         assert_eq!(db.get_setlist().unwrap().items[0].id, ids[0]);
         let reordered = db
-            .reorder_setlist(vec![ids[1].clone(), ids[0].clone()])
+            .reorder_setlist(SETLIST_ID, vec![ids[1].clone(), ids[0].clone()])
             .unwrap();
         assert_eq!(reordered.items[0].id, ids[1]);
         assert_eq!(reordered.items[1].song_id, song.id);
@@ -1163,9 +1479,9 @@ mod tests {
         let mut db = Database::open(":memory:").unwrap();
         let one = db.save_song(input("Primeira")).unwrap();
         let two = db.save_song(input("Segunda")).unwrap();
-        db.add_setlist_item(&one.id).unwrap();
-        db.add_setlist_item(&two.id).unwrap();
-        db.add_setlist_item(&one.id).unwrap();
+        db.add_setlist_item(SETLIST_ID, &one.id).unwrap();
+        db.add_setlist_item(SETLIST_ID, &two.id).unwrap();
+        db.add_setlist_item(SETLIST_ID, &one.id).unwrap();
         assert_eq!(db.song_usage(&one.id).unwrap(), 2);
         db.delete_song(&one.id).unwrap();
         let remaining = db.get_setlist().unwrap();
