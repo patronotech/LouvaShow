@@ -125,11 +125,11 @@ export function Operator({ onStartupReady, onStartupError }: { onStartupReady?: 
     try { accept(await api.action({ type: 'theme', theme })); }
     finally { setOutputBusy(false); }
   }
-  async function act(action: PresentationAction) {
-    if (outputBusy) return;
+  async function act(action: PresentationAction): Promise<boolean> {
+    if (outputBusy) return false;
     setOutputBusy(true); setError('');
-    try { accept(await api.action(action)); }
-    catch (reason) { setError(String(reason)); }
+    try { accept(await api.action(action)); return true; }
+    catch (reason) { setError(String(reason)); return false; }
     finally { setOutputBusy(false); }
   }
   useEffect(() => {
@@ -192,10 +192,12 @@ export function Operator({ onStartupReady, onStartupError }: { onStartupReady?: 
     catch (reason) { setError(String(reason)); }
     finally { libraryLocked.current = false; setLibraryBusy(false); }
   }
-  function presentBibleVerse(verse: string) {
+  async function presentBibleVerse(verse: string) {
     const chapter = bibleBrowser.chapter;
     if (!status.open || outputBusy || !chapter || !chapter.verses.some(item => item.number === verse)) return;
-    void act({ type: 'presentBible', versionId: chapter.versionId, bookId: chapter.bookId, chapter: chapter.chapter, verse });
+    if (await act({ type: 'presentBible', versionId: chapter.versionId, bookId: chapter.bookId, chapter: chapter.chapter, verse })) {
+      bibleBrowser.setProjectOnClick(true);
+    }
   }
   function addSelectedToSetlist() {
     if (selected && setlist) requestSetlist(() => api.addSetlistItem(setlist.id, selected.id));

@@ -41,8 +41,8 @@ export function BibleContent({ browser, snapshot, outputOpen, outputBusy, onPres
     </div>
     <div className="bible-click-controls" data-no-shortcuts>
       <div className="bible-click-mode" role="group" aria-label="Ação ao clicar em um versículo">
-        <button type="button" aria-pressed={!browser.projectOnClick} onClick={() => browser.setProjectOnClick(false)}>Preparar</button>
-        <button type="button" aria-pressed={browser.projectOnClick} onClick={() => browser.setProjectOnClick(true)}>Projetar ao clicar</button>
+        <button type="button" aria-pressed={!browser.projectOnClick} disabled={outputBusy} onClick={() => browser.setProjectOnClick(false)}>Preparar</button>
+        <button type="button" aria-pressed={browser.projectOnClick} disabled={outputBusy} onClick={() => browser.setProjectOnClick(true)}>Projetar ao clicar</button>
       </div>
       {!outputOpen && <span className="muted" role="status">Saída fechada</span>}
     </div>
