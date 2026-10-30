@@ -4,7 +4,7 @@ export interface ChartApi {
   capoAssistantEnabled?: () => Promise<boolean>;
   rankCapos?: (candidates: CapoSuggestion[]) => Promise<CapoSuggestion[]>;
   saveFile?: (document: ChartDocument) => Promise<{fileName: string} | null>;
-  importUrl?: (url: string) => Promise<ChartImportResult>;
+  importDocument?: (file: File, provider: 'auto' | 'openai' | 'gemini', useAi?: boolean) => Promise<ChartImportResult>;
   list(songId?: string): Promise<ChartSummary[]>;
   get(id: string, revision?: number): Promise<Chart>;
   create(songId: string): Promise<ChartDocument>;

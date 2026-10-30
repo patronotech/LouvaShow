@@ -51,7 +51,7 @@ describe('cifras e âncoras', () => {
    expect(html).toContain('[Refrão] ');
    expect(html).toContain('&lt;script&gt; &amp; {comment: texto}');
    expect(html).not.toContain('<script>');
-   expect(html.match(/<strong class="chord-symbol">/g)).toHaveLength(1);
+   expect(html.match(/<strong\b/g)).toHaveLength(1);
    expect(html).toContain('>C/G</strong>');
  });
  it('gera UUID v4 mesmo sem crypto.randomUUID', () => expect(newChartId()).toMatch(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/));

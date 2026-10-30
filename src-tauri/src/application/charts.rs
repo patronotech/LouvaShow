@@ -182,8 +182,16 @@ fn annotation(symbol: &str) -> bool {
     symbol.starts_with('*')
         || matches!(
             symbol.trim().to_uppercase().as_str(),
-            "N.C." | "N.C" | "NC" | "PAUSA" | "-" | "%"
+            "N.C." | "N.C" | "NC" | "PAUSA" | "-" | "%" | "|" | "||" | "|:" | ":|"
         )
+        || {
+            let repeat = symbol.trim().trim_matches(['(', ')']).to_lowercase();
+            repeat
+                .strip_suffix('x')
+                .or_else(|| repeat.strip_prefix('x'))
+                .and_then(|count| count.parse::<u8>().ok())
+                .is_some_and(|count| count > 0)
+        }
 }
 pub fn validate_document(document: &ChartDocument) -> Result<(), String> {
     document.validate()?;
@@ -532,6 +540,148 @@ fn chord_row(raw: &str) -> Option<Vec<(usize, String)>> {
     }
     (!chords.is_empty()).then_some(chords)
 }
+
+/// Clipboard HTML often inserts invisible separators around chord spans. Remove
+/// only these nonprinting characters, retaining accents, emoji joiners and every
+/// visible space. Tabs use four-column stops, matching the editing grid.
+fn normalize_pasted_rows(text: &str) -> Vec<String> {
+    let normalized: String = text
+        .replace("\r\n", "\n")
+        .replace('\r', "\n")
+        .chars()
+        .filter(|character| !matches!(character, '\u{200b}' | '\u{feff}' | '\u{ad}'))
+        .map(|character| match character {
+            '\u{a0}' | '\u{202f}' => ' ',
+            other => other,
+        })
+        .collect();
+    normalized
+        .lines()
+        .map(|raw| {
+            let mut result = String::new();
+            let mut column = 0;
+            for grapheme in raw.graphemes(true) {
+                if grapheme == "\t" {
+                    let spaces = 4 - column % 4;
+                    result.push_str(&" ".repeat(spaces));
+                    column += spaces;
+                } else {
+                    result.push_str(grapheme);
+                    column += 1;
+                }
+            }
+            result
+        })
+        .collect()
+}
+
+fn section_name(value: &str) -> bool {
+    let folded: String = value
+        .trim()
+        .trim_end_matches(':')
+        .to_lowercase()
+        .chars()
+        .map(|character| match character {
+            'á' | 'à' | 'â' | 'ã' => 'a',
+            'é' | 'ê' => 'e',
+            'í' => 'i',
+            'ó' | 'ô' | 'õ' => 'o',
+            'ú' | 'ü' => 'u',
+            'ç' => 'c',
+            '-' | '–' | '—' => ' ',
+            other => other,
+        })
+        .collect();
+    let words: Vec<_> = folded.split_whitespace().collect();
+    let ordinal = |word: &str| {
+        matches!(
+            word,
+            "primeira"
+                | "segunda"
+                | "terceira"
+                | "quarta"
+                | "quinta"
+                | "sexta"
+                | "setima"
+                | "oitava"
+                | "nona"
+                | "decima"
+        ) || word
+            .trim_end_matches(['ª', 'º'])
+            .parse::<u8>()
+            .is_ok_and(|number| number > 0)
+    };
+    let number = |word: &str| {
+        word.parse::<u8>().is_ok_and(|number| number > 0)
+            || matches!(
+                word,
+                "i" | "ii" | "iii" | "iv" | "v" | "vi" | "vii" | "viii"
+            )
+    };
+    match words.as_slice() {
+        ["intro" | "introducao" | "final" | "fim" | "coda" | "interludio" | "instrumental"
+        | "refrao" | "refrain" | "chorus" | "estrofe" | "verso" | "verse" | "ponte" | "bridge"
+        | "solo" | "outro"] => true,
+        ["pre" | "pos", "refrao"] => true,
+        ["parte" | "estrofe" | "verso" | "refrao" | "ponte" | "solo", order] => number(order),
+        [order, "parte" | "estrofe"] => ordinal(order),
+        _ => false,
+    }
+}
+
+/// Headers are deliberately conservative: a lyric such as "No final da rua"
+/// must remain a lyric. Brackets, a colon, and known whole section names are
+/// supported; an inline progression after a heading remains instrumental.
+fn text_heading(raw: &str) -> Option<(&str, &str)> {
+    let raw = raw.trim();
+    if let Some(rest) = raw.strip_prefix('[') {
+        let (label, tail) = rest.split_once(']')?;
+        return section_name(label).then_some((label.trim(), tail.trim()));
+    }
+    if let Some((label, tail)) = raw.split_once(':') {
+        if section_name(label) {
+            return Some((label.trim(), tail.trim()));
+        }
+    }
+    if section_name(raw) {
+        return Some((raw.trim_end_matches(':').trim(), ""));
+    }
+    // Common plain-text form: "Intro C G/B Am7". Limit prefix scans so a long
+    // lyric cannot turn this recognition into quadratic work.
+    let mut previous_whitespace = false;
+    for (index, character) in raw.char_indices().take(80) {
+        let whitespace = character.is_whitespace();
+        if whitespace && !previous_whitespace {
+            let (label, tail) = raw.split_at(index);
+            if section_name(label) && chord_row(tail).is_some() {
+                return Some((label.trim(), tail.trim()));
+            }
+        }
+        previous_whitespace = whitespace;
+    }
+    None
+}
+
+fn anchored_text_line(text: &str, chords: Vec<(usize, String)>) -> (ChartLine, bool) {
+    let mut output = line(text);
+    let length = text.graphemes(true).count();
+    let last_anchor = chords.iter().map(|(offset, _)| *offset).max().unwrap_or(0);
+    // The schema anchors within text. Trailing spaces preserve distant chords
+    // and instrumental columns without collapsing all of them onto one syllable.
+    if last_anchor > length {
+        output.text.push_str(&" ".repeat(last_anchor - length));
+    }
+    output.chords = chords
+        .into_iter()
+        .map(|(offset, symbol)| ChartChord {
+            id: id(),
+            offset,
+            symbol,
+        })
+        .collect();
+    (output, !text.is_empty() && last_anchor > length)
+}
+
 pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     if text.len() > 500_000 {
         return Err("Arquivo de cifra excede 500 KB.".into());
@@ -539,40 +689,45 @@ pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     let mut document = blank_document();
     let mut section = empty_section("Parte 1");
     let mut warnings = vec![];
-    let rows: Vec<_> = text.lines().map(|v| v.replace('\t', "    ")).collect();
+    let rows = normalize_pasted_rows(text);
+    let mut padded_lyrics = false;
     let mut index = 0;
     while index < rows.len() {
         let raw = &rows[index];
         if raw.trim().is_empty() {
+            // Blank space immediately after a heading must not discard its name.
+            if !section.lines.is_empty() {
+                push_section(&mut document, section);
+                section = empty_section(&format!("Parte {}", document.sections.len() + 1));
+            }
+            index += 1;
+            continue;
+        }
+        if let Some((label, tail)) = text_heading(raw) {
             push_section(&mut document, section);
-            section = empty_section(&format!("Parte {}", document.sections.len() + 1));
+            section = empty_section(label);
+            if !tail.is_empty() {
+                if let Some(chords) = chord_row(tail) {
+                    section.lines.push(anchored_text_line("", chords).0);
+                } else {
+                    section.lines.push(line(tail));
+                }
+            }
             index += 1;
             continue;
         }
         if let Some(chords) = chord_row(raw) {
-            let has_lyric = rows
-                .get(index + 1)
-                .is_some_and(|next| !next.trim().is_empty() && chord_row(next).is_none());
-            let mut output = if has_lyric {
+            let has_lyric = rows.get(index + 1).is_some_and(|next| {
+                !next.trim().is_empty() && text_heading(next).is_none() && chord_row(next).is_none()
+            });
+            let text = if has_lyric {
                 index += 1;
-                line(&rows[index])
+                rows[index].as_str()
             } else {
-                line("")
+                ""
             };
-            let length = output.text.graphemes(true).count();
-            for (offset, symbol) in chords {
-                if has_lyric && offset > length {
-                    warnings.push(
-                        "Acorde após o fim da letra ancorado no final; revise o alinhamento."
-                            .into(),
-                    );
-                }
-                output.chords.push(ChartChord {
-                    id: id(),
-                    offset: offset.min(length),
-                    symbol,
-                });
-            }
+            let (output, padded) = anchored_text_line(text, chords);
+            padded_lyrics |= padded;
             section.lines.push(output);
         } else {
             section.lines.push(line(raw));
@@ -581,6 +736,9 @@ pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     }
     push_section(&mut document, section);
     validate_document(&document)?;
+    if padded_lyrics {
+        warnings.push("Acordes após o fim da letra mantiveram suas colunas com espaços finais. Revise o alinhamento.".into());
+    }
     warnings.push("Confira o alinhamento importado. O tom real precisa ser confirmado.".into());
     Ok(ChartImportResult {
         document,
@@ -747,7 +905,141 @@ mod tests {
             .document;
         assert_eq!(document.sections[0].lines[0].chords[1].offset, 4);
         assert_eq!(document.sections[1].lines.len(), 2);
-        assert!(document.sections[1].lines[0].text.is_empty());
+        assert!(document.sections[1].lines[0].text.trim().is_empty());
+        assert_eq!(document.sections[1].lines[0].chords[1].offset, 4);
+    }
+    #[test]
+    fn pasted_invisible_characters_do_not_change_visible_chord_columns() {
+        let pasted = "\u{feff}[Segunda Parte]\r\n\u{200b}C7M\u{200b}  G/B\u{a0}D/F#\r\nA\u{301}ção e fe\u{ad}licidade 🙏🏽";
+        let document = import_text(pasted).unwrap().document;
+        assert_eq!(document.sections.len(), 1);
+        assert_eq!(document.sections[0].label, "Segunda Parte");
+        let line = &document.sections[0].lines[0];
+        assert_eq!(line.text, "A\u{301}ção e felicidade 🙏🏽");
+        assert_eq!(
+            line.chords
+                .iter()
+                .map(|c| (c.symbol.as_str(), c.offset))
+                .collect::<Vec<_>>(),
+            vec![("C7M", 0), ("G/B", 5), ("D/F#", 9)]
+        );
+        validate_document(&document).unwrap();
+    }
+    #[test]
+    fn pasted_tabs_follow_stops_and_nonbreaking_spaces_keep_columns() {
+        let document = import_text("C\tG7/B\tAm9\r\tAção\u{a0}e\u{202f}fé nesta linha")
+            .unwrap()
+            .document;
+        let line = &document.sections[0].lines[0];
+        assert_eq!(
+            line.chords.iter().map(|c| c.offset).collect::<Vec<_>>(),
+            vec![0, 4, 12]
+        );
+        assert_eq!(line.text, "    Ação e fé nesta linha");
+    }
+    #[test]
+    fn grapheme_columns_retain_combining_accents_and_emoji_joiners() {
+        let document = import_text("C   G\nA\u{301}👩‍👩‍👧‍👦ção e fé").unwrap().document;
+        let line = &document.sections[0].lines[0];
+        assert_eq!(
+            line.text.graphemes(true).take(4).collect::<Vec<_>>(),
+            vec!["A\u{301}", "👩‍👩‍👧‍👦", "ç", "ã"]
+        );
+        assert_eq!(line.chords[1].offset, 4);
+        assert_eq!(
+            line.text.graphemes(true).nth(line.chords[1].offset),
+            Some("o")
+        );
+    }
+    #[test]
+    fn headings_and_consecutive_instrumental_rows_do_not_become_lyrics() {
+        let document = import_text("[Intro] D/F#  Em7\nC7M  G/B\n[Segunda Parte]\n\nAm7  D7\nTexto sintético para testar\n[Refrão]\nG6/9  D7/F#\nOutra frase criada para teste\nFinal: C  G/B\nInterlúdio\nAm7  F7M\nG7   C").unwrap().document;
+        assert_eq!(
+            document
+                .sections
+                .iter()
+                .map(|s| s.label.as_str())
+                .collect::<Vec<_>>(),
+            vec!["Intro", "Segunda Parte", "Refrão", "Final", "Interlúdio"]
+        );
+        assert_eq!(document.sections[0].lines.len(), 2);
+        assert!(document.sections[0]
+            .lines
+            .iter()
+            .all(|line| line.text.trim().is_empty()));
+        assert_eq!(
+            document.sections[1].lines[0].text,
+            "Texto sintético para testar"
+        );
+        assert_eq!(document.sections[4].lines.len(), 2);
+        assert!(document.sections[4]
+            .lines
+            .iter()
+            .all(|line| line.text.trim().is_empty()));
+        assert!(document.sections[2].lines[0]
+            .chords
+            .iter()
+            .any(|c| c.symbol == "D7/F#"));
+    }
+    #[test]
+    fn section_recognition_does_not_eat_ordinary_lyric_lines() {
+        let document = import_text("Intro C G\nNo final da rua há luz\nC  G\nA segunda parte desta frase é texto\nPré-Refrão\nDm7 G\nPalavras novas no papel\nParte 2\nC7M(9) G6/9/E\nMais uma linha de demonstração").unwrap().document;
+        assert_eq!(document.sections.len(), 3);
+        assert_eq!(document.sections[0].lines[1].text, "No final da rua há luz");
+        assert_eq!(
+            document.sections[0].lines[2].text,
+            "A segunda parte desta frase é texto"
+        );
+        assert_eq!(document.sections[1].label, "Pré-Refrão");
+        assert_eq!(document.sections[2].label, "Parte 2");
+        assert_eq!(document.sections[2].lines[0].chords[1].symbol, "G6/9/E");
+    }
+    #[test]
+    fn distant_chords_keep_offsets_and_roundtrip_without_losing_symbols() {
+        let imported =
+            import_text("[Intro]\nC     G/B   Am7 (2x)\n[Refrão]\nC          G/B     Am7\nOi")
+                .unwrap();
+        let line = &imported.document.sections[1].lines[0];
+        assert_eq!(line.text.trim_end(), "Oi");
+        assert_eq!(
+            line.chords.iter().map(|c| c.offset).collect::<Vec<_>>(),
+            vec![0, 11, 19]
+        );
+        assert!(imported
+            .warnings
+            .iter()
+            .any(|warning| warning.contains("espaços finais")));
+        let exported = export_chordpro(&imported.document).unwrap();
+        let reimported = import_chordpro(&exported).unwrap().document;
+        assert_eq!(reimported.sections.len(), imported.document.sections.len());
+        for (before, after) in imported.document.sections.iter().zip(&reimported.sections) {
+            assert_eq!(before.label, after.label);
+            assert_eq!(before.lines.len(), after.lines.len());
+            for (left, right) in before.lines.iter().zip(&after.lines) {
+                assert_eq!(left.text, right.text);
+                assert_eq!(
+                    left.chords
+                        .iter()
+                        .map(|c| (&c.symbol, c.offset))
+                        .collect::<Vec<_>>(),
+                    right
+                        .chords
+                        .iter()
+                        .map(|c| (&c.symbol, c.offset))
+                        .collect::<Vec<_>>()
+                );
+            }
+        }
+        let transposed = transpose(imported.document, 2, 0, ChartSpelling::Sharps).unwrap();
+        assert_eq!(
+            transposed.document.sections[0].lines[0]
+                .chords
+                .last()
+                .unwrap()
+                .symbol,
+            "(2x)"
+        );
+        assert!(transposed.warnings.is_empty());
     }
     #[test]
     fn duplicate_identity_and_invalid_anchor_rejected() {

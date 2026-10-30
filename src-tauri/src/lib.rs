@@ -1,11 +1,12 @@
 mod application;
 mod assistant;
 mod commands;
+mod document_import;
 mod domain;
-mod externals;
 mod infrastructure;
 mod startup;
 mod team;
+mod updates;
 use domain::presentation::Snapshot;
 use infrastructure::database::Database;
 use std::sync::{Arc, Mutex};
@@ -20,6 +21,7 @@ pub struct AppState {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(
             tauri_plugin_opener::Builder::new()
                 .open_js_links_on_click(false)
@@ -28,12 +30,18 @@ pub fn run() {
         .manage(startup::StartupState::default())
         .manage(team::TeamState::default())
         .manage(assistant::AssistantState::default())
+        .manage(document_import::DocumentImportState::default())
+        .manage(updates::UpdateState::default())
         .setup(|app| {
             startup::begin(app.handle().clone());
             Ok(())
         })
         .on_window_event(startup::window_event)
         .invoke_handler(tauri::generate_handler![
+            updates::get_update_state,
+            updates::check_for_updates,
+            updates::download_update,
+            updates::install_update,
             commands::charts::list_charts,
             commands::charts::get_chart,
             commands::charts::create_chart_document,
@@ -47,7 +55,11 @@ pub fn run() {
             commands::charts::suggest_chart_capos,
             commands::charts::suggest_chart_keys,
             commands::charts::publish_chart,
-            externals::import_chart_url,
+            document_import::document_import_config,
+            document_import::document_import_save_config,
+            document_import::document_import_set_key,
+            document_import::document_import_remove_key,
+            document_import::import_chart_document,
             assistant::assistant_config,
             assistant::assistant_save_config,
             assistant::assistant_set_key,

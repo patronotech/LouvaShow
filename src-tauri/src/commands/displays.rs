@@ -102,6 +102,7 @@ pub async fn open_projection(
         .display_gate
         .lock()
         .map_err(|_| "Gerenciamento da saída indisponível")?;
+    crate::updates::ensure_not_installing(&app)?;
     let list = monitors(&app)?;
     let selected = match monitor_id.as_ref() {
         Some(id) => Some(

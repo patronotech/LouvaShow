@@ -71,9 +71,17 @@
     "allow-assistant-split",
     "allow-assistant-transcribe",
     "allow-assistant-rank-capo",
-    "allow-import-chart-url",
     "allow-team-refresh-avatar",
     "allow-suggest-chart-keys",
-    "allow-export-chart-file"
+    "allow-export-chart-file",
+    "allow-document-import-config",
+    "allow-document-import-save-config",
+    "allow-document-import-set-key",
+    "allow-document-import-remove-key",
+    "allow-import-chart-document",
+    "allow-get-update-state",
+    "allow-check-for-updates",
+    "allow-download-update",
+    "allow-install-update"
   ]
 }

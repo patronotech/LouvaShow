@@ -1,0 +1,66 @@
+/* Operator chrome only. Slide canvases and congregation themes retain their own colors. */
+:root[data-color-mode],:root[data-color-mode] body,:root[data-color-mode] #root{background:var(--bg)}
+:root[data-color-mode] .operator-shell{background:var(--bg);color:var(--text);color-scheme:inherit}
+:root[data-color-mode] .operator-shell :focus-visible{outline-color:var(--focus)}
+:root[data-color-mode] .operator-shell :is(.app-header,.operation-bar){background:var(--chrome);border-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell .app-header{box-shadow:0 1px 0 var(--border-strong)}
+:root[data-color-mode] .operator-shell .operation-bar{box-shadow:0 -3px 12px var(--shadow)}
+:root[data-color-mode] .operator-shell :is(.library-panel,.live-panel,.settings-sidebar){background:var(--panel);border-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell :is(.context-main,.preparation-panel,.settings-content,.repertoire-workspace,.bible-content){background:var(--canvas)}
+:root[data-color-mode] .operator-shell :is(.settings-card,.theme-editor,.readonly-block,.block-card,.chart-version,.manager-song,.import-song-preview){background:var(--panel);border-color:var(--border)}
+:root[data-color-mode] .operator-shell :is(.setlist-item,.editor-block,.import-blocks section,.bible-selected-verse){background:var(--raised);border-color:var(--border)}
+:root[data-color-mode] .operator-shell :is(input,textarea,select){color:var(--text);background-color:var(--input);border-color:var(--border-strong);accent-color:var(--accent)}
+:root[data-color-mode] .operator-shell :is(input,textarea)::placeholder{color:var(--muted);opacity:1}
+:root[data-color-mode] .operator-shell select:not([multiple]):not([size]),:root[data-color-mode] .operator-shell select[size="1"]{color-scheme:inherit;background-color:var(--input);border-color:var(--border-strong);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%2342566b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+:root[data-color-mode="dark"] .operator-shell select:not([multiple]):not([size]),:root[data-color-mode="dark"] .operator-shell select[size="1"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23d7e2f0' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+:root[data-color-mode] .operator-shell :is(option,optgroup){background:var(--input);color:var(--text)}
+:root[data-color-mode] .operator-shell :is(input,textarea,select):hover:not(:disabled){border-color:var(--accent)}
+:root[data-color-mode] .operator-shell button:hover:not(:disabled){background-color:var(--hover);border-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell button.primary,:root[data-color-mode] .operator-shell .settings-content .theme-editor button:not(.secondary):not(.text-box-move):not(.text-box-handle){background:var(--accent);color:var(--accent-text);border-color:var(--accent)}
+:root[data-color-mode] .operator-shell button.primary:hover:not(:disabled){background:var(--accent-hover);color:var(--accent-text);border-color:var(--accent-hover)}
+:root[data-color-mode] .operator-shell :is(.song-row.selected,.block-card.live,.setlist-item.prepared,.bible-book-list button[aria-pressed=true],.bible-book-list button[aria-current],.bible-number-grid button[aria-pressed=true],.bible-translation-tab[aria-selected=true]){background:var(--accent-dark);border-color:var(--accent)}
+:root[data-color-mode] .operator-shell :is(.selection-label,.block-label strong,.bible-reference-version){color:var(--selection-text)}
+:root[data-color-mode] .operator-shell :is(.block-label,.operation-note,.confirm-dialog p,.song-icon,.output-controls label,.drag-handle,.item-actions button,.block-action){color:var(--muted)}
+:root[data-color-mode] .operator-shell .block-action{border-top-color:var(--border)}
+:root[data-color-mode] .operator-shell .preparation-empty h3{color:var(--text)}
+:root[data-color-mode] .operator-shell .preparation-empty>span{color:var(--accent)}
+:root[data-color-mode] .operator-shell .drag-preview{background:var(--accent-dark);color:var(--text);border-color:var(--accent);box-shadow:0 8px 24px var(--shadow)}
+:root[data-color-mode] .operator-shell .status-badge{background:var(--raised);color:var(--muted);border-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell :is(.block-card.on-air,.status-badge.on-air,.restore-button,.bible-number-grid button.on-air,.bible-click-hint.output-active,.manager-notice){background:var(--success-bg);color:var(--success);border-color:var(--success-border)}
+:root[data-color-mode] .operator-shell .bible-number-grid button.on-air{box-shadow:inset 0 0 0 1px var(--success-border)}
+:root[data-color-mode] .operator-shell :is(.block-card.on-air .block-label strong,.local-badge){color:var(--success)}
+:root[data-color-mode] .operator-shell .blank-button{background:var(--raised);color:var(--text);border-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell :is(.warning,.import-warnings,.chart-notice){background:var(--warning-bg);color:var(--warning);border-color:var(--warning-border)}
+:root[data-color-mode] .operator-shell :is(.error-banner,.error-message,.danger){background:var(--error-bg);color:var(--error);border-color:var(--error-border)}
+:root[data-color-mode] .operator-shell .danger:hover:not(:disabled){background:var(--error-bg);border-color:var(--error);color:var(--error)}
+:root[data-color-mode] .operator-shell .text-danger{color:var(--danger)}
+:root[data-color-mode] .operator-shell dialog{background:var(--canvas);border-color:var(--border-strong);box-shadow:0 22px 80px var(--shadow)}
+:root[data-color-mode] .operator-shell dialog::backdrop{background:var(--backdrop);backdrop-filter:blur(2px)}
+:root[data-color-mode] .operator-shell .context-navigation button:hover:not(:disabled){background:var(--hover);border-color:transparent}
+:root[data-color-mode] .operator-shell .context-navigation button[aria-current=page]{color:var(--text);background:var(--canvas);border-bottom-color:var(--accent)}
+:root[data-color-mode] .operator-shell .context-navigation button[aria-current=page] svg{color:var(--accent)}
+:root[data-color-mode] .operator-shell .settings-sidebar nav button[aria-current=page]{background:var(--accent-dark);border-color:var(--accent)}
+:root[data-color-mode] .operator-shell .rw-separator{background:var(--chrome);border-inline:1px solid var(--border-strong)}
+:root[data-color-mode] .operator-shell .rw-separator:hover,:root[data-color-mode] .operator-shell .rw-separator:focus-visible{background:var(--hover)}
+:root[data-color-mode] .operator-shell .rw-toggle{color:var(--text);background:var(--raised);border-color:var(--border)}
+:root[data-color-mode] .operator-shell .line-chord-lane{background-color:var(--canvas);background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--line-cell) - 1px),var(--border) calc(var(--line-cell) - 1px),var(--border) var(--line-cell));border-bottom-color:var(--border-strong)}
+:root[data-color-mode] .operator-shell .line-chord-chip{background:var(--chord-chip);color:var(--chord-ink);border-color:var(--accent)}
+:root[data-color-mode] .operator-shell .line-chord-chip.active{outline-color:var(--focus)}
+:root[data-color-mode] .operator-shell .line-chord-ghost{background:var(--accent);color:var(--accent-text)}
+:root[data-color-mode] .operator-shell .line-chord-ghost:after{border-color:var(--accent)}
+:root[data-color-mode] .operator-shell :is(.line-chord-glyph:hover,.line-chord-glyph.target-glyph){background:var(--accent-dark)}
+:root[data-color-mode] .operator-shell .theme-editor .draft-invalid{color:var(--error)!important}
+:root[data-color-mode] .operator-shell .theme-editor .theme-applied{color:var(--success)!important}
+:root[data-color-mode] .operator-shell .about-community-card .about-link-icon{background:var(--success-bg);color:var(--success)}
+/* Compact three-way chooser uses the real palette tokens, including explicit panel boundaries. */
+.operator-shell .appearance-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:8px;max-width:660px}
+.operator-shell .appearance-choice{display:flex;flex-direction:column;align-items:stretch;gap:7px;min-height:132px;padding:10px;border:1px solid var(--border-strong);border-radius:7px;background:var(--panel);color:var(--text);text-align:left}
+.operator-shell .appearance-choice[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.appearance-choice-title{display:flex;align-items:center;justify-content:space-between;gap:6px}.appearance-choice-title strong{font-size:14px}.appearance-choice-title>span{font-size:12px;color:var(--accent)}.appearance-choice-title .appearance-default{font-size:10px;color:var(--muted)}.appearance-description{font-size:11px;color:var(--muted)}
+.appearance-preview{display:block;width:100%;height:70px;overflow:hidden;border:1px solid var(--border-strong);border-radius:4px;background:var(--bg)}
+.appearance-preview-toolbar{display:flex;align-items:center;gap:4px;height:12px;padding:3px 5px;background:var(--chrome);border-bottom:1px solid var(--border-strong)}.appearance-preview-toolbar i{display:block;width:14px;height:3px;background:var(--muted);opacity:.7}.appearance-preview-toolbar i:first-child{background:var(--accent);opacity:1}
+.appearance-preview-layout{display:grid;grid-template-columns:25% 1fr 28%;height:57px;gap:2px;background:var(--border-strong)}.appearance-preview-sidebar{display:grid;align-content:start;gap:5px;padding:6px 4px;background:var(--panel)}.appearance-preview-sidebar i{height:3px;background:var(--muted);opacity:.55}.appearance-preview-sidebar i:first-child{height:7px;background:var(--accent);opacity:1}.appearance-preview-canvas{display:grid;gap:4px;align-content:center;padding:6px;background:var(--canvas)}.appearance-preview-canvas i{height:7px;border:1px solid var(--border);background:var(--raised)}.appearance-preview-output{padding:6px 4px;background:var(--panel)}.appearance-preview-output i{display:block;aspect-ratio:16/10;background:#101820;border:1px solid var(--border-strong)}
+@media(max-width:650px){.operator-shell .appearance-options{grid-template-columns:1fr;max-width:310px}.operator-shell .appearance-choice{min-height:0;display:grid;grid-template-columns:95px 1fr;align-items:center;gap:4px 12px}.appearance-preview{height:58px;grid-row:span 2}.appearance-preview-layout{height:45px}.appearance-description{grid-column:2}}
+@media(forced-colors:active){:root[data-color-mode] .operator-shell select:not([multiple]):not([size]),:root[data-color-mode] .operator-shell select[size="1"]{background-image:none}:root[data-color-mode] .operator-shell :focus-visible{outline-color:Highlight}.operator-shell .appearance-choice[aria-pressed=true]{outline:2px solid Highlight}}
+
+:root[data-color-mode] .operator-shell .rw-pane-tools{background:var(--chrome);border-bottom-color:var(--border-strong)}

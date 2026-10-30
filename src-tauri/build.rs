@@ -19,6 +19,10 @@ fn main() {
     }
     tauri_build::try_build(
         attributes.app_manifest(tauri_build::AppManifest::new().commands(&[
+            "get_update_state",
+            "check_for_updates",
+            "download_update",
+            "install_update",
             "list_charts",
             "get_chart",
             "create_chart_document",
@@ -32,7 +36,11 @@ fn main() {
             "suggest_chart_capos",
             "suggest_chart_keys",
             "publish_chart",
-            "import_chart_url",
+            "document_import_config",
+            "document_import_save_config",
+            "document_import_set_key",
+            "document_import_remove_key",
+            "import_chart_document",
             "assistant_config",
             "assistant_save_config",
             "assistant_set_key",

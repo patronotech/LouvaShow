@@ -29,16 +29,18 @@ Os botões apontam para os arquivos da última release pública. Confira as nota
 
 O LouvaShow tem como objetivo ser gratuito e open source. **A licença do código ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição. As licenças dos textos bíblicos são preservadas separadamente.
 
-## O que você encontra na versão 0.6.1
+## O que você encontra na versão 0.7.0
 
 - Biblioteca com cadastro, busca, classificações e importação/exportação de músicas.
 - Repertórios por evento, com reordenação por arraste, teclado ou botões.
 - Operador e projeção em janelas separadas, com apagar/restaurar e prévia ao vivo.
 - Quatro edições bíblicas em português incorporadas para consulta e projeção offline.
 - Fonte, cores, alinhamento e caixa de texto ajustáveis em uma prévia de edição independente.
-- Interface clara ou escura, painéis redimensionáveis e preferências locais.
+- Três temas de interface — Clássico, Claro e Escuro —, painéis redimensionáveis e preferências locais.
 - Janela de abertura com animação silenciosa, indicação do carregamento e recuperação de falhas.
-- Cifras com edição visual/ChordPro, revisões, transposição, capotraste e leitura em dois painéis.
+- Cifras com faixas de acordes alinhadas à letra, arraste entre colunas, edição de linhas e partes, revisões, transposição e capotraste.
+- Colagem de cifras, intercâmbio ChordPro e leitura em dois painéis com navegação pelas partes.
+- Importação local de TXT/DOCX e interpretação opcional de documentos com OpenAI ou Gemini, sempre com revisão antes de aplicar.
 - Acesso opcional da equipe pela rede local, com aprovação de dispositivos e repertórios pessoais.
 - Assistente Groq opcional para transcrição, divisões da letra e ordenação de sugestões de capotraste.
 
@@ -87,15 +89,21 @@ Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem f
 
 ## Cifras, equipe e assistente opcional
 
-Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, importação ChordPro/texto, leitura no palco e repertórios pessoais. Esses recursos locais não dependem de IA. A importação por URL do Cifra Club depende de acesso público permitido: pode retornar HTTP 403; o programa não contorna bloqueios. Cole somente conteúdo que você tenha autorização para usar.
+Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.0 não busca páginas por URL.
+
+TXT, ChordPro e DOCX podem ser importados localmente. No desktop, PDF e DOC antigo usam interpretação externa opcional; DOCX também oferece essa opção. O limite é **12 MiB por arquivo e 20 páginas por PDF**. As chaves ficam no cofre do sistema e são configuradas pelo operador. Gemini usa `gemini-3.8-flash` por padrão, com `gemini-3.5-flash-lite` como opção econômica; OpenAI usa `gpt-5.4-mini`. **Automático** respeita o provedor configurado e não troca de serviço após uma falha. Veja [formatos, configuração, privacidade e custos](docs/document-import.md). Colagem, edição e projeção continuam disponíveis sem IA.
 
 O acesso da equipe começa desligado. O operador escolhe interface e porta e informa o endereço IP exibido aos aparelhos da mesma rede. Esta versão usa **HTTP em rede local confiável, sem TLS nem domínio automático**; não exponha a porta à internet. Cada dispositivo precisa da aprovação presencial do código. A autorização permanece até sair ou revogar; o navegador pode limpar o cookie e exigir novo pareamento. Não há sincronização em nuvem.
 
-Groq e Gravatar fazem conexões externas somente por ações explícitas. A chave Groq fica no cofre do sistema e não é entregue aos navegadores. Projeção, Bíblia e cifras continuam disponíveis com esses recursos desligados. A transcrição envia áudio, e as divisões enviam a letra após confirmação. **Não houve teste com chave real ou chamada real à Groq nesta implementação.** Microfone depende de permissão; navegadores exigem contexto seguro, normalmente HTTPS ou localhost, e a captura não deve ser presumida no endereço HTTP da LAN.
+Groq e Gravatar fazem conexões externas somente por ações explícitas. A chave Groq fica no cofre do sistema e não é entregue aos navegadores. Projeção, Bíblia e cifras continuam disponíveis com esses recursos desligados. A transcrição envia áudio, e as divisões enviam a letra após confirmação. **Chamadas reais à Groq, OpenAI e Gemini não foram validadas nesta implementação.** Microfone depende de permissão; navegadores exigem contexto seguro, normalmente HTTPS ou localhost, e a captura não deve ser presumida no endereço HTTP da LAN.
 
 ## Aparência do aplicativo e da projeção
 
-Em **Configurações → Aparência**, escolha **Escuro** ou **Claro**. A mudança é imediata, fica salva neste computador e altera somente os controles do operador; o tema da congregação permanece independente.
+Em **Configurações → Aparência**, escolha **Clássico**, **Claro** ou **Escuro**. Clássico é o padrão para uma preferência ainda não definida. A mudança é imediata, fica salva neste computador e altera somente os controles do operador; o tema da congregação permanece independente.
+
+### Atualizações
+
+Após a abertura, o aplicativo consulta se há uma versão nova; também é possível usar **Configurações → Sobre → Verificar atualizações**. Essa consulta precisa de internet, mas sua falha não impede o uso local. O download e a instalação dependem de confirmação. Salve suas edições e feche a janela de projeção antes de **Atualizar e reiniciar**. Os pacotes são verificados por assinatura, e o diretório de dados permanece separado da instalação. Versões antigas sem esse recurso precisam de uma instalação manual inicial. Veja [o funcionamento e a preparação das atualizações](docs/updating.md).
 
 ### Preparar o tema da saída
 

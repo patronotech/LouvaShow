@@ -101,7 +101,8 @@ jobs:
         run: |
           python - <<'PY'
           import json, os, pathlib
-          bundle = {'active': True}
+          # Signing keys never enter CI; the maintainer signs final bytes locally.
+          bundle = {'active': True, 'createUpdaterArtifacts': False}
           if os.environ['BUILD_PLATFORM'] == 'windows-x64':
               bundle['windows'] = {'webviewInstallMode': {'type': 'offlineInstaller'}}
           pathlib.Path('src-tauri/tauri.ci-release.json').write_text(json.dumps({'bundle': bundle}))
@@ -181,7 +182,9 @@ jobs:
           - Windows x64: instalador NSIS, com instalador offline do WebView2. Este EXE não possui assinatura de código.
           - macOS Apple Silicon e Intel: DMGs produzidos no CI, sem assinatura Developer ID nem notarização. Antes de publicar, substituir os dois assets pelos DMGs públicos assinados e notarizados localmente, mantendo o nome e atualizando SHA256SUMS.txt.
 
-          Builds e testes automatizados não comprovam instalação, operação ao vivo ou uso com segundo monitor. Revisar instalação, conteúdo dos pacotes e notas antes de publicar este rascunho. Não inclui Windows ARM ou Linux. Os dois DMGs precisam ser substituídos por builds locais assinados e notarizados antes da publicação.
+          Publicação bloqueada até a finalização local: faltam os dois pacotes .app.tar.gz gerados dos aplicativos notarizados/stapled, as três assinaturas updater (.exe.sig e duas .app.tar.gz.sig), latest.json e os hashes finais. A chave privada updater permanece somente no computador do mantenedor; nunca deve ser adicionada ao GitHub, nem como secret de Actions. Execute scripts/prepare-updater.py finalize conforme docs/updating.md, confira todos os dez arquivos finais e só então publique o draft.
+
+          A assinatura updater autentica os downloads do programa e não é assinatura Authenticode do Windows. Builds e testes automatizados não comprovam instalação, operação ao vivo ou uso com segundo monitor. Revisar instalação, conteúdo dos pacotes e notas antes de publicar este rascunho. Não inclui Windows ARM ou Linux. Os dois DMGs precisam ser substituídos por builds locais assinados e notarizados antes da publicação.
           NOTES
           gh release create "$RELEASE_TAG" --verify-tag --draft \
             --title "LouvaShow $RELEASE_TAG" --notes-file release-notes.md \

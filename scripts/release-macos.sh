@@ -49,7 +49,8 @@ fi
 
 if [[ "$BUILD_APP" == 1 ]]; then
   printf 'Compilando LouvaShow %s para macOS %s.\n' "$VERSION" "$MACOS_ARCH"
-  BUILD_ARGS=(run tauri build -- --target "$MACOS_TARGET" --bundles app)
+  # Updater archives/signatures are finalized only after Apple stapling below.
+  BUILD_ARGS=(run tauri build -- --target "$MACOS_TARGET" --bundles app --config '{"bundle":{"createUpdaterArtifacts":false}}')
   if [[ "$INCLUDE_BUNDLED_HYMNS" == 1 ]]; then
     BUILD_ARGS+=(--features bundled-hymns)
   fi
@@ -158,6 +159,15 @@ xcrun stapler staple "$STAGED_APP"
 xcrun stapler validate "$STAGED_APP"
 /usr/sbin/spctl --assess --type execute --verbose=2 "$STAGED_APP"
 
+UPDATER_NAME="LouvaShow-macos-$MACOS_ARCH.app.tar.gz"
+if [[ "$INCLUDE_BUNDLED_HYMNS" == 0 ]]; then
+  # The helper re-extracts and validates the exact public runtime, signature and
+  # stapled ticket. Private hymn builds must never produce public updater assets.
+  python3 "$PROJECT_ROOT/scripts/prepare-updater.py" archive-macos \
+    --app "$STAGED_APP" --output "$RELEASE_WORK/$UPDATER_NAME" \
+    --version "$VERSION" --arch "$MACOS_ARCH"
+fi
+
 ln -s /Applications "$RELEASE_WORK/stage/Applications"
 DMG_NAME="LouvaShow_${VERSION}_macOS_${MACOS_ARCH}.dmg"
 STAGED_DMG="$RELEASE_WORK/$DMG_NAME"
@@ -205,5 +215,13 @@ chmod 644 "$RELEASE_DIR/$DMG_NAME"
 cmp "$STAGED_DMG" "$RELEASE_DIR/$DMG_NAME"
 (cd "$RELEASE_DIR" && /usr/bin/shasum -a 256 "$DMG_NAME" > "$DMG_NAME.sha256")
 chmod 644 "$RELEASE_DIR/$DMG_NAME.sha256"
+if [[ "$INCLUDE_BUNDLED_HYMNS" == 0 ]]; then
+  cp "$RELEASE_WORK/$UPDATER_NAME" "$RELEASE_DIR/$UPDATER_NAME"
+  chmod 644 "$RELEASE_DIR/$UPDATER_NAME"
+  cmp "$RELEASE_WORK/$UPDATER_NAME" "$RELEASE_DIR/$UPDATER_NAME"
+  (cd "$RELEASE_DIR" && /usr/bin/shasum -a 256 "$UPDATER_NAME" > "$UPDATER_NAME.sha256")
+  chmod 644 "$RELEASE_DIR/$UPDATER_NAME.sha256"
+  printf 'Pacote público de atualização: %s (assinatura updater na finalização local).\n' "$RELEASE_DIR/$UPDATER_NAME"
+fi
 printf 'Entrega local assinada e notarizada: %s\n' "$RELEASE_DIR/$DMG_NAME"
 printf 'Arquitetura: macOS %s. Sem publicação remota.\n' "$MACOS_ARCH"

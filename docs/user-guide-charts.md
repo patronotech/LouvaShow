@@ -1,15 +1,24 @@
 # Cifras e equipe
 
+Guia da versão 0.7.0.
+
 ## Criar uma cifra
 
 1. Abra **Cifras** e selecione uma música na biblioteca.
 2. Clique em **Nova versão**. A letra é copiada para o editor; a música original e a projeção não são alteradas.
 3. Dê um nome à versão. Use visibilidade **Pessoal** para seu rascunho ou **Igreja** quando tiver permissão para publicar.
-4. Clique no ponto da letra em que o acorde deve entrar. Digite, por exemplo, `C`, `Am7` ou `D/F#`, e confirme em **Aplicar**.
-5. Clique em um acorde para editar ou remover. Arraste-o até outra letra ou, com o acorde focado, use as setas esquerda/direita para deslocá-lo. Escape cancela o arraste.
+4. Clique na coluna da faixa acima da letra ou em **＋ Acorde**. Digite, por exemplo, `C`, `Am7` ou `D/F#`, ajuste **Coluna** e confirme em **Aplicar**.
+5. Clique em um acorde para editar. Arraste-o para outra coluna ou linha. Pelo teclado, foque o acorde e use esquerda/direita; Shift + seta move cinco colunas, Enter abre a edição e Delete/Backspace remove. Escape cancela o arraste.
 6. Clique em **Salvar cifra**. As alterações são explícitas; cancelar permite descartar o rascunho.
 
-A posição é ligada a caracteres visíveis da letra, incluindo acentos combinados e emojis, e não a espaços de uma fonte específica. Acordes e letras compartilham o mesmo trecho visual. Aumentar a fonte pode mudar as quebras de linha sem separar o acorde de sua âncora.
+A edição usa faixas monoespaçadas: acordes acima, letra abaixo. A coluna conta caracteres visíveis, incluindo acentos combinados e emojis. Linhas instrumentais também mantêm posições para os acordes. Confira a faixa ao deslocar um acorde; aumentar o tamanho da fonte não altera sua coluna no documento.
+
+## Linhas e partes
+
+- Use o lápis **Editar letra** para alterar uma linha. Enter ou **Dividir no cursor** cria a próxima linha a partir daquele ponto. **Unir à próxima** junta as linhas; **Concluir letra** fecha o campo.
+- **＋ Linha** insere uma linha; o botão de remoção retira a linha com seus acordes. Confira as âncoras após alterar o texto.
+- **＋ Parte** cria uma seção. Edite seu nome, como Verso, Refrão ou Ponte. Para separar um trecho existente, marque linhas consecutivas da mesma parte, informe o nome e clique em **Criar parte**.
+- **Remover parte** retira a seção e suas ocorrências na sequência. Use **Desfazer** se necessário, antes de encerrar o editor.
 
 **Desfazer** e **Refazer** recuperam alterações da edição visual. Em **Sequência e notas**, repita uma parte, mova-a para antes ou remova uma ocorrência. Partes repetidas continuam vinculadas: editar um acorde na parte também modifica suas repetições. As notas da versão são salvas com a cifra.
 
@@ -25,21 +34,36 @@ Exemplo: formas em C com capo na casa 2 soam em D. Mudar o capo não deve ser co
 
 Símbolos não reconhecidos podem gerar avisos em vez de transformações arriscadas. Revise a cifra antes de tocar.
 
-## Importar e exportar
+## Colar cifras e importar texto
 
-**Importar cifra** aceita ChordPro (`.cho`, `.chopro`, `.chordpro`, `.pro`) e texto (`.txt`) com cifras acima da letra. A importação entra no rascunho para revisão, sem salvar automaticamente.
+1. Clique em **Colar cifra**. Copie somente conteúdo que você tenha autorização para usar, inclusive de páginas do Cifra Club.
+2. Escolha **Acordes acima da letra** e cole mantendo os espaços. Não cole apenas a URL: o LouvaShow não acessa nem extrai páginas por endereço.
+3. Clique em **Revisar colagem**. Confira letra, acentos, colunas, trechos instrumentais e partes como `[Refrão]`, `[Segunda Parte]`, Intro e Final.
+4. Clique em **Usar esta cifra** para substituir o rascunho. Para gravar na biblioteca, clique em **Salvar cifra**.
 
-**Editar ChordPro** abre uma área de texto com prévia imediata. Acordes usam colchetes, como `[C]Uma [G]linha`. Clique em **Aplicar ChordPro** para voltar à edição visual. A sequência exportada é expandida: editar e reaplicar o texto pode transformar repetições em partes independentes. Para manter partes vinculadas, prefira os controles de sequência da edição visual.
+Se alterar o texto colado, revise novamente antes de aplicar. **Cancelar importação** mantém a cifra que estava no editor. A colagem normaliza quebras de linha, tabulações e caracteres invisíveis comuns sem buscar conteúdo na internet.
 
-**Exportar rascunho** grava ChordPro. No aplicativo desktop, há um seletor nativo de arquivo. No navegador, o download é feito pelo próprio navegador. A exportação não salva a cifra na biblioteca.
+**Importar documento** no desktop, ou **Importar arquivo** no navegador da equipe, aceita ChordPro (`.cho`, `.chopro`, `.chordpro`, `.pro`) e texto (`.txt`) com cifras acima da letra. Esses formatos passam pela mesma revisão e não precisam de IA.
 
-No desktop, **Importar URL** aceita páginas públicas do Cifra Club. Marque a autorização somente quando tiver direito de importar o conteúdo. O acesso depende da disponibilidade e das regras do site: bloqueios e páginas não reconhecidas geram erro; use um arquivo ou cole a cifra que você está autorizado a utilizar. O LouvaShow não contorna proteções de acesso.
+**ChordPro** abre o documento em texto. Acordes usam colchetes, como `[C]Uma [G]linha`. Após editar, clique em **Revisar colagem** e **Usar esta cifra**. A sequência exportada é expandida: editar e reaplicar o texto pode transformar repetições em partes independentes. Para manter partes vinculadas, prefira os controles de sequência da edição visual.
+
+**Exportar** grava ChordPro. No aplicativo desktop, há um seletor nativo de arquivo. No navegador, o download é feito pelo próprio navegador. A exportação não salva a cifra na biblioteca.
+
+## Importar PDF, DOC e DOCX
+
+No desktop, selecione o arquivo em **Importar documento**. DOCX permite extração local ou **Extrair com IA**; PDF e DOC antigo precisam da interpretação externa. Clique em **Extrair e revisar**, confirme o envio quando houver IA e compare a prévia com o original. Só **Usar esta cifra** altera o rascunho; **Salvar cifra** grava a revisão. Leia também os avisos e as observações importadas.
+
+O limite é 12 MiB por arquivo e 20 páginas por PDF. A importação local de DOCX lê texto, sem reproduzir imagens nem todo o leiaute. DOC antigo usa OpenAI; para Gemini, converta antes para PDF, DOCX ou TXT. Para preservar o aspecto visual de uma cifra em documento, prefira PDF.
+
+Em **Configurações → Assistente IA → Documentos · OpenAI e Gemini**, o operador habilita a função, guarda as chaves no cofre do sistema e salva o provedor/modelo preferido. IA começa desligada. **Automático** respeita essa preferência; se ela também for automática, escolhe Gemini quando disponível, exceto DOC antigo, que exige OpenAI. Uma falha não provoca envio automático a outro serviço.
+
+Gemini usa **3.8 Flash** por padrão e oferece **3.5 Flash-Lite** como opção econômica. OpenAI usa **GPT-5.4 mini**. A interpretação pode errar letra, acorde ou posição: a revisão é obrigatória. Consulte [Importação de documentos](document-import.md) para limites, dados enviados e custos. Configuração de chaves e importação desses documentos ficam no desktop do operador.
 
 ## Versões e alterações simultâneas
 
 Uma música pode ter várias versões de cifra. **Duplicar** inicia outra versão, **Editar** altera uma existente e **Publicar na igreja** cria uma cópia compartilhada.
 
-Se alguém salvar uma versão enquanto você edita a mesma revisão, o salvamento é recusado para evitar sobrescrever trabalho. Seu rascunho permanece aberto. É possível exportá-lo ou usar **Salvar rascunho como nova versão pessoal**.
+Se alguém salvar uma versão enquanto você edita a mesma revisão, o salvamento é recusado para evitar sobrescrever trabalho. Seu rascunho permanece aberto. É possível exportá-lo ou usar **Salvar como nova versão pessoal**.
 
 Excluir uma cifra retira-a da lista; revisões já fixadas em repertórios são preservadas.
 
@@ -50,6 +74,8 @@ Excluir uma cifra retira-a da lista; revisões já fixadas em repertórios são 
 Os controles do visualizador alteram somente a leitura atual. Não editam a versão salva nem a projeção. A revisão exibida aparece no cabeçalho. Preferências de fonte e cores são lembradas por pessoa neste navegador/dispositivo; notas ficam vinculadas à pessoa e à cifra, sem aparecer em outras músicas ou perfis.
 
 **Modo palco** recolhe os controles. **Controles** os exibe novamente. Cada painel tem sua própria rolagem.
+
+A barra de partes leva diretamente a Verso, Refrão, Ponte e demais trechos. Ela acompanha a sequência: se o refrão aparece duas vezes, cada ocorrência tem seu próprio destino. Clicar em uma parte move somente a leitura daquele painel, sem enviar conteúdo à projeção.
 
 ## Equipe e acesso pelo celular/tablet
 
@@ -94,4 +120,4 @@ A chave configurada não é exibida novamente nem enviada aos navegadores da equ
 
 ## Limites de validação
 
-Os testes automatizados de frontend cobrem âncoras por grafema, repetição vinculada, edição sem mudar letras e movimentação de acordes. Compilação e testes automatizados não substituem testes em dispositivos reais, microfone, rede, serviços externos ou segundo monitor. Consulte o README e as notas da versão para o estado de validação da distribuição.
+Há testes automatizados para âncoras por grafema, colagem, partes, edição de linhas e movimentação de acordes. Isso não comprova uso real em Windows, macOS Intel, dispositivos da equipe ou projetores. Não houve chamada real validada aos provedores de IA nesta implementação. Consulte o README, a matriz de validação e as notas da versão para os ensaios de interface e os resultados de cada distribuição.

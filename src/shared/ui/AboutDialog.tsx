@@ -54,7 +54,7 @@ function SupportOption({ id, title, label, value, expanded, onToggle }: {
   </div>;
 }
 
-export function AboutDialog({ onClose, colorMode = 'dark' }: { onClose: () => void; colorMode?: 'dark' | 'light' }) {
+export function AboutDialog({ onClose, colorMode = 'classic' }: { onClose: () => void; colorMode?: 'classic' | 'dark' | 'light' }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [opening, setOpening] = useState<'website' | 'community' | null>(null);
   const [error, setError] = useState('');
@@ -92,7 +92,7 @@ export function AboutDialog({ onClose, colorMode = 'dark' }: { onClose: () => vo
     <header className="about-heading">
       <div>
         <h2 id="about-title" className="sr-only">LouvaShow</h2>
-        <img className="about-brand-logo" src={colorMode === 'light' ? logoLight : logoDark} alt="" aria-hidden="true" draggable={false} />
+        <img className="about-brand-logo" src={colorMode === 'dark' ? logoDark : logoLight} alt="" aria-hidden="true" draggable={false} />
         <span className="about-version">Versão {APP_VERSION}</span>
       </div>
       <button autoFocus disabled={busy} onClick={onClose} aria-label="Fechar créditos e comunidade">×</button>
