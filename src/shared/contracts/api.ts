@@ -6,6 +6,7 @@ export const api = {
  getBibleChapter: (versionId:string,bookId:string,chapter:number) => invoke<BibleChapter>('get_bible_chapter',{versionId,bookId,chapter}),
  openCommunityGroup: () => invoke<void>('open_community_group'),
  openAuthorWebsite: () => invoke<void>('open_author_website'),
+ openAuthorContact: () => invoke<void>('open_author_contact'),
  exportSongs: (ids:string[],format:'json'|'openlyrics') => invoke<{fileName:string;count:number}|null>('export_songs',{ids,format}),
  listCategories: () => invoke<Category[]>('list_categories'),
  createCategory: (name:string) => invoke<Category>('create_category',{name}),

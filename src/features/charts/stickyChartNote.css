@@ -1,0 +1,12 @@
+.chart-viewer-pane{position:relative}
+.chart-viewer .chart-sticky-note{position:absolute;z-index:5;left:clamp(6px,var(--note-x,65%),max(6px,calc(100% - var(--note-width,250px) - 6px)));top:clamp(6px,var(--note-y,12%),max(6px,calc(100% - var(--note-height,184px) - 6px)));width:min(250px,calc(100% - 12px));max-height:calc(100% - 12px);display:flex;flex-direction:column;overflow:hidden;padding:0;border:1px solid #b29b53;border-radius:6px;background:#fff0b7;color:#463719;box-shadow:0 5px 20px #0004;font:13px/1.4 system-ui,sans-serif}
+.chart-sticky-header{display:flex;flex:none;align-items:center;gap:2px;padding:3px 4px;border-bottom:1px solid #a58b4450;background:#edcf7a60;border-radius:5px 5px 0 0}
+.chart-viewer .chart-sticky-header button{min-height:28px;min-width:28px;padding:2px 5px;border:0;background:transparent;color:#463719;font-size:16px;border-radius:4px}
+.chart-viewer .chart-sticky-header button:hover{background:#c5a84b40}
+.chart-viewer .chart-sticky-header button:focus-visible{outline:2px solid #66501a;outline-offset:0}
+.chart-viewer .chart-sticky-header .chart-sticky-handle{display:flex;align-items:center;gap:6px;flex:1;cursor:grab;touch-action:none;text-align:left;font-size:12px;font-weight:600;user-select:none}
+.chart-viewer .chart-sticky-header .chart-sticky-handle:active{cursor:grabbing}
+.chart-viewer .chart-sticky-note textarea{display:block;width:100%;height:148px;min-height:36px;max-height:min(45vh,max(36px,calc(var(--note-pane-height,500px) - 60px)));resize:vertical;box-sizing:border-box;border:0;background:transparent;color:#463719;outline-offset:-3px;font:14px/1.5 system-ui,sans-serif;padding:10px;border-radius:0 0 5px 5px}
+.chart-viewer .chart-sticky-note textarea::placeholder{color:#78693f}
+.chart-sticky-error{display:block;padding:5px 8px;font-size:11px}
+@media(forced-colors:active){.chart-viewer .chart-sticky-note{border:1px solid CanvasText;background:Canvas;color:CanvasText}.chart-viewer .chart-sticky-header button,.chart-viewer .chart-sticky-note textarea{color:CanvasText}}

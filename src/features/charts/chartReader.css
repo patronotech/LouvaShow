@@ -2,9 +2,10 @@
 .chart-part-navigation button{flex:none;min-height:32px;padding:5px 12px;font-size:12px;border-radius:6px;background:transparent;white-space:nowrap}
 .chart-part-navigation button[aria-current]{background:#a78bfa25;border-color:#b794f6;color:#e5d7ff}
 .chart-part-navigation button:hover{background:#a78bfa15}
- .chord-read-line{line-height:calc(1.4em + var(--reading-chord-rows,1)*1.3em);padding-top:calc(.2em + (var(--reading-chord-rows,1) - 1)*1.2em);white-space:pre-wrap;overflow-wrap:anywhere}
+.chord-read-line{white-space:pre-wrap;overflow-wrap:anywhere}
 .chord-read-run{position:relative;white-space:pre-wrap}
-.chord-read-run>strong{position:absolute;color:var(--chord-color);line-height:1.25;font-size:.85em;white-space:nowrap;font-weight:700}
-.chord-instrumental-line{display:flex;align-items:center;flex-wrap:wrap;gap:.5em 1.15em;min-height:2.4em;color:var(--chord-color);font-size:.9em;font-weight:700}
+.chord-read-run>strong{position:absolute;color:var(--chord-color);line-height:var(--reading-chord-height,1.25);font-size:var(--reading-chord-size,.85em);white-space:nowrap;font-weight:var(--reading-chord-weight,700)}
+.chord-instrumental-line{display:flex;align-items:center;flex-wrap:wrap;gap:.5em 1.15em;min-height:2.4em;color:var(--chord-color);font-size:var(--reading-chord-size,.85em);line-height:1.25;font-weight:var(--reading-chord-weight,700)}
+.chord-instrumental-line>strong{font-weight:inherit}
 .chord-sheet .chord-section{scroll-margin-top:12px}
 @media(max-width:760px){.chart-part-navigation{padding-inline:16px}}

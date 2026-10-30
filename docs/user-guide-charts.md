@@ -7,9 +7,11 @@ Guia da versão 0.7.0.
 1. Abra **Cifras** e selecione uma música na biblioteca.
 2. Clique em **Nova versão**. A letra é copiada para o editor; a música original e a projeção não são alteradas.
 3. Dê um nome à versão. Use visibilidade **Pessoal** para seu rascunho ou **Igreja** quando tiver permissão para publicar.
-4. Clique na coluna da faixa acima da letra ou em **＋ Acorde**. Digite, por exemplo, `C`, `Am7` ou `D/F#`, ajuste **Coluna** e confirme em **Aplicar**.
+4. Clique na coluna da faixa acima da letra ou em **＋ Acorde**. Digite, por exemplo, `C`, `Am7` ou `D/F#`, ajuste **Coluna da faixa** e confirme em **Aplicar acorde**.
 5. Clique em um acorde para editar. Arraste-o para outra coluna ou linha. Pelo teclado, foque o acorde e use esquerda/direita; Shift + seta move cinco colunas, Enter abre a edição e Delete/Backspace remove. Escape cancela o arraste.
 6. Clique em **Salvar cifra**. As alterações são explícitas; cancelar permite descartar o rascunho.
+
+Há oito posições antes da primeira palavra e oito após a frase, para acordes de preparação e passagem. Esses acordes são preservados ao salvar e exportar.
 
 A edição usa faixas monoespaçadas: acordes acima, letra abaixo. A coluna conta caracteres visíveis, incluindo acentos combinados e emojis. Linhas instrumentais também mantêm posições para os acordes. Confira a faixa ao deslocar um acorde; aumentar o tamanho da fonte não altera sua coluna no documento.
 
@@ -69,13 +71,29 @@ Excluir uma cifra retira-a da lista; revisões já fixadas em repertórios são 
 
 ## Leitura no palco
 
-**Abrir** mostra o visualizador. Cada painel possui seleção de cifra, fonte, tamanho, cores, tom e capo independentes. **Dois painéis** permite consultar duas cifras ao mesmo tempo. Em telas estreitas, os painéis ficam um sobre o outro.
+**Abrir** mostra o visualizador. **Dois painéis** permite consultar duas cifras ao mesmo tempo, com seleção, aparência, tom e capo independentes. Em telas estreitas, os painéis ficam um sobre o outro.
 
-Os controles do visualizador alteram somente a leitura atual. Não editam a versão salva nem a projeção. A revisão exibida aparece no cabeçalho. Preferências de fonte e cores são lembradas por pessoa neste navegador/dispositivo; notas ficam vinculadas à pessoa e à cifra, sem aparecer em outras músicas ou perfis.
+Os controles alteram somente a leitura atual. Não editam a versão salva nem a projeção. A revisão exibida aparece no cabeçalho.
 
-**Modo palco** recolhe os controles. **Controles** os exibe novamente. Cada painel tem sua própria rolagem.
+**Palco** recolhe os controles. **Controles** os exibe novamente. Cada painel tem sua própria rolagem.
 
 A barra de partes leva diretamente a Verso, Refrão, Ponte e demais trechos. Ela acompanha a sequência: se o refrão aparece duas vezes, cada ocorrência tem seu próprio destino. Clicar em uma parte move somente a leitura daquele painel, sem enviar conteúdo à projeção.
+
+### Cores e tipografia
+
+O padrão de leitura é **Claro**, com letra grafite e acordes laranja escuro. Escolha **Escuro**, **Claro** ou **Contraste** na barra do leitor. O escuro usa acordes em laranja claro; o alto contraste mantém fundo preto e acordes amarelos. Esses três presets mudam as cores de letra, acordes e fundo, preservando os ajustes de tipografia. São independentes do tema da interface do operador.
+
+Na engrenagem **Personalizar leitura**, ajuste a fonte, o tamanho e o peso da letra, o tamanho e o peso dos acordes, suas cores, o fundo e a **Distância acorde–letra**. A leitura acompanha as mudanças imediatamente. **Salvar definição** guarda o conjunto personalizado; **Cancelar** ou Escape descarta os ajustes dessa janela.
+
+Depois de salvar, **Minha** restaura a última definição personalizada, mesmo após usar outro preset. As preferências ficam separadas por pessoa e painel neste navegador/dispositivo; não são transferidas para outro aparelho.
+
+### Nota pessoal
+
+O ícone **Notas desta cifra** abre uma nota adesiva opcional. Digite livremente; o texto é guardado localmente enquanto você escreve. Arraste a alça **Nota** para movê-la. Pelo teclado, foque a alça e use as setas; Shift + seta aumenta o deslocamento e Escape cancela um arraste em andamento.
+
+**−** minimiza a nota, **＋** expande e **×** oculta sem apagar o texto. O ícone de notas a reabre. A nota pode permanecer visível no modo palco, sem ocupar uma faixa fixa da cifra.
+
+Texto, posição e estado da nota ficam vinculados à pessoa e à cifra neste navegador/dispositivo. Trocar de música não leva a anotação para a próxima cifra. Ela não é enviada à projeção nem sincronizada entre aparelhos. Limpar o armazenamento do navegador remove essas preferências e notas locais. As **Notas da versão**, salvas no editor de cifras, continuam sendo um conteúdo separado da nota pessoal.
 
 ## Equipe e acesso pelo celular/tablet
 
@@ -121,3 +139,7 @@ A chave configurada não é exibida novamente nem enviada aos navegadores da equ
 ## Limites de validação
 
 Há testes automatizados para âncoras por grafema, colagem, partes, edição de linhas e movimentação de acordes. Isso não comprova uso real em Windows, macOS Intel, dispositivos da equipe ou projetores. Não houve chamada real validada aos provedores de IA nesta implementação. Consulte o README, a matriz de validação e as notas da versão para os ensaios de interface e os resultados de cada distribuição.
+
+## Barra de projeção
+
+Arraste a borda superior da barra inferior para ajustar sua altura; **Ocultar** recolhe os controles. **Mostrar controles de projeção** os reabre. Na borda, as setas ajustam a altura, Home/End vão aos limites, Enter recolhe e Escape cancela o arraste. A altura e a visibilidade ficam salvas neste dispositivo.

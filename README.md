@@ -40,6 +40,7 @@ O LouvaShow tem como objetivo ser gratuito e open source. **A licença do códig
 - Janela de abertura com animação silenciosa, indicação do carregamento e recuperação de falhas.
 - Cifras com faixas de acordes alinhadas à letra, arraste entre colunas, edição de linhas e partes, revisões, transposição e capotraste.
 - Colagem de cifras, intercâmbio ChordPro e leitura em dois painéis com navegação pelas partes.
+- Leitor com três presets de cores, definição personalizada, tamanho/peso independentes para letra e acordes e notas pessoais móveis.
 - Importação local de TXT/DOCX e interpretação opcional de documentos com OpenAI ou Gemini, sempre com revisão antes de aplicar.
 - Acesso opcional da equipe pela rede local, com aprovação de dispositivos e repertórios pessoais.
 - Assistente Groq opcional para transcrição, divisões da letra e ordenação de sugestões de capotraste.
@@ -90,6 +91,10 @@ Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem f
 ## Cifras, equipe e assistente opcional
 
 Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.0 não busca páginas por URL.
+
+O TXT baixado pelo Cifra Club também pode ser importado **offline, sem IA nem custo de API**. O importador reconhece o cabeçalho de artista/título, preserva seções e colunas e separa os diagramas de acordes do rodapé em notas. Linhas em branco dentro de partes nomeadas mantêm a mesma parte; antes do primeiro cabeçalho, separam os blocos. Metadados explícitos de tom e capotraste são revisáveis; um tom ambíguo não é tratado como detecção definitiva. Confira a prévia antes de aplicar e use somente conteúdo autorizado.
+
+No leitor, escolha **Escuro**, **Claro** ou **Contraste**, ou personalize cores, fonte, tamanho/peso de letras e acordes e a distância entre eles. **Salvar definição** guarda sua configuração; **Minha** a restaura. Notas pessoais podem ser movidas, minimizadas ou ocultadas, com texto e posição lembrados por pessoa e cifra no mesmo navegador/dispositivo. Esses ajustes não alteram a projeção.
 
 TXT, ChordPro e DOCX podem ser importados localmente. No desktop, PDF e DOC antigo usam interpretação externa opcional; DOCX também oferece essa opção. O limite é **12 MiB por arquivo e 20 páginas por PDF**. As chaves ficam no cofre do sistema e são configuradas pelo operador. Gemini usa `gemini-3.8-flash` por padrão, com `gemini-3.5-flash-lite` como opção econômica; OpenAI usa `gpt-5.4-mini`. **Automático** respeita o provedor configurado e não troca de serviço após uma falha. Veja [formatos, configuração, privacidade e custos](docs/document-import.md). Colagem, edição e projeção continuam disponíveis sem IA.
 

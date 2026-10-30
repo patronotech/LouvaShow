@@ -1,0 +1,105 @@
+/* Compact desktop credits. All chrome follows the operator's three palettes. */
+:root[data-color-mode] .operator-shell dialog.about-dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 36px);
+  overflow: auto;
+  padding: 22px;
+  color: var(--text);
+  background: var(--canvas);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  scrollbar-gutter: stable;
+}
+.operator-shell .about-dialog .about-heading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.operator-shell .about-dialog .about-brand-logo {
+  display: block;
+  width: 122px;
+  height: 52px;
+  margin: 0;
+  object-fit: contain;
+  object-position: left center;
+}
+.operator-shell .about-dialog .about-heading-label { flex: 1; min-width: 0; }
+.operator-shell .about-dialog h2 { margin: 0; font-size: 17px; line-height: 1.4; font-weight: 650; }
+.operator-shell .about-dialog h3 { margin: 0; font-size: 15px; line-height: 1.4; font-weight: 650; }
+.operator-shell .about-dialog .about-version { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+.operator-shell .about-dialog button { font-size: 12px; font-weight: 550; }
+.operator-shell .about-dialog .about-close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  min-height: 34px;
+  padding: 7px;
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+}
+.operator-shell .about-dialog .about-people-row { display: grid; grid-template-columns: 1fr 1.08fr; gap: 20px; align-items: center; }
+.operator-shell .about-dialog .about-author { display: flex; align-items: center; gap: 13px; min-width: 0; margin: 0; }
+.operator-shell .about-dialog .about-author-portrait { flex: 0 0 64px; width: 64px; height: 64px; object-fit: cover; border-radius: 50%; border: 1px solid var(--border); }
+.operator-shell .about-dialog .about-author strong { display: block; font-size: 17px; font-weight: 650; }
+.operator-shell .about-dialog .about-author-caption { display: block; max-width: 155px; margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
+.operator-shell .about-dialog .about-services { padding: 14px 15px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); }
+.operator-shell .about-dialog .about-services p { margin: 4px 0 10px !important; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.operator-shell .about-dialog .about-services button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 34px; padding: 7px 10px; color: var(--accent-text); background: var(--accent); border-color: var(--accent); }
+:root[data-color-mode] .operator-shell .about-dialog .about-services button:hover:not(:disabled) { color: var(--accent-text); background: var(--accent-hover); border-color: var(--accent-hover); }
+.operator-shell .about-dialog .about-services button svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.operator-shell .about-dialog .about-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.operator-shell .about-dialog .about-link-card { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 63px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); text-align: left; }
+.operator-shell .about-dialog .about-link-icon { display: grid; place-items: center; flex: 0 0 30px; width: 30px; height: 30px; border-radius: 7px; background: var(--accent-dark); color: var(--accent); }
+.operator-shell .about-dialog .about-link-card > span:nth-child(2) { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.operator-shell .about-dialog .about-link-card strong { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+.operator-shell .about-dialog .about-link-card > span:nth-child(2) > span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.operator-shell .about-dialog .about-link-card > svg { width: 14px; height: 14px; flex: 0 0 14px; color: var(--muted); }
+.operator-shell .about-dialog .about-link-notice,
+.operator-shell .about-dialog .support-copy-notice { margin: 8px 0 0 !important; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.operator-shell .about-dialog .about-link-notice:empty,
+.operator-shell .about-dialog .support-copy-notice:empty { display: none; }
+.operator-shell .about-dialog .error-message { margin: 10px 0 0 !important; padding: 8px 10px; border: 1px solid var(--error-border); border-radius: 6px; font-size: 12px; line-height: 1.5; }
+.operator-shell .about-dialog .support-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.operator-shell .about-dialog .support-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.operator-shell .about-dialog .support-heading h3 { display: flex; align-items: center; gap: 8px; }
+.operator-shell .about-dialog .support-heading h3 svg { color: var(--accent); }
+.operator-shell .about-dialog .support-heading > span { color: var(--muted); font-size: 11px; }
+.operator-shell .about-dialog .support-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 12px; margin-top: 12px; }
+.operator-shell .about-dialog .support-option { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
+.operator-shell .about-dialog .support-toggle { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 54px; padding: 12px 14px; border: 0; border-radius: 0; background: transparent; color: var(--text); text-align: left; }
+.operator-shell .about-dialog .support-toggle strong { font-size: 14px; font-weight: 650; }
+.operator-shell .about-dialog .support-brand-icon { display: block; flex: 0 0 25px; width: 25px; height: 25px; }
+.operator-shell .about-dialog .support-brand-pix { color: #167c70; }
+.operator-shell .about-dialog .support-brand-paypal { color: #1764b6; }
+:root[data-color-mode="dark"] .operator-shell .about-dialog .support-brand-pix { color: #67d6c6; }
+:root[data-color-mode="dark"] .operator-shell .about-dialog .support-brand-paypal { color: #77b7fa; }
+.operator-shell .about-dialog .support-chevron { display: flex; margin-left: auto; color: var(--muted); }
+.operator-shell .about-dialog .support-toggle[aria-expanded="true"] .support-chevron { transform: rotate(180deg); }
+.operator-shell .about-dialog .support-details { padding: 0 12px 12px; }
+.operator-shell .about-dialog .support-details[hidden] { display: none !important; }
+.operator-shell .about-dialog .support-details label { display: block; margin: 0 0 6px; color: var(--muted); font-size: 11px; }
+.operator-shell .about-dialog .support-value { width: 100%; min-width: 0; padding: 8px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; letter-spacing: 0; }
+.operator-shell .about-dialog .support-copy { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 33px; margin-top: 9px; padding: 6px 9px; }
+.operator-shell .about-dialog .support-copy svg { width: 15px; height: 15px; }
+.operator-shell .about-dialog .about-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.operator-shell .about-dialog .about-footer > span { color: var(--muted); font-size: 11px; }
+.operator-shell .about-dialog .about-footer button { min-height: 33px; padding: 6px 14px; }
+@media (max-width: 560px) {
+  :root[data-color-mode] .operator-shell dialog.about-dialog { width: calc(100vw - 24px); padding: 17px; max-height: calc(100dvh - 24px); }
+  .operator-shell .about-dialog .about-heading { gap: 12px; margin-bottom: 17px; }
+  .operator-shell .about-dialog .about-brand-logo { width: 100px; height: 44px; }
+  .operator-shell .about-dialog .about-people-row { grid-template-columns: 1fr; gap: 15px; }
+  .operator-shell .about-dialog .about-author-caption { max-width: none; }
+  .operator-shell .about-dialog .about-links,
+  .operator-shell .about-dialog .support-options { grid-template-columns: 1fr; gap: 9px; }
+  .operator-shell .about-dialog .support-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+}
+@media (forced-colors: active) {
+  .operator-shell .about-dialog .support-brand-icon { color: ButtonText; }
+}

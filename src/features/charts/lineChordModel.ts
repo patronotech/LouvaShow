@@ -2,6 +2,13 @@ import type { ChartDocument, ChartLine, ChartChord } from './contracts';
 import { graphemes } from './chordText';
 import { newChartId } from './documentText';
 export const partNames = ['Verso', 'Refrão', 'Intro', 'Ponte', 'Final', 'Interlúdio', 'Solo', 'Pré-refrão'];
+export const chordEdgeSlots = 8;
+/** Virtual columns become real spaces only when an anchor is placed before the text. */
+export function lineLeadingSlots(text: string): number {
+ const letters=graphemes(text);let whitespace=0;while(whitespace<letters.length&&/^\s+$/.test(letters[whitespace]!.text))whitespace++;
+ if(whitespace===letters.length)return 0; // Instrumentals have no first word; keep their absolute columns stable.
+ return Math.max(0,chordEdgeSlots-whitespace);
+}
 export function editLineText(line: ChartLine, text: string): ChartLine {
  const before = graphemes(line.text).map(value => value.text); const after = graphemes(text).map(value => value.text);
  let prefix = 0; while (prefix < before.length && prefix < after.length && before[prefix] === after[prefix]) prefix++;
@@ -15,8 +22,11 @@ export function replaceLine(document: ChartDocument, sectionId: string, lineId: 
 export function placeChord(document: ChartDocument, sectionId: string, lineId: string, offset: number, symbol: string, chordId = newChartId()): ChartDocument {
  const value = symbol.trim(); if (!value || /[\[\]\r\n]/.test(value)) throw new Error('Informe um acorde sem colchetes ou quebras de linha.');
  if (!Number.isFinite(offset)) throw new Error('Informe uma coluna válida.');
- const column = Math.max(0, Math.min(2000, Math.round(offset)));
- return replaceLine(document, sectionId, lineId, line => ({ ...line, text: line.text + ' '.repeat(Math.max(0, column - graphemes(line.text).length)), chords: [...line.chords.filter(chord => chord.id !== chordId), {id:chordId,offset:column,symbol:value}].sort((a,b)=>a.offset-b.offset) }));
+ return replaceLine(document, sectionId, lineId, line => {
+  const column = Math.max(-lineLeadingSlots(line.text), Math.min(2000, Math.round(offset)));
+  const prefix = Math.max(0,-column);
+  return { ...line, text: ' '.repeat(prefix) + line.text + ' '.repeat(Math.max(0, column - graphemes(line.text).length)), chords: [...line.chords.filter(chord => chord.id !== chordId).map(chord=>({...chord,offset:chord.offset+prefix})), {id:chordId,offset:column+prefix,symbol:value}].sort((a,b)=>a.offset-b.offset) };
+ });
 }
 export function moveLineChord(document: ChartDocument, fromSection: string, fromLine: string, chordId: string, toSection: string, toLine: string, offset: number): ChartDocument {
  const chord = document.sections.find(section=>section.id===fromSection)?.lines.find(line=>line.id===fromLine)?.chords.find(chord=>chord.id===chordId);

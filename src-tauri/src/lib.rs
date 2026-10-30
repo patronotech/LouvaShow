@@ -88,6 +88,7 @@ pub fn run() {
             commands::bible::get_bible_chapter,
             commands::open_community_group,
             commands::open_author_website,
+            commands::open_author_contact,
             commands::library::list_categories,
             commands::library::create_category,
             commands::library::rename_category,

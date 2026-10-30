@@ -3,3 +3,7 @@
 .chart-paste-columns.structured{grid-template-columns:1fr}.chart-paste-columns.structured .chart-paste-preview{border-left:0}.chart-editor .line-chord-part-name input{min-height:32px;padding:4px 8px;font-size:16px}
 
 .chart-import-notes{border-top:1px solid var(--border,#41374e);padding:12px;font-size:12px}.chart-import-notes summary{font-weight:600;cursor:pointer}.chart-import-notes p{white-space:pre-wrap;line-height:1.5}
+
+.line-chord-glyph.line-chord-edge{background:color-mix(in srgb,var(--accent,#a78bfa) 8%,transparent);box-shadow:inset 1px 0 color-mix(in srgb,var(--accent,#a78bfa) 17%,transparent);min-height:24px}.line-chord-glyph.line-chord-edge:hover,.line-chord-glyph.line-chord-edge.target-glyph{background:#b994f750}.line-chord-inspector label:nth-child(2){width:110px}
+
+.chart-import-identity{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border,#9aa6b5);font-size:12px}.chart-import-identity input{width:16px;height:16px;flex:none}.chart-import-identity strong{display:block;margin-top:3px;font-size:13px;font-weight:600}

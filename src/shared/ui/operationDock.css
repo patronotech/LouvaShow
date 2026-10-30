@@ -1,0 +1,18 @@
+.operator-shell .operation-dock{display:flex;flex-direction:column;flex:none;position:relative;min-height:48px;min-width:0;background:var(--chrome,var(--panel));border-top:1px solid var(--border-strong,var(--border));z-index:10;box-sizing:border-box}
+.operator-shell .operation-dock.collapsed{height:29px;min-height:29px}
+.operation-dock-strip{height:25px;min-height:25px;display:flex;align-items:center;gap:8px;padding-right:8px;background:var(--chrome,var(--panel));color:var(--muted)}
+.operation-dock-resizer{flex:1;align-self:stretch;cursor:ns-resize;touch-action:none;display:flex;align-items:center;justify-content:center;min-width:40px;border-radius:3px;user-select:none}
+.operation-dock-resizer>span{width:46px;height:3px;border-radius:3px;background:var(--border-strong,var(--muted))}
+.operation-dock-resizer:hover>span,.operation-dock-resizer:focus-visible>span,.operation-dock.resizing .operation-dock-resizer>span{background:var(--accent);width:64px}
+.operation-dock-resizer:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.operation-dock.resizing{user-select:none;cursor:ns-resize;border-top-color:var(--accent)}
+.operator-shell .operation-dock-toggle{border:0;background:transparent;color:var(--muted);min-height:23px;height:23px;padding:1px 6px;font-size:11px;display:flex;gap:6px;align-items:center;white-space:nowrap}
+.operator-shell .operation-dock-toggle:hover{color:var(--text);background:var(--raised)}
+.operation-dock.collapsed .operation-dock-strip{height:28px;min-height:28px;justify-content:center}
+.operation-dock-content{min-height:0;overflow:auto;overscroll-behavior:contain;flex:1}
+.operation-dock-content[hidden]{display:none}
+.operator-shell .operation-dock .operation-bar{position:static;border:0;box-shadow:none;min-height:0;flex:none;padding-top:3px;padding-bottom:9px}
+.operator-shell .operation-dock .operation-bar button,.operator-shell .operation-dock .operation-bar select{min-height:36px}
+.operation-dock-error{font-size:10px;color:var(--danger);white-space:nowrap}
+.operator-shell .operation-dock-error button{font-size:10px;padding:0 3px;min-height:22px;background:transparent;border:0;color:inherit;text-decoration:underline}
+@media(max-width:650px){.operation-dock-strip{gap:4px;padding-right:4px}.operation-dock-error{font-size:9px}.operation-dock-resizer{min-width:25px}.operation-dock-resizer>span{width:28px}}

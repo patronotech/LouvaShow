@@ -682,6 +682,198 @@ fn anchored_text_line(text: &str, chords: Vec<(usize, String)>) -> (ChartLine, b
     (output, !text.is_empty() && last_anchor > length)
 }
 
+fn cifra_club_footer_link(raw: &str) -> bool {
+    let value = raw.trim().to_ascii_lowercase();
+    let address = value
+        .strip_prefix("https://")
+        .or_else(|| value.strip_prefix("http://"))
+        .unwrap_or(&value);
+    let address = address.strip_prefix("www.").unwrap_or(address);
+    value == "cifra club"
+        || address == "cifraclub.com.br"
+        || address.starts_with("cifraclub.com.br/")
+}
+
+fn chord_diagram(raw: &str) -> bool {
+    let Some((symbol, fingering)) = raw.split_once('=') else {
+        return false;
+    };
+    let frets: Vec<_> = fingering.split_whitespace().collect();
+    parse_chord(symbol.trim()).is_some()
+        && (4..=12).contains(&frets.len())
+        && frets.iter().all(|fret| {
+            fret.eq_ignore_ascii_case("x")
+                || *fret == "-"
+                || fret.parse::<u8>().is_ok_and(|value| value <= 36)
+        })
+}
+
+fn set_text_metadata(target: &mut Option<String>, value: &str, label: &str) -> Result<(), String> {
+    if value.is_empty() || target.as_ref().is_some_and(|previous| previous != value) {
+        return Err(format!(
+            "Metadado {label} vazio ou conflitante no TXT. Revise o cabeçalho antes de importar."
+        ));
+    }
+    *target = Some(value.to_string());
+    Ok(())
+}
+
+/// Downloaded TXT has an artist/title header and a chord-diagram appendix. The
+/// appendix is a fingerprint: plain pasted lyrics containing " - " are never
+/// guessed to be metadata. Keep diagrams as notes, outside the sung sequence.
+fn text_envelope(
+    mut rows: Vec<String>,
+    document: &mut ChartDocument,
+    warnings: &mut Vec<String>,
+) -> Result<Vec<String>, String> {
+    let mut exported = false;
+    let mut diagrams = vec![];
+    if let Some(footer) = rows.iter().position(|raw| {
+        let value = raw.trim();
+        value.starts_with("---")
+            && value.ends_with("---")
+            && value
+                .trim_matches('-')
+                .trim()
+                .eq_ignore_ascii_case("acordes")
+    }) {
+        for raw in &rows[footer + 1..] {
+            if raw.trim().is_empty() || cifra_club_footer_link(raw) {
+                continue;
+            }
+            if !chord_diagram(raw) {
+                return Err("O rodapé de acordes do TXT contém uma linha não reconhecida. Revise ou remova o rodapé antes de importar; a cifra atual não foi alterada.".into());
+            }
+            diagrams.push(raw.trim().to_string());
+        }
+        if diagrams.is_empty() {
+            return Err(
+                "O rodapé de acordes do TXT está vazio. Revise o arquivo antes de importar.".into(),
+            );
+        }
+        rows.truncate(footer);
+        exported = true;
+        warnings.push("Diagramas do rodapé foram mantidos nas notas, fora da letra.".into());
+    }
+    while rows
+        .last()
+        .is_some_and(|raw| raw.trim().is_empty() || cifra_club_footer_link(raw))
+    {
+        exported |= rows.last().is_some_and(|raw| cifra_club_footer_link(raw));
+        rows.pop();
+    }
+    let mut title = None;
+    let mut artist = None;
+    let mut declared_key = None;
+    let mut real_key = None;
+    let mut shape_key = None;
+    let mut capo = None;
+    let mut notes = vec![];
+    let mut index = rows
+        .iter()
+        .position(|raw| !raw.trim().is_empty())
+        .unwrap_or(0);
+    if exported {
+        if let Some(raw) = rows.get(index) {
+            if let Some((author, name)) = raw.trim().split_once(" - ") {
+                if !author.contains(':') && text_heading(raw).is_none() && chord_row(raw).is_none()
+                {
+                    set_text_metadata(&mut artist, author.trim(), "artista")?;
+                    set_text_metadata(&mut title, name.trim(), "título")?;
+                    index += 1;
+                    warnings.push("Cabeçalho do TXT lido como Artista - Título. Confira os metadados na revisão.".into());
+                }
+            }
+        }
+    }
+    while let Some(raw) = rows.get(index) {
+        let trimmed = raw.trim();
+        if trimmed.is_empty() {
+            index += 1;
+            continue;
+        }
+        let Some((label, value)) = trimmed.split_once(':') else {
+            break;
+        };
+        let value = value.trim();
+        match label.trim().to_lowercase().as_str() {
+            "título" | "titulo" => set_text_metadata(&mut title, value, "título")?,
+            "artista" | "intérprete" | "interprete" => {
+                set_text_metadata(&mut artist, value, "artista")?
+            }
+            "tom" => set_text_metadata(&mut declared_key, value, "tom")?,
+            "tom real" => set_text_metadata(&mut real_key, value, "tom real")?,
+            "tom das formas" => set_text_metadata(&mut shape_key, value, "tom das formas")?,
+            "capotraste" | "capo" => {
+                let normalized = value.to_lowercase();
+                let words: Vec<_> = normalized.split_whitespace().collect();
+                let number = match words.as_slice() {
+                    ["sem"] | ["sem", "capo" | "capotraste"] => Some(0),
+                    [number] | [number, "casa" | "casas"] => {
+                        number.trim_end_matches(['ª', 'º']).parse::<u8>().ok()
+                    }
+                    _ => None,
+                }
+                .filter(|number| *number <= 5)
+                .ok_or("Capotraste inválido no TXT. Informe uma casa entre 0 e 5.")?;
+                if capo.is_some_and(|previous| previous != number) {
+                    return Err("Capotraste conflitante no TXT. Revise o cabeçalho.".into());
+                }
+                capo = Some(number);
+            }
+            "afinação" | "afinacao" | "composição" | "composicao" => {
+                notes.push(trimmed.to_string())
+            }
+            _ => break,
+        }
+        index += 1;
+    }
+    document.title = title.unwrap_or_else(|| document.title.clone());
+    document.artist = artist;
+    document.capo = capo.unwrap_or(0);
+    for key in [&declared_key, &real_key, &shape_key].into_iter().flatten() {
+        if !key_valid(key) {
+            return Err("Tom inválido no cabeçalho do TXT. Informe uma nota como D, Bb ou F#m; nenhum tom foi inferido.".into());
+        }
+        if key.contains(['b', '♭']) {
+            document.spelling = ChartSpelling::Flats;
+        }
+    }
+    let from_shapes = shape_key
+        .as_ref()
+        .and_then(|key| shift_key(key, document.capo as i8, document.spelling));
+    if real_key.is_some() && from_shapes.is_some() && real_key != from_shapes {
+        return Err("Tom real e tom das formas são conflitantes com o capotraste do TXT. Revise o cabeçalho.".into());
+    }
+    document.concert_key = real_key.or(from_shapes);
+    if let Some(key) = declared_key {
+        if document.capo == 0 {
+            if document
+                .concert_key
+                .as_ref()
+                .is_some_and(|real| real != &key)
+            {
+                return Err("Os campos de tom do TXT são conflitantes. Revise o cabeçalho.".into());
+            }
+            document.concert_key = Some(key);
+        } else {
+            notes.push(format!(
+                "Tom informado no TXT: {key}; capotraste: {}.",
+                document.capo
+            ));
+            warnings.push("O TXT informa Tom e capotraste sem distinguir tom real de formas. O valor original está nas notas; confirme o tom real antes de salvar.".into());
+        }
+    }
+    if !diagrams.is_empty() {
+        notes.push(format!(
+            "Diagramas de acordes do TXT:\n{}",
+            diagrams.join("\n")
+        ));
+    }
+    document.notes = notes.join("\n\n");
+    Ok(rows.into_iter().skip(index).collect())
+}
+
 pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     if text.len() > 500_000 {
         return Err("Arquivo de cifra excede 500 KB.".into());
@@ -689,14 +881,16 @@ pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     let mut document = blank_document();
     let mut section = empty_section("Parte 1");
     let mut warnings = vec![];
-    let rows = normalize_pasted_rows(text);
+    let rows = text_envelope(normalize_pasted_rows(text), &mut document, &mut warnings)?;
     let mut padded_lyrics = false;
+    let mut explicit_section = false;
     let mut index = 0;
     while index < rows.len() {
         let raw = &rows[index];
         if raw.trim().is_empty() {
-            // Blank space immediately after a heading must not discard its name.
-            if !section.lines.is_empty() {
+            // Within a named part, blank rows are visual spacing, not new parts.
+            // Plain pasted paragraphs still form separate implicit sections.
+            if !explicit_section && !section.lines.is_empty() {
                 push_section(&mut document, section);
                 section = empty_section(&format!("Parte {}", document.sections.len() + 1));
             }
@@ -706,6 +900,7 @@ pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
         if let Some((label, tail)) = text_heading(raw) {
             push_section(&mut document, section);
             section = empty_section(label);
+            explicit_section = true;
             if !tail.is_empty() {
                 if let Some(chords) = chord_row(tail) {
                     section.lines.push(anchored_text_line("", chords).0);
@@ -739,7 +934,14 @@ pub fn import_text(text: &str) -> Result<ChartImportResult, String> {
     if padded_lyrics {
         warnings.push("Acordes após o fim da letra mantiveram suas colunas com espaços finais. Revise o alinhamento.".into());
     }
-    warnings.push("Confira o alinhamento importado. O tom real precisa ser confirmado.".into());
+    warnings.push(
+        if document.concert_key.is_some() {
+            "Confira o alinhamento e o tom informado no TXT antes de salvar."
+        } else {
+            "Confira o alinhamento importado. O tom real precisa ser confirmado."
+        }
+        .into(),
+    );
     Ok(ChartImportResult {
         document,
         warnings,
@@ -1041,6 +1243,170 @@ mod tests {
         );
         assert!(transposed.warnings.is_empty());
     }
+    #[test]
+    fn named_txt_parts_keep_internal_paragraphs_and_implicit_prefix_still_splits() {
+        let text = "C\nPrimeiro parágrafo de exemplo\n\nG\nSegundo parágrafo de exemplo\n\n[Primeira Parte]\n\nD\nLinha criada para teste\n\nBm7\nOutra linha criada para teste\n\n[Refrão]\nA\nUma frase original\n\nG\nMais uma frase original\n\n[Segunda Parte]\nD/F#\nTexto final de teste\n\n[Refrão]\nA\nRepetição de exemplo";
+        let document = import_text(text).unwrap().document;
+        assert_eq!(document.sections.len(), 6);
+        assert_eq!(
+            document
+                .sections
+                .iter()
+                .map(|section| section.label.as_str())
+                .collect::<Vec<_>>(),
+            vec![
+                "Parte 1",
+                "Parte 2",
+                "Primeira Parte",
+                "Refrão",
+                "Segunda Parte",
+                "Refrão"
+            ]
+        );
+        assert_eq!(
+            document
+                .sections
+                .iter()
+                .map(|section| section.lines.len())
+                .collect::<Vec<_>>(),
+            vec![1, 1, 2, 2, 1, 1]
+        );
+        let again = import_chordpro(&export_chordpro(&document).unwrap())
+            .unwrap()
+            .document;
+        assert_eq!(document.sections.len(), again.sections.len());
+        for (before, after) in document.sections.iter().zip(&again.sections) {
+            assert_eq!(before.label, after.label);
+            assert_eq!(before.lines.len(), after.lines.len());
+            for (a, b) in before.lines.iter().zip(&after.lines) {
+                assert_eq!(a.text, b.text);
+                assert_eq!(
+                    a.chords
+                        .iter()
+                        .map(|c| (&c.symbol, c.offset))
+                        .collect::<Vec<_>>(),
+                    b.chords
+                        .iter()
+                        .map(|c| (&c.symbol, c.offset))
+                        .collect::<Vec<_>>()
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn downloaded_txt_keeps_metadata_columns_and_diagrams_outside_lyrics() {
+        let text = "Grupo Exemplo - Canção de Teste - 39\r\n\r\n[Primeira Parte]\r\n\r\n D                 Bm7\r\nAção de teste nesta linha\r\n         A\r\nOutra frase original\r\n\r\n[Refrão]\r\nD/F#       G\r\nUma nova linha de exemplo\r\n\r\n----------------- Acordes -----------------\r\nA = X 0 2 2 2 0\r\nBm7 = X 2 4 2 3 2\r\nD = X X 0 2 3 2\r\nD/F# = 2 X 0 2 3 2\r\nG = 3 2 0 0 0 3\r\nhttps://www.cifraclub.com.br/grupo-exemplo/cancao-de-teste/";
+        let imported = import_text(text).unwrap();
+        let document = &imported.document;
+        assert_eq!(document.title, "Canção de Teste - 39");
+        assert_eq!(document.artist.as_deref(), Some("Grupo Exemplo"));
+        assert_eq!(document.concert_key, None);
+        assert_eq!(document.capo, 0);
+        assert_eq!(document.sections.len(), 2);
+        assert_eq!(document.sections[0].label, "Primeira Parte");
+        assert_eq!(document.sections[1].label, "Refrão");
+        assert_eq!(
+            document.sections[0].lines[0].text,
+            "Ação de teste nesta linha"
+        );
+        assert_eq!(document.sections[0].lines[0].chords[0].offset, 1);
+        assert_eq!(document.sections[0].lines[0].chords[1].offset, 19);
+        assert_eq!(document.sections[0].lines[1].chords[0].offset, 9);
+        assert!(document.sections.iter().flat_map(|s| &s.lines).all(|line| {
+            !line.text.contains(" = ")
+                && !line.text.contains("cifraclub")
+                && !line.text.contains("Grupo Exemplo")
+        }));
+        assert!(document.notes.contains("D/F# = 2 X 0 2 3 2"));
+        assert!(imported
+            .warnings
+            .iter()
+            .any(|message| message.contains("rodapé")));
+        let exported = export_chordpro(document).unwrap();
+        let again = import_chordpro(&exported).unwrap().document;
+        assert_eq!(again.title, document.title);
+        assert_eq!(again.artist, document.artist);
+        for (before, after) in document.sections.iter().zip(&again.sections) {
+            assert_eq!(before.label, after.label);
+            for (original, roundtrip) in before.lines.iter().zip(&after.lines) {
+                assert_eq!(original.text, roundtrip.text);
+                assert_eq!(
+                    original
+                        .chords
+                        .iter()
+                        .map(|chord| (&chord.symbol, chord.offset))
+                        .collect::<Vec<_>>(),
+                    roundtrip
+                        .chords
+                        .iter()
+                        .map(|chord| (&chord.symbol, chord.offset))
+                        .collect::<Vec<_>>()
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn plain_pasted_hyphenated_lyrics_are_not_guessed_as_title() {
+        let document = import_text("Vida - exemplo de frase\n[Refrão]\nC   G\nLinha criada aqui")
+            .unwrap()
+            .document;
+        assert_eq!(document.title, "Cifra importada");
+        assert_eq!(document.artist, None);
+        assert_eq!(
+            document.sections[0].lines[0].text,
+            "Vida - exemplo de frase"
+        );
+        assert_eq!(document.sections[1].label, "Refrão");
+    }
+
+    #[test]
+    fn txt_explicit_metadata_keeps_real_key_and_capo_semantics() {
+        let document = import_text("Título: Exemplo local\nArtista: Autor de teste\nTom: Bb\nCapotraste: 0\n\n[Verso]\nBb       F/A\nAcentuação preservada").unwrap().document;
+        assert_eq!(document.concert_key.as_deref(), Some("Bb"));
+        assert_eq!(document.spelling, ChartSpelling::Flats);
+        assert_eq!(document.sections[0].lines[0].chords[0].symbol, "Bb");
+        let explicit =
+            import_text("Tom das formas: C\nCapotraste: 2ª casa\n[Verso]\nC G\nLinha sintética")
+                .unwrap()
+                .document;
+        assert_eq!(explicit.concert_key.as_deref(), Some("D"));
+        assert_eq!(explicit.capo, 2);
+        assert_eq!(explicit.sections[0].lines[0].chords[0].symbol, "C");
+        let ambiguous =
+            import_text("Tom: D\nCapotraste: 2\n[Verso]\nC G\nLinha sintética").unwrap();
+        assert_eq!(ambiguous.document.concert_key, None);
+        assert_eq!(ambiguous.document.capo, 2);
+        assert!(ambiguous.document.notes.contains("Tom informado no TXT: D"));
+        assert!(ambiguous
+            .warnings
+            .iter()
+            .any(|message| message.contains("sem distinguir")));
+        let explicit_real = import_text("Tom real: D\nCapo: 2\nC G\nLinha sintética")
+            .unwrap()
+            .document;
+        assert_eq!(explicit_real.concert_key.as_deref(), Some("D"));
+    }
+
+    #[test]
+    fn txt_metadata_conflicts_and_malformed_footer_fail_without_dropping_text() {
+        for text in [
+            "Tom: H\nC\nExemplo",
+            "Tom: C\nTom: D\nC\nExemplo",
+            "Capotraste: 6\nC\nExemplo",
+            "Capo: 1\nCapo: 2\nC\nExemplo",
+            "Tom real: F\nTom das formas: C\nCapo: 2\nC\nExemplo",
+            "C\nExemplo\n--- Acordes ---\nD = X X 0 2 3 2\nTexto desconhecido após o rodapé",
+        ] {
+            assert!(import_text(text).is_err());
+        }
+        let input = "Título: Canção - Exemplo\nArtista: Teste\nC\nLinha sintética\n--- Acordes ---\nC = X 3 2 0 1 0";
+        let document = import_text(input).unwrap().document;
+        assert_eq!(document.title, "Canção - Exemplo");
+        assert_eq!(document.artist.as_deref(), Some("Teste"));
+    }
+
     #[test]
     fn duplicate_identity_and_invalid_anchor_rejected() {
         let mut document = doc();

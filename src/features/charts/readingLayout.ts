@@ -1,4 +1,22 @@
 export interface ReadingChordRect { left: number; top: number; width: number }
+
+/** Pixel geometry keeps chord size independent from lyrics and reserves space on wraps. */
+export function readingLineMetrics(fontSize: number, chordFontSize: number, gap: number, rows: number) {
+  const chordHeight = chordFontSize * 1.25;
+  const rowStep = chordHeight + 2;
+  const count = Math.max(0, Math.ceil(rows));
+  const stack = count ? chordHeight + (count - 1) * rowStep + gap : 0;
+  return {
+    chordHeight,
+    rowStep,
+    stack,
+    // Half of the extra leading sits above each lyric line; the first line also
+    // needs half a stack of padding so its highest chord remains inside the box.
+    lineHeight: fontSize * 1.5 + stack,
+    paddingTop: stack / 2,
+    chordTop: (row: number) => -(chordHeight + gap + row * rowStep),
+  };
+}
 /** Avoid collisions without inserting spaces or moving the words underneath. */
 export function readingChordRows(rectangles: readonly ReadingChordRect[]): number[] {
   const result = rectangles.map(() => 0);

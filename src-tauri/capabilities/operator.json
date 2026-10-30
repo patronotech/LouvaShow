@@ -9,6 +9,7 @@
     "allow-get-bible-chapter",
     "allow-open-community-group",
     "allow-open-author-website",
+    "allow-open-author-contact",
     "core:event:allow-listen",
     "core:event:allow-unlisten",
     "allow-get-snapshot",

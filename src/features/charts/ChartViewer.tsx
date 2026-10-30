@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { ChartApi } from './api';
 import type { Chart, ChartDocument, ChartSummary } from './contracts';
 import { ChordSheet } from './ChordSheet';
@@ -8,17 +8,55 @@ import { chartNotesKey, queueDestination, queueTarget, type ChartQueueItem } fro
 import { sectionNavigation, sectionAtScroll } from './sectionNavigation';
 import './charts.css';
 import './chartReader.css';
+import './viewerControls.css';
+import { activeReadingPreset, applyReadingPreset, parseReadingPreferences, persistReadingPreferences, readingPresets, readingSettingsKey, type ViewSettings } from './readingPreferences';
+import { StickyChartNote } from './StickyChartNote';
 
-interface ViewSettings { fontSize: number; fontFamily: string; textColor: string; chordColor: string; backgroundColor: string }
-const defaults: ViewSettings = { fontSize: 22, fontFamily: 'system-ui', textColor: '#eeeaf6', chordColor: '#c3a3ff', backgroundColor: '#17141f' };
-function readSettings(key: string): ViewSettings { try { const { notes: _oldPaneNotes, ...settings } = JSON.parse(localStorage.getItem(key) || '{}') as ViewSettings & {notes?: string}; return { ...defaults, ...settings }; } catch { return defaults; } }
-function readNotes(key: string): string { try { return localStorage.getItem(key) || ''; } catch { return ''; } }
-function useChartNotes(chartId: string | undefined, ownerId: string): [string, (text: string) => void] {
+function readPreferences(key: string) { try { return parseReadingPreferences(localStorage.getItem(key),localStorage.getItem(`${key}:custom`)); } catch { return parseReadingPreferences(null); } }
+function ViewerIcon({ name }: { name: 'settings' | 'close' | 'panels' | 'stage' | 'notes' | 'controls' | 'left' | 'right' }) {
+ const paths = {settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M9 3l1-2h4l1 2 2 1 2-.2 2 3-1 2v3l1 2-2 3-2-.2-2 1-1 2h-4l-1-2-2-1-2 .2-2-3 1-2V9L3 7l2-3L7 4Z',close:'M6 6l12 12M18 6 6 18',panels:'M3 4h18v16H3ZM12 4v16',stage:'M3 3h18v14H3ZM8 21h8M12 17v4',notes:'M4 3h16v12l-6 6H4ZM14 21v-6h6',controls:'M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6',left:'M15 5l-7 7 7 7',right:'M9 5l7 7-7 7'};
+ return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]}/></svg>;
+}
+function ReadingCustomization({ draft, onChange, onCancel, onSave, error }: { draft: ViewSettings; onChange: (settings: ViewSettings) => void; onCancel: () => void; onSave: () => void; error: string }) {
+ const dialog = useRef<HTMLDialogElement>(null);
+ useEffect(() => { const popup = dialog.current; const previous = globalThis.document.activeElement as HTMLElement | null; popup?.showModal(); return () => { popup?.close(); if(previous?.isConnected) previous.focus(); }; }, []);
+ const change = <K extends keyof ViewSettings,>(key: K, value: ViewSettings[K]) => onChange({...draft,[key]:value});
+ return <dialog ref={dialog} className="reading-customization" aria-labelledby="reading-custom-title" onCancel={event => { event.preventDefault(); onCancel(); }} onKeyDown={event => { event.stopPropagation(); if(event.key==='Escape'){ event.preventDefault(); onCancel(); } }}>
+  <header><h3 id="reading-custom-title">Personalizar leitura</h3><button type="button" className="reader-icon-button" title="Cancelar personalização" aria-label="Cancelar personalização" onClick={onCancel}><ViewerIcon name="close"/></button></header>
+  <label className="reading-family">Fonte<select value={draft.fontFamily} onChange={event=>change('fontFamily',event.target.value)}><option value="system-ui">Sistema</option><option value="Georgia, serif">Serifada</option><option value="monospace">Monoespaçada</option></select></label>
+  <div className="reading-type-grid">{(['lyric','chord'] as const).map(kind=>{ const size=kind==='lyric'?'fontSize':'chordFontSize'; const weight=kind==='lyric'?'fontWeight':'chordFontWeight'; const color=kind==='lyric'?'textColor':'chordColor'; return <fieldset key={kind}><legend>{kind==='lyric'?'Letra':'Acordes'}</legend><label>Tamanho <output>{Math.round(draft[size]*10)/10} px</output><input aria-label={kind==='lyric'?'Tamanho da letra':'Tamanho dos acordes'} type="range" min={kind==='lyric'?14:10} max="48" step="1" value={draft[size]} onChange={event=>change(size,Number(event.target.value))}/></label><label>Peso<select value={draft[weight]} onChange={event=>change(weight,Number(event.target.value))}>{[400,500,600,700,800].map((value,index)=><option key={value} value={value}>{['Normal','Médio','Seminegrito','Negrito','Extranegrito'][index]}</option>)}</select></label><label className="reading-color">Cor<input type="color" value={draft[color]} onChange={event=>change(color,event.target.value)}/></label></fieldset>; })}</div>
+  <label className="reading-gap">Distância acorde–letra <output>{draft.chordGap} px</output><input aria-label="Distância entre acordes e letra" type="range" min="0" max="32" step="1" value={draft.chordGap} onChange={event=>change('chordGap',Number(event.target.value))}/></label>
+  <label className="reading-color">Fundo<input type="color" value={draft.backgroundColor} onChange={event=>change('backgroundColor',event.target.value)}/></label>
+  {error && <p role="alert">{error}</p>}<footer><button onClick={onCancel}>Cancelar</button><button className="reading-save" onClick={onSave}>Salvar definição</button></footer>
+ </dialog>;
+}
+interface NoteDraft { text: string; dirty: boolean; error: string }
+const noteDrafts = new Map<string, NoteDraft>();
+function readNote(key: string): NoteDraft {
+ const pending=noteDrafts.get(key); if(pending?.dirty) return pending;
+ try { return {text:key ? localStorage.getItem(key)||'' : '',dirty:false,error:''}; }
+ catch { return pending || {text:'',dirty:true,error:'Não foi possível ler a nota deste dispositivo.'}; }
+}
+function useChartNotes(chartId: string | undefined, ownerId: string): [string, (text: string) => void, string] {
  const key = chartId ? chartNotesKey(chartId, ownerId) : '';
- const [note, setNote] = useState({ key, text: key ? readNotes(key) : '' });
- useEffect(() => { const refresh = () => setNote({ key, text: key ? readNotes(key) : '' }); refresh(); window.addEventListener('louvashow:chart-note', refresh); window.addEventListener('storage', refresh); return () => { window.removeEventListener('louvashow:chart-note', refresh); window.removeEventListener('storage', refresh); }; }, [key]);
- const update = (text: string) => { if (!key) return; setNote({ key, text }); try { localStorage.setItem(key, text); window.dispatchEvent(new Event('louvashow:chart-note')); } catch { /* Keep this edit in memory when browser storage is unavailable. */ } };
- return [note.key === key ? note.text : key ? readNotes(key) : '', update];
+ const [note,setNote]=useState(()=>({key,...readNote(key)}));
+ useEffect(()=>{
+   const refresh=()=>setNote({key,...readNote(key)}); refresh();
+   const changed=(event:Event)=>{if((event as CustomEvent<{key:string}>).detail?.key===key)refresh();};
+   const stored=(event:StorageEvent)=>{try{if(event.storageArea===localStorage && (event.key===key || event.key===null))refresh();}catch{/* A blocked storage provider must not discard the draft. */}};
+   window.addEventListener('louvashow:chart-note',changed);window.addEventListener('storage',stored);
+   return()=>{window.removeEventListener('louvashow:chart-note',changed);window.removeEventListener('storage',stored);};
+ },[key]);
+ const update=(text:string)=>{
+   if(!key)return;
+   const draft:NoteDraft={text,dirty:true,error:''}; noteDrafts.set(key,draft);
+   try { localStorage.setItem(key,text);draft.dirty=false; }
+   catch { draft.error='Nota não salva. O texto permanece nesta sessão; edite para tentar novamente.'; }
+   noteDrafts.set(key,draft);setNote({key,...draft});
+   window.dispatchEvent(new CustomEvent('louvashow:chart-note',{detail:{key}}));
+ };
+ const current=note.key===key?note:readNote(key);
+ return [current.text,update,current.error];
 }
 function ViewerPane({ api, charts, initial, pane, controls, songTitles, queue, ownerId }: { api: ChartApi; charts: ChartSummary[]; initial?: Chart; pane: number; controls: boolean; songTitles?: Record<string, string>; queue?: readonly ChartQueueItem[]; ownerId: string }) {
   const [chart, setChart] = useState<Chart | undefined>(initial);
@@ -45,19 +83,36 @@ function ViewerPane({ api, charts, initial, pane, controls, songTitles, queue, o
   const request = useRef(0); const scroll = useRef<HTMLDivElement>(null);
   useEffect(() => { scroll.current?.scrollTo({top: 0}); setActiveSection(0); }, [chart?.id, chart?.current.revision, queueIndex]);
   useEffect(() => () => { request.current += 1; }, []);
-  const [notes, setNotes] = useChartNotes(chart?.id, ownerId);
+  const [notes, setNotes, notesError] = useChartNotes(chart?.id, ownerId);
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
-  const storageKey = `louvashow:musician:profile:${encodeURIComponent(ownerId)}:pane:${pane}`;
-  const [settings, setSettings] = useState(() => readSettings(storageKey));
-  useEffect(() => { try { localStorage.setItem(storageKey, JSON.stringify(settings)); } catch { /* Viewer remains usable without browser storage. */ } }, [settings, storageKey]);
+  const storageKey = readingSettingsKey(ownerId, pane);
+  const [initialPreferences] = useState(() => readPreferences(storageKey));
+  const [settings, setSettings] = useState(initialPreferences.settings);
+  const [custom, setCustom] = useState<ViewSettings | null>(initialPreferences.custom);
+  const [draft, setDraft] = useState<ViewSettings | null>(null);
+  const [preferenceError, setPreferenceError] = useState('');
+  const [noteOpenRequest, setNoteOpenRequest] = useState(0);
+  const visibleSettings = draft || settings;
+  const saveSettings = (next: ViewSettings, asCustom = false) => {
+    try { persistReadingPreferences(localStorage, storageKey, next, asCustom ? next : custom); setPreferenceError(''); setSettings(next); if(asCustom) { setCustom(next); setDraft(null); } }
+    catch { setPreferenceError('Não foi possível salvar a preferência neste dispositivo.'); }
+  };
+  const colors = {background:visibleSettings.backgroundColor,color:visibleSettings.textColor,'--reader-text':visibleSettings.textColor,'--reader-chord':visibleSettings.chordColor,'--reader-bg':visibleSettings.backgroundColor} as CSSProperties;
   const select = async (id: string, revision?: number, index?: number) => { const token = ++request.current; setBusy(true); setError(''); try { const next = await api.get(id, revision); if (token !== request.current) return; setChart(next); setDocument(next.current.document); if (index !== undefined) setQueueIndex(index); } catch (reason) { if (token === request.current) setError(String(reason)); } finally { if (token === request.current) setBusy(false); } };
   const navigate = (index: number) => { const item = queueTarget(queue || [], index); if (item) void select(item.chartId, item.revision, index); };
   const transpose = async (semitones: number, capo: number) => { if (!document) return; const token = ++request.current; setBusy(true); setError(''); try { const result = await api.transpose(document, semitones, capo); if (token !== request.current) return; setDocument(result.document); if (result.warnings.length) setError(result.warnings.join(' ')); } catch (reason) { if (token === request.current) setError(String(reason)); } finally { if (token === request.current) setBusy(false); } };
-  return <section className="chart-viewer-pane" aria-label={`Painel ${pane}`} style={{ background: settings.backgroundColor, color: settings.textColor }}>
-    {controls && <div className="chart-viewer-controls">{queue?.length ? <label>Repertório<select value={queue[queueIndex]?.id || ''} disabled={busy} onChange={event => navigate(queue.findIndex(item => item.id === event.target.value))}>{queue.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {charts.find(value => value.id === item.chartId)?.name || 'Cifra arquivada'} · rev. {item.revision}</option>)}</select></label> : <label>Cifra<select value={chart?.id || ''} disabled={busy} onChange={event => void select(event.target.value)}><option value="" disabled>Selecionar cifra</option>{charts.map(value => <option key={value.id} value={value.id}>{songTitles?.[value.songId] ? `${songTitles[value.songId]} · ` : ''}{value.name}</option>)}</select></label>}<label>Fonte<select value={settings.fontFamily} onChange={event => setSettings({ ...settings, fontFamily: event.target.value })}><option value="system-ui">Sistema</option><option value="Georgia, serif">Serifada</option><option value="monospace">Monoespaçada</option></select></label><label>Tamanho<input type="range" min="14" max="42" value={settings.fontSize} onChange={event => setSettings({ ...settings, fontSize: Number(event.target.value) })}/></label><label>Letra<input type="color" value={settings.textColor} onChange={event => setSettings({ ...settings, textColor: event.target.value })}/></label><label>Acorde<input type="color" value={settings.chordColor} onChange={event => setSettings({ ...settings, chordColor: event.target.value })}/></label><label>Fundo<input type="color" value={settings.backgroundColor} onChange={event => setSettings({ ...settings, backgroundColor: event.target.value })}/></label>{document && <><button disabled={busy} title="Baixar meio tom" onClick={() => void transpose(-1, document.capo)}>−½</button><button disabled={busy} title="Subir meio tom" onClick={() => void transpose(1, document.capo)}>+½</button><label>Capo<select disabled={busy} value={document.capo} onChange={event => void transpose(0, Number(event.target.value))}>{[0, 1, 2, 3, 4, 5].map(value => <option key={value}>{value}</option>)}</select></label></>}</div>}
+  return <section className="chart-viewer-pane" aria-label={`Painel ${pane}`} style={colors}>
+    {controls && <div className="chart-viewer-controls reader-controls">
+      <div className="reader-selection">{queue?.length ? <select aria-label="Música do repertório" value={queue[queueIndex]?.id || ''} disabled={busy} onChange={event => navigate(queue.findIndex(item => item.id === event.target.value))}>{queue.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {charts.find(value => value.id === item.chartId)?.name || 'Cifra arquivada'} · rev. {item.revision}</option>)}</select> : <select aria-label="Cifra" value={chart?.id || ''} disabled={busy} onChange={event => void select(event.target.value)}><option value="" disabled>Selecionar cifra</option>{charts.map(value => <option key={value.id} value={value.id}>{songTitles?.[value.songId] ? `${songTitles[value.songId]} · ` : ''}{value.name}</option>)}</select>}</div>
+      {document && <div className="reader-control-group" aria-label="Tom e capotraste"><button disabled={busy} aria-label="Baixar meio tom" title="Baixar meio tom" onClick={() => void transpose(-1,document.capo)}>−</button><span className="reader-key" title="Tom real">{document.concertKey || 'Tom'}</span><button disabled={busy} aria-label="Subir meio tom" title="Subir meio tom" onClick={() => void transpose(1,document.capo)}>+</button><label className="reader-capo">Capo<select aria-label="Capotraste" disabled={busy} value={document.capo} onChange={event => void transpose(0,Number(event.target.value))}>{[0,1,2,3,4,5].map(value=><option key={value}>{value}</option>)}</select></label></div>}
+      <div className="reader-palette" role="group" aria-label="Cores de leitura">{readingPresets.map(preset=><button key={preset.id} aria-pressed={activeReadingPreset(settings)===preset.id} title={preset.id==='contrast'?'Alto contraste':preset.name} onClick={()=>saveSettings(applyReadingPreset(settings,preset))}><i aria-hidden="true" style={{background:preset.backgroundColor,color:preset.chordColor}}>A</i><span>{preset.name}</span></button>)}{custom && <button aria-pressed={JSON.stringify(settings)===JSON.stringify(custom)} title="Restaurar definição personalizada" onClick={()=>saveSettings(custom)}>Minha</button>}</div>
+      <div className="reader-control-group reader-tools"><button className="reader-icon-button" title="Personalizar leitura" aria-label="Personalizar leitura" onClick={()=>{setPreferenceError('');setDraft({...settings});}}><ViewerIcon name="settings"/></button><button className="reader-icon-button" title="Notas desta cifra" aria-label="Notas desta cifra" disabled={!chart} onClick={()=>setNoteOpenRequest(value=>value+1)}><ViewerIcon name="notes"/></button></div>
+    </div>}
+    {preferenceError && !draft && <p role="alert" className="chart-notice">{preferenceError}</p>}
+    {draft && <ReadingCustomization draft={draft} onChange={setDraft} onCancel={()=>{setDraft(null);setPreferenceError('');}} onSave={()=>saveSettings(draft,true)} error={preferenceError}/>}
     {error && <p role="alert" className="chart-notice">{error}</p>}
-    {document ? <><header className="chart-viewer-heading"><h2>{document.title}</h2><span>{chart?.name} · rev. {chart?.current.revision} · Tom real {document.concertKey || '—'} · Capo {document.capo}</span></header><nav className="chart-part-navigation" aria-label={`Partes da música · painel ${pane}`}>{navigation.map((item, index) => <button key={item.id} aria-current={index === activeSection ? 'location' : undefined} onClick={() => jumpPart(index)} title={`${index + 1}. ${item.label}`}>{item.label}</button>)}</nav><div ref={scroll} onScroll={trackPart} className="chart-viewer-scroll"><ChordSheet sectionIds={sectionIds} source={rendered?.source || ''} lines={rendered?.lines} {...settings}/>{document.notes && <p className="chart-viewer-notes">{document.notes}</p>}{notes && !controls && <p className="chart-viewer-notes">{notes}</p>}</div></> : <p className="chart-empty">Selecione uma cifra neste painel.</p>}
-    {controls && chart && <label className="chart-personal-notes">Notas desta cifra · neste dispositivo<textarea value={notes} onChange={event => setNotes(event.target.value)}/></label>}
+    {document ? <><header className="chart-viewer-heading"><h2>{document.title}</h2><span>{chart?.name} · rev. {chart?.current.revision} · Tom real {document.concertKey || '—'} · Capo {document.capo}</span></header><nav className="chart-part-navigation" aria-label={`Partes da música · painel ${pane}`}>{navigation.map((item, index) => <button key={item.id} aria-current={index === activeSection ? 'location' : undefined} onClick={() => jumpPart(index)} title={`${index + 1}. ${item.label}`}>{item.label}</button>)}</nav><div ref={scroll} onScroll={trackPart} className="chart-viewer-scroll"><ChordSheet sectionIds={sectionIds} source={rendered?.source || ''} lines={rendered?.lines} {...visibleSettings}/>{document.notes && <p className="chart-viewer-notes">{document.notes}</p>}</div></> : <p className="chart-empty">Selecione uma cifra neste painel.</p>}
+    {chart && <StickyChartNote key={chart.id} chartId={chart.id} ownerId={ownerId} text={notes} onChange={setNotes} openRequest={noteOpenRequest} persistenceError={notesError}/>}
     {queue?.length ? <nav className="chart-queue-nav" aria-label="Navegação do repertório"><button disabled={busy || queueDestination(queue, queueIndex, -1) === null} onClick={() => navigate(queueIndex - 1)}>← Anterior</button><span aria-live="polite">{queueIndex + 1} / {queue.length}</span><button disabled={busy || queueDestination(queue, queueIndex, 1) === null} onClick={() => navigate(queueIndex + 1)}>Próximo →</button></nav> : null}
   </section>;
 }
@@ -88,5 +143,5 @@ export function ChartViewer({ api, charts, initial, onClose, songTitles, queue, 
     const first = elements[0]; const last = elements.at(-1);
     if (event.shiftKey && globalThis.document.activeElement === first) { event.preventDefault(); last?.focus(); }
     else if (!event.shiftKey && globalThis.document.activeElement === last) { event.preventDefault(); first?.focus(); }
-  }}><nav className={`chart-viewer-toolbar ${controls ? '' : 'minimal'}`} aria-label="Visualização da cifra"><button onClick={() => setControls(!controls)}>{controls ? 'Modo palco' : 'Controles'}</button>{controls && <><button aria-pressed={panes === 2} onClick={() => setPanes(panes === 1 ? 2 : 1)}>{panes === 1 ? 'Dois painéis' : 'Um painel'}</button><span className="chart-toolbar-spacer"/><button onClick={onClose}>Fechar</button></>}</nav><div className={`chart-viewer-panes panes-${panes}`}><ViewerPane api={api} charts={charts} initial={initial} pane={1} ownerId={ownerId} controls={controls} songTitles={songTitles} queue={queue}/>{panes === 2 && <ViewerPane api={api} charts={charts} pane={2} ownerId={ownerId} controls={controls} songTitles={songTitles}/>}</div></div>, globalThis.document.body);
+  }}><nav className={`chart-viewer-toolbar ${controls ? '' : 'minimal'}`} aria-label="Visualização da cifra"><button onClick={() => setControls(!controls)} title={controls ? 'Modo palco' : 'Mostrar controles'}><ViewerIcon name={controls ? 'stage' : 'controls'}/>{controls ? 'Palco' : 'Controles'}</button>{controls && <><button aria-pressed={panes === 2} onClick={() => setPanes(panes === 1 ? 2 : 1)}><ViewerIcon name="panels"/>{panes === 1 ? 'Dois painéis' : 'Um painel'}</button><span className="chart-toolbar-spacer"/><button className="reader-icon-button" onClick={onClose} title="Fechar leitura" aria-label="Fechar leitura"><ViewerIcon name="close"/></button></>}</nav><div className={`chart-viewer-panes panes-${panes}`}><ViewerPane key={`${ownerId}:1`} api={api} charts={charts} initial={initial} pane={1} ownerId={ownerId} controls={controls} songTitles={songTitles} queue={queue}/>{panes === 2 && <ViewerPane key={`${ownerId}:2`} api={api} charts={charts} pane={2} ownerId={ownerId} controls={controls} songTitles={songTitles}/>}</div></div>, globalThis.document.body);
 }

@@ -38,6 +38,24 @@ pub async fn open_community_group(
 }
 
 #[tauri::command]
+pub async fn open_author_contact(
+    window: tauri::WebviewWindow,
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    operator(&window)?;
+    tauri::async_runtime::spawn_blocking(move || {
+        app.opener()
+            .open_url("https://wa.me/5519998021956", None::<&str>)
+            .map_err(|_| {
+                "Não foi possível abrir o WhatsApp. Tente novamente ou acesse o site do autor."
+                    .to_string()
+            })
+    })
+    .await
+    .map_err(|_| "Não foi possível abrir o contato do autor.".to_string())?
+}
+
+#[tauri::command]
 pub async fn open_author_website(
     window: tauri::WebviewWindow,
     app: tauri::AppHandle,

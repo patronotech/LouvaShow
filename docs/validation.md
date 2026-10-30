@@ -2,6 +2,18 @@
 
 Este arquivo define os ensaios necessários. Uma caixa vazia significa que não há resultado registrado aqui; não significa aprovação. Registre sistema, versão, hardware, comando e resultado ao executar. Testes automatizados e build não substituem a observação da saída real.
 
+## Versão 0.7.0 — 30/10/2026
+
+No macOS Apple Silicon, a suíte frontend passou com 141 testes e o TypeScript estrito/Vite compilou. A suíte Rust pública passou com 92 testes; Clippy sem avisos e formatação passaram. Seis testes do finalizador de atualização passaram, incluindo assinatura temporária, adulteração, vínculo da versão, tar sanitizado e leitura PE. Nenhuma chave real aparece nas fixtures.
+
+Na instância desktop isolada, foram conferidos os três temas, colagem/revisão e cadastro de cifra, persistência após reiniciar, deslocamento de acorde entre linhas, criação de parte, navegação por partes e confirmação de descarte mantendo o rascunho. A prévia ao vivo permaneceu separada da edição. Os testes utilizaram janelas no mesmo monitor.
+
+Componentes reais foram conferidos também em uma página temporária isolada de QA, sem comandos nativos ou banco de usuário: créditos nos tamanhos 1360×860 e 760×600; tipografia independente (letra 14 px, acorde 48 px, peso 800 e distância 32 px), prévia/Cancelar, Salvar e reabrir; post-it, movimento por teclado, minimizar, ocultar e recuperar texto; altura/recolhimento da barra inferior e persistência; inserção de acorde antes/depois da frase preservando as âncoras existentes. A página temporária foi removida. Esses resultados de navegador não substituem ensaio nativo completo de todos os controles.
+
+O TXT real fornecido pelo mantenedor passou por uma prova Rust temporária somente de leitura, fora das fixtures públicas: quatro partes nomeadas, 28 linhas, 57 acordes e seis diagramas separados em notas. Letras, colunas, ordem e metadados sobreviveram à exportação/reimportação ChordPro. O arquivo original permaneceu intacto; o teste temporário foi removido e a restauração do fonte foi confirmada por hash.
+
+Não foram executadas chamadas pagas de OCR/IA nem uma atualização instalada de ponta a ponta. Windows 10/11, Mac Intel, Linux/Wayland e projetor físico não foram operados nesta sessão. A versão 0.7.0 introduz o atualizador; versões anteriores precisam de uma instalação manual inicial.
+
 ## Registro da primeira sessão — 29/10/2026
 
 No macOS, a revalidação final concluiu TypeScript estrito, Vite, oito testes TypeScript e oito testes Rust. `cargo clippy --all-targets --locked -- -D warnings` passou sem avisos. O build Tauri de depuração gerou um aplicativo de 28,08 MiB. Esse tamanho se refere ao artefato local observado, não ao consumo de memória. A inspeção do bundle encontrou somente `Contents/MacOS/louvashow` e `Contents/Info.plist`.

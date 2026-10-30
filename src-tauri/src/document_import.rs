@@ -836,6 +836,19 @@ mod tests {
         assert!(choose_provider(ProviderChoice::Openai, Format::Pdf, false, true).is_err());
     }
     #[test]
+    fn local_txt_download_uses_the_same_metadata_and_footer_parser_without_ai() {
+        let input = "\u{feff}Autor Sintético - Exemplo - 12\r\n\r\n[Primeira Parte]\r\n C       G/B\r\nAção e fé na linha de teste\r\n\r\n--- Acordes ---\r\nC = X 3 2 0 1 0\r\nG/B = X 2 0 0 3 3";
+        let prepared = prepare("exemplo.txt", input.as_bytes().to_vec()).unwrap();
+        let imported = charts::import_text(prepared.text.as_deref().unwrap()).unwrap();
+        assert_eq!(imported.document.title, "Exemplo - 12");
+        assert_eq!(imported.document.artist.as_deref(), Some("Autor Sintético"));
+        assert_eq!(imported.document.sections.len(), 1);
+        assert_eq!(imported.document.sections[0].lines.len(), 1);
+        assert_eq!(imported.document.sections[0].lines[0].chords[0].offset, 1);
+        assert_eq!(imported.document.sections[0].lines[0].chords[1].offset, 9);
+        assert!(imported.document.notes.contains("G/B = X 2 0 0 3 3"));
+    }
+    #[test]
     fn local_text_supports_unicode_encodings_and_rejects_binary_or_oversize() {
         let source = "Ação e fé\r\n  G\tD";
         let mut utf16 = vec![0xff, 0xfe];

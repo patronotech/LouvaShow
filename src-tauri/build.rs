@@ -69,6 +69,7 @@ fn main() {
             "get_bible_chapter",
             "open_community_group",
             "open_author_website",
+            "open_author_contact",
             "list_categories",
             "create_category",
             "rename_category",
