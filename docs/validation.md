@@ -48,10 +48,10 @@ Use letras de teste próprias. Registre se a saída era apenas uma janela, um mo
 
 | Ambiente | Build | Interface nativa | Monitor externo | Desconexão | Mídia real |
 | --- | --- | --- | --- | --- | --- |
-| macOS | Debug local aprovado | Parcial; ver registro acima | Pendente | Pendente | Não implementada |
-| Windows | Pendente | Pendente | Pendente | Pendente | Pendente |
-| Linux X11 | Pendente | Pendente | Pendente | Pendente | Pendente |
-| Linux Wayland | Pendente | Pendente | Pendente | Pendente | Pendente |
+| macOS | v0.5.1: debug local, DMG arm64 assinado/notarizado e checks CI aprovados | Parcial; ver registros por versão | Pendente | Pendente | Não implementada |
+| Windows | v0.5.1: checks/testes CI e instalador NSIS x64 aprovados; integridade conferida | Pendente | Pendente | Pendente | Pendente |
+| Linux X11 | v0.5.1: checks/testes em runner Ubuntu; sem ensaio X11 | Pendente | Pendente | Pendente | Pendente |
+| Linux Wayland | v0.5.1: checks/testes em runner Ubuntu; sem ensaio Wayland | Pendente | Pendente | Pendente | Pendente |
 
 Teste escolha de saída, coordenadas negativas, DPI diferente, entrada/saída de tela cheia e reconexão. Ao desconectar a saída, a sessão deve permanecer e o operador deve conseguir escolher outro destino sem perder os controles. Sem hardware disponível, mantenha esses itens pendentes.
 
@@ -191,3 +191,17 @@ Passaram 49 testes frontend e o build TypeScript/Vite. A revisão independente c
 No aplicativo nativo isolado em 1360 × 860, abrir a saída iniciou a prévia apagada. Selecionar Gênesis 1:1 no modo Preparar não apresentou conteúdo; o botão Projetar enviou o texto. Selecionar 1:2 manteve 1:1 na prévia ao vivo. Ativar Projetar ao clicar também preservou a sessão; clicar em 1:3 atualizou a prévia imediatamente. Capturas confirmaram quadrados uniformes, indicação verde sem texto adicional dentro do botão e versões no topo.
 
 Trocar BLIVRE por ONBV preservou Gênesis 1:3 e carregou o texto correspondente na consulta, mantendo BLIVRE na saída. Trocar para BLT informou livro indisponível, preservando o nome Gênesis e a sessão. Voltar a BLIVRE recuperou capítulo 1 e versículo 3. O diálogo de créditos foi conferido com logo final, retrato do autor e opções de apoio. O ensaio antecede apenas a correção final de altura do cabeçalho; essa correção recebeu verificação de build/CSS. Não houve teste em projetor físico nem operação nativa em Windows ou Linux.
+
+Na continuação do ensaio, alternar Escuro para Claro preservou Gênesis 1:3 e as cores do slide ao vivo. Reiniciar o aplicativo isolado recuperou a aparência clara. O bundle debug reconstruído com a altura final do cabeçalho foi observado em 760 × 600: navegação em duas linhas, painéis recolhíveis, grade acessível por rolagem central e barra de operação fixa. O modo da Bíblia voltou a Preparar, conforme o padrão de cada sessão.
+
+### Pacotes macOS v0.5.1
+
+O aplicativo e o DMG públicos, sem hinário privado, receberam **Accepted** na notarização da Apple. Assinaturas, tickets anexados, Gatekeeper e integridade foram verificados. A leitura do DMG montado confirmou por SHA-256 todos os arquivos de runtime: executável, Info.plist, ícone e avisos legais da Bíblia. Uma distribuição separada com o catálogo local também foi assinada, notarizada e conferida; ela não é enviada ao GitHub. A execução do instalador release e o ensaio de instalação permanecem distintos dos testes nativos feitos com o bundle debug isolado.
+
+### Integração contínua v0.5.1
+
+O [run de checks 40983714675](https://github.com/dantetesta/LouvaShow/actions/runs/40983714675) concluiu com sucesso em macOS, Windows e Ubuntu. Em cada sistema passaram 49 testes frontend e 37 testes Rust públicos, além do build TypeScript/Vite e da auditoria dos arquivos públicos. Os runners não executaram ensaio visual, instalação nem teste de monitores.
+
+O instalador NSIS x64 foi obtido do artifact `installer-windows-x64` do run 40983714897. A listagem e o teste de integridade com 7-Zip passaram: nove entradas, compostas pelo executável, avisos legais, desinstalador, componentes do NSIS e instalador offline do WebView2. Não foram encontrados bancos pessoais, certificados, documentação interna nem fontes de desenvolvimento na lista do pacote. O EXE não foi executado no macOS; instalação e operação nativa em Windows continuam pendentes.
+
+Os dois jobs de instaladores do [run 40983714897](https://github.com/dantetesta/LouvaShow/actions/runs/40983714897) concluíram com sucesso. O DMG produzido no CI é substituído na release pelo DMG público notarizado localmente; seu hash final é diferente do artifact não notarizado do CI. A versão local com hinário permanece fora da release.
