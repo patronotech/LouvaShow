@@ -1,0 +1,15 @@
+{
+  "identifier": "splash",
+  "windows": [
+    "splash"
+  ],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "core:window:allow-start-dragging",
+    "allow-get-startup-state",
+    "allow-retry-startup",
+    "allow-complete-startup",
+    "allow-close-startup"
+  ]
+}

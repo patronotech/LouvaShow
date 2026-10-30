@@ -2,7 +2,7 @@
 
 ## Monólito desktop modular
 
-React/TypeScript compõe as interfaces, enquanto Rust concentra as operações nativas e a persistência. O SQLite fica no diretório de dados do aplicativo. Não há serviço HTTP de produção, conta obrigatória, telemetria ou dependência de IA em runtime.
+React/TypeScript compõe as interfaces, enquanto Rust concentra as operações nativas e a persistência. O SQLite fica no diretório de dados do aplicativo. O núcleo não exige conta, telemetria ou IA. A versão 0.6.0 adiciona um servidor HTTP embutido e opcional para a equipe na LAN, desligado por padrão; ele não participa da sincronização entre operador e projeção. Groq e Gravatar são integrações externas opt-in.
 
 As funcionalidades se organizam em músicas, repertório, apresentação, temas, mídia e telas à medida que recebem implementação real. Não se criam camadas vazias ou interfaces que apenas repassem chamadas.
 

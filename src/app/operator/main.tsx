@@ -1,4 +1,4 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import Operator from './Operator';
-createRoot(document.getElementById('root')!).render(<StrictMode><Operator/></StrictMode>);
+import { OperatorStartup } from '../startup/OperatorStartup';
+createRoot(document.getElementById('root')!).render(<StrictMode><OperatorStartup /></StrictMode>);

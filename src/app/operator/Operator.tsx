@@ -1,3 +1,8 @@
+import { version } from '../../../package.json';
+import { ChartsWorkspace } from '../../features/charts/ChartsWorkspace';
+import { desktopChartApi } from '../../features/charts/desktopApi';
+import { TeamSettings } from '../../features/team/TeamSettings';
+import { AssistantSettings } from '../../features/team/AssistantSettings';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { listen } from '@tauri-apps/api/event';
 import { api } from '../../shared/contracts/api';
@@ -24,6 +29,7 @@ import { useAppearance } from './appearance';
 import logoDark from '../../shared/assets/logo-dark.png';
 import logoLight from '../../shared/assets/logo-light.png';
 import './appearance.css';
+import { operatorResourcesReady } from '../startup/state';
 
 function DeleteConfirm({ song, usage, busy, error, onConfirm, onCancel }: { song: Song; usage: number; busy: boolean; error: string; onConfirm: () => void; onCancel: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -31,7 +37,10 @@ function DeleteConfirm({ song, usage, busy, error, onConfirm, onCancel }: { song
   return <dialog ref={ref} className="confirm-dialog" aria-labelledby="delete-title" onCancel={event => { event.preventDefault(); if (!busy) onCancel(); }}><h2 id="delete-title">Excluir “{song.title}”?</h2><p>A música e seus blocos serão excluídos da biblioteca. {usage > 0 ? `Também serão removidas ${usage} ocorrências nos repertórios.` : 'Ela não está em nenhum repertório.'}</p><p>O trecho já projetado continuará na saída até você trocá-lo. Esta exclusão não pode ser desfeita.</p>{error && <p role="alert" className="error-message">{error}</p>}<div className="dialog-actions"><button autoFocus onClick={onCancel} disabled={busy}>Cancelar</button><button className="danger" onClick={onConfirm} disabled={busy}>{busy ? 'Excluindo…' : 'Excluir música'}</button></div></dialog>;
 }
 
-export function Operator() {
+export function Operator({ onStartupReady, onStartupError }: { onStartupReady?: () => void; onStartupError?: (message: string) => void }) {
+  const startupReported = useRef(false);
+  const [displaysLoaded, setDisplaysLoaded] = useState(false);
+  const [statusListenerReady, setStatusListenerReady] = useState(false);
   const { colorMode, setColorMode, appearanceError } = useAppearance();
   const { snapshot, error: syncError, accept, retry } = usePresentation();
   const [songs, setSongs] = useState<Song[]>([]);
@@ -79,7 +88,7 @@ export function Operator() {
     catch (reason) { setError(String(reason)); }
   }, [refreshLibrary]);
   const refreshDisplays = useCallback(async () => {
-    try { const [nextMonitors, nextStatus] = await Promise.all([api.listMonitors(), api.projectionStatus()]); setMonitors(nextMonitors); setStatus(nextStatus); }
+    try { const [nextMonitors, nextStatus] = await Promise.all([api.listMonitors(), api.projectionStatus()]); setMonitors(nextMonitors); setStatus(nextStatus); setDisplaysLoaded(true); }
     catch (reason) { setError(String(reason)); }
   }, []);
   useEffect(() => { void loadLibrary(); }, [loadLibrary]);
@@ -87,12 +96,20 @@ export function Operator() {
     let disposed = false;
     let stop: (() => void) | undefined;
     void (async () => {
-      try { stop = await listen<ProjectionStatus>('projection:status', event => { if (!disposed) setStatus(event.payload); }); if (disposed) { stop(); return; } await refreshDisplays(); }
+      try { stop = await listen<ProjectionStatus>('projection:status', event => { if (!disposed) setStatus(event.payload); }); if (disposed) { stop(); return; } setStatusListenerReady(true); await refreshDisplays(); }
       catch (reason) { if (!disposed) setError(String(reason)); }
     })();
     window.addEventListener('focus', refreshDisplays);
     return () => { disposed = true; stop?.(); window.removeEventListener('focus', refreshDisplays); };
   }, [refreshDisplays]);
+  useEffect(() => {
+    if (startupReported.current) return;
+    if (error || syncError) {
+      startupReported.current = true; onStartupError?.(error || syncError || 'Não foi possível carregar o operador.');
+    } else if (operatorResourcesReady(loaded, snapshot !== null, displaysLoaded, statusListenerReady)) {
+      startupReported.current = true; onStartupReady?.();
+    }
+  }, [loaded, snapshot, displaysLoaded, statusListenerReady, error, syncError, onStartupReady, onStartupError]);
   async function applyTheme(theme: Theme): Promise<void> {
     if (outputBusy) throw new Error('Aguarde a operação de saída em andamento.');
     setOutputBusy(true); setError('');
@@ -188,21 +205,24 @@ export function Operator() {
       return context === 'songs' ? <article key={block.id} className="block-card readonly-block">{content}</article> : <button key={block.id} className={`block-card ${live ? 'live' : ''} ${live && status.open && !snapshot.blanked ? 'on-air' : ''}`} disabled={!status.open || outputBusy} onClick={() => void act({ type: 'present', songId: selected.id, blockId: block.id })}>{content}</button>;
     })}</div></> : <div className="preparation-empty compact-empty"><p>Selecione uma música na biblioteca.</p><button disabled={libraryBusy || !loaded} onClick={() => setEditor({ song: null })}>＋ Nova música</button></div>}
   </section>;
-  const settingsContent = <section key="settings-content" className="settings-content panel" hidden={context !== 'settings'} data-no-shortcuts><div className="section-heading"><div><h2>{settingsSection === 'projection' ? 'Projeção' : settingsSection === 'appearance' ? 'Aparência' : settingsSection === 'shortcuts' ? 'Atalhos de teclado' : 'Sobre o LouvaShow'}</h2></div></div>
+  const settingsContent = <section key="settings-content" className="settings-content panel" hidden={context !== 'settings'} data-no-shortcuts><div className="section-heading"><div><h2>{settingsSection === 'projection' ? 'Projeção' : settingsSection === 'appearance' ? 'Aparência' : settingsSection === 'shortcuts' ? 'Atalhos de teclado' : settingsSection === 'team' ? 'Equipe' : settingsSection === 'assistant' ? 'Assistente IA' : 'Sobre o LouvaShow'}</h2></div></div>
     <div hidden={settingsSection !== 'projection'}><section className="settings-card"><h3>Tela de saída</h3><label>Monitor<select value={monitorId} disabled={outputBusy} onChange={event => setMonitorId(event.target.value)}><option value="">Prévia em janela · mover manualmente</option>{monitors.map(monitor => <option key={monitor.id} value={monitor.id}>{monitor.name} · {monitor.width} × {monitor.height}</option>)}</select></label><div className="context-actions"><button onClick={() => void refreshDisplays()}>↻ Atualizar telas</button><button className="primary" disabled={outputBusy} onClick={() => void outputOperation(() => api.openProjection(monitorId || null))}>{status.open ? 'Reabrir / mover saída' : 'Abrir projeção'}</button><button disabled={!status.open || outputBusy} onClick={() => void outputOperation(() => api.fullscreen(!status.fullscreen))}>{status.fullscreen ? 'Sair da tela cheia' : 'Tela cheia'}</button></div>{status.warning && <p className="warning" role="status">{status.warning}</p>}</section>{snapshot && <ThemeEditor key="presentation-theme" theme={snapshot.theme} snapshot={snapshot} busy={outputBusy} defaultOpen onApply={applyTheme} />}</div>
     <section className="settings-card" hidden={settingsSection !== 'appearance'}><div className="appearance-options" role="group" aria-label="Aparência da interface"><button className="appearance-choice" aria-pressed={colorMode === 'dark'} onClick={() => setColorMode('dark')}><span className="appearance-sample" aria-hidden="true" /><strong>Escuro</strong></button><button className="appearance-choice" aria-pressed={colorMode === 'light'} onClick={() => setColorMode('light')}><span className="appearance-sample light-sample" aria-hidden="true" /><strong>Claro</strong></button></div>{appearanceError && <p role="status" className="warning">{appearanceError}</p>}<div className="appearance-layout-controls"><h3>Painéis</h3><button onClick={() => { resetWorkspaceLayouts(); setLayoutNotice('Tamanhos e painéis restaurados em todas as áreas.'); }}>Restaurar organização dos painéis</button>{layoutNotice && <p role="status">{layoutNotice}</p>}</div></section>
     <section className="settings-card" hidden={settingsSection !== 'shortcuts'}><dl className="shortcut-list"><div><dt>← / →</dt><dd>Anterior / próximo na sessão projetada.</dd></div><div><dt>B</dt><dd>Apagar ou restaurar a saída.</dd></div><div><dt>Espaço + setas</dt><dd>Reordenar pela alça; Espaço confirma e Escape cancela.</dd></div></dl><p>Projeção: ativos em Operação ao vivo e Bíblia, fora de campos e diálogos.</p></section>
+    {context === 'settings' && settingsSection === 'team' && <TeamSettings />}
+    {context === 'settings' && settingsSection === 'assistant' && <AssistantSettings />}
     <section className="settings-card" hidden={settingsSection !== 'about'}><button onClick={() => setAboutOpen(true)}>Créditos e comunidade</button></section>
   </section>;
   const libraryPanel = <aside className="library-panel panel" aria-labelledby="library-title"><div className="section-heading"><h2 id="library-title">{context === 'setlists' ? 'Adicionar músicas' : context === 'songs' ? 'Biblioteca de músicas' : 'Biblioteca'}</h2><span className="count">{songs.length}</span></div>{context === 'songs' && <><button className="primary new-song" disabled={libraryBusy || !loaded} onClick={() => setEditor({ song: null })}>＋ Nova música</button><div className="library-management-actions"><button onClick={() => setManagerOpen(true)} disabled={!loaded || libraryBusy}>☷ Gerenciar biblioteca</button><button onClick={() => setImportOpen(true)} disabled={!loaded || libraryBusy}>↓ Importar músicas</button></div></>}<label className="library-category-filter">Classificação<select value={categoryFilter} onChange={event => setCategoryFilter(event.target.value)}><option value="">Todas as classificações</option>{categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label><label className="search-label"><span className="sr-only">Buscar música por título</span><input type="search" placeholder="Buscar música…" value={query} onChange={event => setQuery(event.target.value)} /></label><div className="song-list">{visibleSongs.slice(0, libraryLimit).map(song => <button key={song.id} className={`song-row ${selectedId === song.id ? 'selected' : ''}`} onClick={() => setSelectedId(song.id)} aria-pressed={selectedId === song.id}><span className="song-icon" aria-hidden="true">♫</span><span><strong>{song.title}</strong><small>{song.artist || `${song.blocks.length} blocos`}</small>{selectedId === song.id && <small className="selection-label">Em preparação</small>}</span></button>)}{visibleSongs.length > libraryLimit && <button onClick={() => setLibraryLimit(current => current + 80)}>Mostrar mais ({visibleSongs.length - libraryLimit} restantes)</button>}{!visibleSongs.length && <div className="empty"><p>{!loaded ? 'Carregando biblioteca…' : query || categoryFilter ? 'Nenhuma música encontrada.' : 'Biblioteca vazia.'}</p>{loaded && !songs.length && <button disabled={libraryBusy} onClick={() => void demo()}>Criar demonstração</button>}</div>}</div></aside>;
   return <div className={`operator-shell context-${context}`}>
-    <header className="app-header"><div className="brand"><h1 className="sr-only">LouvaShow</h1><img className="brand-logo" src={colorMode === 'light' ? logoLight : logoDark} alt="" aria-hidden="true" draggable={false} /></div><ContextNavigation value={context} onChange={setContext} /><div className="header-actions"><div className="header-meta"><span className="local-badge">◈ Offline</span><span className="version">PRÉVIA 0.5</span></div><button className="about-trigger" onClick={() => setAboutOpen(true)}>Créditos</button></div></header>
+    <header className="app-header"><div className="brand"><h1 className="sr-only">LouvaShow</h1><img className="brand-logo" src={colorMode === 'light' ? logoLight : logoDark} alt="" aria-hidden="true" draggable={false} /></div><ContextNavigation value={context} onChange={setContext} /><div className="header-actions"><div className="header-meta"><span className="local-badge">◈ Offline</span><span className="version">PRÉVIA {version}</span></div><button className="about-trigger" onClick={() => setAboutOpen(true)}>Créditos</button></div></header>
     {(error || syncError) && <div className="error-banner" role="alert"><span>{error || syncError}</span><button disabled={libraryBusy} onClick={() => { setError(''); retry(); void loadLibrary(); void refreshDisplays(); }}>Tentar novamente</button></div>}
     <ResizableWorkspace context={context} leftLabel={context === 'settings' ? 'Configurações' : context === 'bible' ? 'Livros da Bíblia' : 'Biblioteca'} rightLabel="Saída ao vivo" left={context === 'settings' ? <SettingsNavigation value={settingsSection} onChange={setSettingsSection} /> : context === 'bible' ? <BibleSidebar browser={bibleBrowser} /> : libraryPanel} right={previewPanel}>
       <main className="context-main">
         {(context === 'live' || context === 'songs') && preparedSongPanel}
         {context === 'setlists' && <section className="repertoire-workspace panel"><div className="section-heading"><h2>{setlist?.name ?? 'Repertório'}</h2><button onClick={() => setContext('live')}>Ir para operação →</button></div><div className="repertoire-add"><div><strong>{selected?.title ?? 'Selecione uma música na biblioteca'}</strong></div><button className="primary" disabled={libraryBusy || !setlist || !selected} onClick={addSelectedToSetlist}>＋ Adicionar ao repertório</button></div>{setlistPanel}</section>}
         {context === 'bible' && <BibleContent browser={bibleBrowser} snapshot={snapshot} outputOpen={status.open} outputBusy={outputBusy} onPresent={presentBibleVerse} />}
+        {context === 'charts' && <ChartsWorkspace api={desktopChartApi} song={selected ?? undefined} songs={songs} canPublish />}
         {settingsContent}
       </main>
     </ResizableWorkspace>

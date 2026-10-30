@@ -12,7 +12,7 @@ use std::{collections::HashSet, path::Path, time::Duration};
 use uuid::Uuid;
 
 const SETLIST_ID: &str = "default-setlist";
-const SCHEMA_VERSION: i64 = 3;
+const SCHEMA_VERSION: i64 = 4;
 const MIGRATION_1: &str = r#"
 CREATE TABLE songs (
     id TEXT PRIMARY KEY NOT NULL,
@@ -48,7 +48,7 @@ CREATE INDEX setlist_items_song ON setlist_items(song_id);
 /// Native persistence boundary. Call on a blocking worker, never the UI thread.
 /// No SQL is accepted from the webview and failed migrations never reset data.
 pub struct Database {
-    connection: Connection,
+    pub(super) connection: Connection,
 }
 
 fn db_error(context: &str, error: rusqlite::Error) -> String {
@@ -133,13 +133,24 @@ impl Database {
             if violations != 0 {
                 return Err("O banco contém referências inválidas. A migração foi cancelada sem apagar os dados.".into());
             }
-            tx.pragma_update(None, "user_version", SCHEMA_VERSION)
+            tx.pragma_update(None, "user_version", 3)
                 .map_err(|e| db_error("registrar migração das classificações", e))?;
             tx.commit()
                 .map_err(|e| db_error("concluir migração das classificações", e))?;
             connection
                 .pragma_update(None, "foreign_keys", "ON")
                 .map_err(|e| db_error("reativar integridade do banco", e))?;
+        }
+        if version < 4 {
+            let tx = connection
+                .transaction()
+                .map_err(|e| db_error("iniciar migração das cifras", e))?;
+            tx.execute_batch(super::charts::MIGRATION_4)
+                .map_err(|e| db_error("migrar as cifras", e))?;
+            tx.pragma_update(None, "user_version", 4)
+                .map_err(|e| db_error("registrar migração das cifras", e))?;
+            tx.commit()
+                .map_err(|e| db_error("concluir migração das cifras", e))?;
         }
         Ok(Self { connection })
     }

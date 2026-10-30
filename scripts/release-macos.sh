@@ -1,5 +1,5 @@
 #!/bin/bash
-# Local Apple Silicon delivery only. Never uploads to GitHub or a download server.
+# Local macOS delivery (Apple Silicon or Intel target). Never uploads to GitHub or a download server.
 # Required: APPLE_SIGNING_IDENTITY (Developer ID Application), NOTARY_KEYCHAIN_PROFILE.
 # Optional: INCLUDE_BUNDLED_HYMNS=1, BUILD_APP=0 (already built release app),
 # APP_SOURCE=/absolute/LouvaShow.app, RELEASE_DIR=/absolute/output/directory.
@@ -14,6 +14,12 @@ fail() { printf 'Erro: %s\n' "$*" >&2; exit 1; }
 [[ "$APPLE_SIGNING_IDENTITY" == 'Developer ID Application: '* ]] || fail 'A identidade deve ser Developer ID Application.'
 INCLUDE_BUNDLED_HYMNS="${INCLUDE_BUNDLED_HYMNS:-0}"
 BUILD_APP="${BUILD_APP:-1}"
+MACOS_ARCH="${MACOS_ARCH:-arm64}"
+case "$MACOS_ARCH" in
+  arm64) MACOS_TARGET=aarch64-apple-darwin ;;
+  intel) MACOS_TARGET=x86_64-apple-darwin ;;
+  *) fail "MACOS_ARCH deve ser arm64 ou intel." ;;
+esac
 [[ "$INCLUDE_BUNDLED_HYMNS" == 0 || "$INCLUDE_BUNDLED_HYMNS" == 1 ]] || fail 'INCLUDE_BUNDLED_HYMNS deve ser 0 ou 1.'
 [[ "$BUILD_APP" == 0 || "$BUILD_APP" == 1 ]] || fail 'BUILD_APP deve ser 0 ou 1.'
 [[ "$BUILD_APP" == 1 || "$INCLUDE_BUNDLED_HYMNS" == 1 ]] || fail 'A distribuição pública exige build novo sem o hinário privado; não reutilize APP_SOURCE.'
@@ -22,8 +28,8 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 VERSION="$(python3 -c 'import json; print(json.load(open("src-tauri/tauri.conf.json"))["version"])')"
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || fail 'Versão inválida no manifesto.'
-RELEASE_DIR="${RELEASE_DIR:-$PROJECT_ROOT/releases/$VERSION/macos-arm64}"
-APP_SOURCE="${APP_SOURCE:-$PROJECT_ROOT/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/LouvaShow.app}"
+RELEASE_DIR="${RELEASE_DIR:-$PROJECT_ROOT/releases/$VERSION/macos-$MACOS_ARCH}"
+APP_SOURCE="${APP_SOURCE:-$PROJECT_ROOT/src-tauri/target/$MACOS_TARGET/release/bundle/macos/LouvaShow.app}"
 [[ "$RELEASE_DIR" == /* && "$APP_SOURCE" == /* ]] || fail 'APP_SOURCE e RELEASE_DIR devem ser caminhos absolutos.'
 [[ ! -e "$RELEASE_DIR" ]] || fail 'O diretório final já existe. Escolha outro para preservar entregas anteriores.'
 
@@ -42,8 +48,8 @@ if [[ "$INCLUDE_BUNDLED_HYMNS" == 1 ]]; then
 fi
 
 if [[ "$BUILD_APP" == 1 ]]; then
-  printf 'Compilando LouvaShow %s para macOS arm64.\n' "$VERSION"
-  BUILD_ARGS=(run tauri build -- --target aarch64-apple-darwin --bundles app)
+  printf 'Compilando LouvaShow %s para macOS %s.\n' "$VERSION" "$MACOS_ARCH"
+  BUILD_ARGS=(run tauri build -- --target "$MACOS_TARGET" --bundles app)
   if [[ "$INCLUDE_BUNDLED_HYMNS" == 1 ]]; then
     BUILD_ARGS+=(--features bundled-hymns)
   fi
@@ -103,9 +109,11 @@ for directory in [target.parent, target, *(p for p in target.rglob('*') if p.is_
 print('Runtime inspecionado: ' + ', '.join(sorted(found)))
 PY
 
-[[ "$(/usr/bin/lipo -archs "$STAGED_APP/Contents/MacOS/louvashow")" == arm64 ]] || fail 'O executável não é exclusivamente arm64.'
+EXPECTED_ARCH=arm64
+[[ "$MACOS_ARCH" == intel ]] && EXPECTED_ARCH=x86_64
+[[ "$(/usr/bin/lipo -archs "$STAGED_APP/Contents/MacOS/louvashow")" == "$EXPECTED_ARCH" ]] || fail "Arquitetura inesperada no executável."
 /usr/bin/codesign --force --options runtime --timestamp --sign "$APPLE_SIGNING_IDENTITY" "$STAGED_APP/Contents/MacOS/louvashow"
-/usr/bin/codesign --force --options runtime --timestamp --sign "$APPLE_SIGNING_IDENTITY" "$STAGED_APP"
+/usr/bin/codesign --force --options runtime --timestamp --entitlements "$PROJECT_ROOT/src-tauri/entitlements.plist" --sign "$APPLE_SIGNING_IDENTITY" "$STAGED_APP"
 /usr/bin/codesign --verify --deep --strict --verbose=2 "$STAGED_APP"
 
 # Submit once. Each wait is capped at 50 seconds and prints a concise heartbeat.
@@ -151,7 +159,7 @@ xcrun stapler validate "$STAGED_APP"
 /usr/sbin/spctl --assess --type execute --verbose=2 "$STAGED_APP"
 
 ln -s /Applications "$RELEASE_WORK/stage/Applications"
-DMG_NAME="LouvaShow_${VERSION}_macOS_arm64.dmg"
+DMG_NAME="LouvaShow_${VERSION}_macOS_${MACOS_ARCH}.dmg"
 STAGED_DMG="$RELEASE_WORK/$DMG_NAME"
 hdiutil create -volname "LouvaShow $VERSION" -srcfolder "$RELEASE_WORK/stage" \
   -format UDZO -fs HFS+ "$STAGED_DMG"
@@ -198,4 +206,4 @@ cmp "$STAGED_DMG" "$RELEASE_DIR/$DMG_NAME"
 (cd "$RELEASE_DIR" && /usr/bin/shasum -a 256 "$DMG_NAME" > "$DMG_NAME.sha256")
 chmod 644 "$RELEASE_DIR/$DMG_NAME.sha256"
 printf 'Entrega local assinada e notarizada: %s\n' "$RELEASE_DIR/$DMG_NAME"
-printf 'Arquitetura: Apple Silicon arm64. Sem publicação remota.\n'
+printf 'Arquitetura: macOS %s. Sem publicação remota.\n' "$MACOS_ARCH"

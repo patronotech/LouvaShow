@@ -71,26 +71,34 @@ Não publique automaticamente o instalador ou ZIP como consequência de um push 
 
 ## Instaladores pelo GitHub Actions
 
-O workflow `.github/workflows/release.yml` prepara dois instaladores a partir de uma tag estável `vMAJOR.MINOR.PATCH`:
+O workflow `.github/workflows/release.yml` prepara três instaladores a partir de uma tag estável `vMAJOR.MINOR.PATCH`:
 
 | Runner | Destino | Asset estável |
 | --- | --- | --- |
 | Windows 2022 | Windows x64, NSIS | `LouvaShow-windows-x64-setup.exe` |
 | macOS 15 | macOS Apple Silicon, DMG | `LouvaShow-macos-arm64.dmg` |
+| macOS 15 | macOS Intel, DMG | `LouvaShow-macos-intel.dmg` |
 
 Os jobs auditam os arquivos públicos, conferem a correspondência entre tag e versões dos manifestos, executam testes e Clippy e usam os lockfiles. O build passa `--no-default-features`; o ZIP privado não pode existir no checkout. A configuração temporária ativa o empacotamento e incorpora o instalador offline do WebView2 no EXE, para que a instalação desse runtime não exija download na máquina da igreja. O build no CI exige internet. [Opções oficiais do instalador Windows](https://v2.tauri.app/distribute/windows-installer/).
 
-Somente depois do sucesso dos dois jobs, um job separado com `contents: write` cria uma **release em rascunho** contendo os dois assets e `SHA256SUMS.txt`. Os jobs de build têm apenas leitura do repositório. As actions são fixadas por SHA. Não são usados certificados nem credenciais de assinatura no CI. Referências: [Tauri no GitHub Actions](https://v2.tauri.app/distribute/pipelines/github/) e [runners do GitHub](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
+Somente depois do sucesso dos três jobs, um job separado com `contents: write` cria uma **release em rascunho** contendo os três assets e `SHA256SUMS.txt`. Os jobs de build têm apenas leitura do repositório. As actions são fixadas por SHA. Não são usados certificados nem credenciais de assinatura no CI. Referências: [Tauri no GitHub Actions](https://v2.tauri.app/distribute/pipelines/github/) e [runners do GitHub](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
 
 Um push de tag inicia a preparação; a publicação permanece manual. Para repetir a execução sobre uma tag já existente, use `gh workflow run release.yml --ref vMAJOR.MINOR.PATCH`. Executar sobre uma branch falha na validação. O workflow recusa sobrescrever uma release existente, inclusive rascunhos; os instaladores dessa execução continuam disponíveis nos artifacts do Actions por 14 dias.
 
-O DMG do CI não possui assinatura Developer ID nem notarização, e o EXE não possui assinatura Authenticode. **Antes de publicar o rascunho, substitua o DMG pelo build público assinado e notarizado localmente**, com `INCLUDE_BUNDLED_HYMNS=0`, mantendo exatamente o nome `LouvaShow-macos-arm64.dmg`. Recalcule e substitua `SHA256SUMS.txt` para os dois arquivos finais. Confira assinatura, ticket, hashes e conteúdo dos pacotes, instale os próprios artefatos e atualize as notas com os resultados reais. Não publique o aviso provisório de assinatura do CI como se descrevesse um DMG já substituído. [Assinatura macOS no Tauri](https://v2.tauri.app/distribute/sign/macos/).
+Os DMGs do CI não possuem assinatura Developer ID nem notarização, e o EXE não possui assinatura Authenticode. **Antes de publicar o rascunho, substitua cada DMG pelo build público da arquitetura correspondente, assinado e notarizado localmente**, com `INCLUDE_BUNDLED_HYMNS=0`, mantendo os nomes `LouvaShow-macos-arm64.dmg` e `LouvaShow-macos-intel.dmg`. Recalcule e substitua `SHA256SUMS.txt` para os três arquivos finais. Confira assinatura, ticket, hashes e conteúdo dos pacotes, instale os próprios artefatos e atualize as notas com os resultados reais. Não publique o aviso provisório de assinatura do CI como se descrevesse um DMG já substituído. [Assinatura macOS no Tauri](https://v2.tauri.app/distribute/sign/macos/).
 
 Após a revisão e publicação de uma release estável, os links permanentes usados pelo README são:
 
 - [Windows x64](https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-windows-x64-setup.exe)
 - [macOS Apple Silicon](https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-arm64.dmg)
+- [macOS Intel](https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-intel.dmg)
 
-Esses links só funcionam quando a última release pública contém os assets com esses nomes. Rascunhos não ficam disponíveis nesses endereços. Não há instalador Linux, macOS Intel ou Windows ARM neste workflow; um build automatizado também não comprova operação com projetor real.
+Esses links só funcionam quando a última release pública contém os assets com esses nomes. Rascunhos não ficam disponíveis nesses endereços. Não há instalador Linux ou Windows ARM neste workflow; um build automatizado também não comprova operação com projetor real.
 
 Para a distribuição pública, o script local exige `BUILD_APP=1` e compila com `--locked --no-default-features`. Ele recusa a reutilização de um bundle via `BUILD_APP=0` nesse modo, porque o catálogo opcional pode estar embutido no executável mesmo sem um ZIP visível nos recursos.
+
+## Recursos de runtime da versão 0.6.0
+
+O bundle inclui as interfaces de operador, abertura, projeção e músico, a animação silenciosa, ícones e avisos legais bíblicos necessários. Os bancos locais, sessões da equipe e cache de avatares são criados no diretório de dados do aplicativo; preferências de leitura também podem ficar no armazenamento do navegador, e a chave Groq pertence ao cofre do sistema. Nenhum desses dados privados deve integrar instaladores. O servidor LAN fica desligado a cada inicialização e não exige serviço separado.
+
+A licença do código continua pendente de escolha do mantenedor. Os avisos das Bíblias não concedem uma licença ao código. Registre separadamente o resultado de cada build, assinatura, notarização, inspeção de conteúdo e execução nativa; não transfira evidência de Apple Silicon para Intel ou Windows.

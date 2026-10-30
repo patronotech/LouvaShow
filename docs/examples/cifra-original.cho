@@ -1,0 +1,15 @@
+{title: Exemplo técnico LouvaShow}
+{artist: Texto de demonstração original}
+{key: D}
+{capo: 2}
+{comment: Formas de D com capo 2 soam em E. Texto criado para testar o editor.}
+
+{start_of_verse: Estrofe}
+[D]Esta linha é um [G]teste do editor
+[D/F#]Acentos e [A7]quebras são preservados
+{end_of_verse}
+
+{start_of_chorus: Refrão}
+[G]Uma seção pode [A]voltar na sequência
+[D]Sem duplicar a [N.C.]edição original
+{end_of_chorus}

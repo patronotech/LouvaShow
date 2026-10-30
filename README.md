@@ -8,26 +8,28 @@
 
 <h1 align="center">LouvaShow</h1>
 
-<p align="center">Louvores, repertórios e Bíblia na tela da igreja.<br>Operação local e offline, sem conta, assinatura, servidor ou chave de IA.</p>
+<p align="center">Louvores, repertórios e Bíblia na tela da igreja.<br>Projeção local e offline, sem conta, assinatura ou chave de IA obrigatórias.</p>
 
 <p align="center">
   <a href="https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-windows-x64-setup.exe"><img src="https://img.shields.io/badge/Windows-Baixar_EXE-6941BA?style=for-the-badge&amp;logo=windows&amp;logoColor=white" alt="Baixar instalador Windows x64 — EXE"></a>
-  <a href="https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-arm64.dmg"><img src="https://img.shields.io/badge/macOS-Baixar_DMG-34333D?style=for-the-badge&amp;logo=apple&amp;logoColor=white" alt="Baixar instalador macOS Apple Silicon — DMG"></a>
+  <a href="https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-arm64.dmg"><img src="https://img.shields.io/badge/macOS_Apple_Silicon-Baixar_DMG-34333D?style=for-the-badge&amp;logo=apple&amp;logoColor=white" alt="Baixar instalador macOS Apple Silicon — DMG"></a>
+  <a href="https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-intel.dmg"><img src="https://img.shields.io/badge/macOS_Intel-Baixar_DMG-34333D?style=for-the-badge&amp;logo=apple&amp;logoColor=white" alt="Baixar instalador macOS Intel — DMG"></a>
 </p>
 
 <p align="center"><a href="https://github.com/dantetesta/LouvaShow/releases/latest">Notas da versão e arquivos</a> · <a href="docs/user-guide.md">Manual de uso</a> · <a href="docs/branding.md">Logos oficiais</a> · <a href="https://chat.whatsapp.com/FTsYpsy6YbG8Z3gDI2u1Bp?mode=gi_t">Comunidade no WhatsApp</a></p>
 
 ## Instalar
 
-- **Windows x64:** baixe o EXE e siga o instalador. É a plataforma prioritária de uso.
+- **Windows 10/11 x64 (destino do build):** baixe o EXE e siga o instalador. Confira as notas para o estado dos testes de uso real em cada versão do Windows.
 - **macOS Apple Silicon:** baixe o DMG, abra-o e copie o LouvaShow para Aplicativos. Consulte nas notas da versão o estado de assinatura e notarização do pacote.
-- **Linux ou macOS Intel:** ainda não há instalador nesses links. Consulte as [instruções para Linux](docs/setup-linux.md) ou [macOS](docs/setup-macos.md) para compilar a partir do código.
+- **macOS Intel:** baixe o DMG Intel e copie o aplicativo para Aplicativos.
+- **Linux:** consulte as [instruções para Linux](docs/setup-linux.md) para compilar a partir do código.
 
 Os botões apontam para os arquivos da última release pública. Confira as notas antes de instalar: esta é uma versão inicial, e os resultados de build e de uso real estão separados na [matriz de validação](docs/validation.md). Faça um ensaio com seu equipamento antes da primeira apresentação.
 
 O LouvaShow tem como objetivo ser gratuito e open source. **A licença do código ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição. As licenças dos textos bíblicos são preservadas separadamente.
 
-## O que você encontra
+## O que você encontra na versão 0.6.0
 
 - Biblioteca com cadastro, busca, classificações e importação/exportação de músicas.
 - Repertórios por evento, com reordenação por arraste, teclado ou botões.
@@ -35,6 +37,10 @@ O LouvaShow tem como objetivo ser gratuito e open source. **A licença do códig
 - Quatro edições bíblicas em português incorporadas para consulta e projeção offline.
 - Fonte, cores, alinhamento e caixa de texto ajustáveis em uma prévia de edição independente.
 - Interface clara ou escura, painéis redimensionáveis e preferências locais.
+- Janela de abertura com animação silenciosa, indicação do carregamento e recuperação de falhas.
+- Cifras com edição visual/ChordPro, revisões, transposição, capotraste e leitura em dois painéis.
+- Acesso opcional da equipe pela rede local, com aprovação de dispositivos e repertórios pessoais.
+- Assistente Groq opcional para transcrição, divisões da letra e ordenação de sugestões de capotraste.
 
 ## Autoria e comunidade
 
@@ -64,7 +70,7 @@ Os dois dados também estão em **Créditos e comunidade** no aplicativo. Expand
 
 Consulte o [manual de uso](docs/user-guide.md) para operação, ajustes de texto, painéis e atalhos.
 
-A navegação separa cinco áreas: **Operação ao vivo** para enviar blocos, **Repertórios** para montar a sequência de cada evento, **Músicas** para revisar e cadastrar letras, **Bíblia** para consultar e projetar passagens e **Configurações** para preparar a saída e consultar atalhos. Trocar de área preserva a música preparada e o conteúdo ao vivo. Na área Músicas, os blocos são somente leitura; a projeção musical direta fica na Operação ao vivo.
+A navegação separa seis áreas: **Operação ao vivo** para enviar blocos, **Repertórios** para montar a sequência de cada evento, **Músicas** para revisar e cadastrar letras, **Bíblia** para consultar e projetar passagens, **Cifras** para preparar versões e ler no palco e **Configurações** para preparar a saída e consultar atalhos. Trocar de área preserva a música preparada e o conteúdo ao vivo. Na área Músicas, os blocos são somente leitura; a projeção musical direta fica na Operação ao vivo.
 
 Arraste as bordas das laterais para ajustar sua largura ou recolhê-las. Pelo teclado, foque o separador e use as setas; Enter recolhe ou reabre, e Escape cancela um arraste. As dimensões ficam salvas por área. A prévia ao vivo permanece fixa enquanto os blocos e o repertório rolam de forma independente. Em janelas estreitas, use os botões Mostrar para alternar as laterais. Para restaurar as dimensões iniciais, acesse **Configurações → Aparência**.
 
@@ -78,6 +84,14 @@ Arraste as bordas das laterais para ajustar sua largura ou recolhê-las. Pelo te
 As teclas disponíveis aparecem na interface. Atalhos de apresentação atuam em Operação ao vivo e Bíblia e são ignorados em campos de edição, diálogos e controles de consulta. Os botões explícitos da barra de operação continuam disponíveis nas demais áreas. Confirme a saída real antes de cada culto.
 
 Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem ficam salvas neste computador. Trocar de repertório preserva a música em preparação e o conteúdo ao vivo. Excluir um repertório remove somente sua lista de ocorrências; as músicas permanecem na biblioteca e nos outros repertórios. É necessário manter pelo menos um repertório.
+
+## Cifras, equipe e assistente opcional
+
+Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, importação ChordPro/texto, leitura no palco e repertórios pessoais. Esses recursos locais não dependem de IA. A importação por URL do Cifra Club depende de acesso público permitido: pode retornar HTTP 403; o programa não contorna bloqueios. Cole somente conteúdo que você tenha autorização para usar.
+
+O acesso da equipe começa desligado. O operador escolhe interface e porta e informa o endereço IP exibido aos aparelhos da mesma rede. Esta versão usa **HTTP em rede local confiável, sem TLS nem domínio automático**; não exponha a porta à internet. Cada dispositivo precisa da aprovação presencial do código. A autorização permanece até sair ou revogar; o navegador pode limpar o cookie e exigir novo pareamento. Não há sincronização em nuvem.
+
+Groq e Gravatar fazem conexões externas somente por ações explícitas. A chave Groq fica no cofre do sistema e não é entregue aos navegadores. Projeção, Bíblia e cifras continuam disponíveis com esses recursos desligados. A transcrição envia áudio, e as divisões enviam a letra após confirmação. **Não houve teste com chave real ou chamada real à Groq nesta implementação.** Microfone depende de permissão; navegadores exigem contexto seguro, normalmente HTTPS ou localhost, e a captura não deve ser presumida no endereço HTTP da LAN.
 
 ## Aparência do aplicativo e da projeção
 
@@ -117,7 +131,7 @@ npm ci
 npm run tauri dev
 ```
 
-O primeiro build baixa dependências. O aplicativo compilado opera offline; Vite é usado somente no desenvolvimento. O build padrão e a integração contínua não precisam do hinário privado.
+O primeiro build baixa dependências. O núcleo do aplicativo compilado opera offline; integrações externas opcionais precisam de internet; Vite é usado somente no desenvolvimento. O build padrão e a integração contínua não precisam do hinário privado.
 
 ### Verificações e build local
 

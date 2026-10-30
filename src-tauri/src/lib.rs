@@ -1,11 +1,14 @@
 mod application;
+mod assistant;
 mod commands;
 mod domain;
+mod externals;
 mod infrastructure;
+mod startup;
+mod team;
 use domain::presentation::Snapshot;
 use infrastructure::database::Database;
 use std::sync::{Arc, Mutex};
-use tauri::Manager;
 
 pub struct AppState {
     db: Arc<Mutex<Database>>,
@@ -22,44 +25,52 @@ pub fn run() {
                 .open_js_links_on_click(false)
                 .build(),
         )
+        .manage(startup::StartupState::default())
+        .manage(team::TeamState::default())
+        .manage(assistant::AssistantState::default())
         .setup(|app| {
-            let dir = app.path().app_data_dir()?;
-            std::fs::create_dir_all(&dir)?;
-            #[allow(unused_mut)]
-            let mut db =
-                Database::open(dir.join("louvashow.sqlite3")).map_err(std::io::Error::other)?;
-            #[cfg(feature = "bundled-hymns")]
-            if db
-                .get_setting("seed-pack.hc-640-v1")
-                .map_err(std::io::Error::other)?
-                .is_none()
-            {
-                let pack =
-                    application::song_exchange::preview(vec![domain::importing::ImportFile {
-                        name: "hc_xml.zip".into(),
-                        bytes: include_bytes!("../resources/hc_xml.zip").to_vec(),
-                    }])
-                    .map_err(std::io::Error::other)?;
-                db.install_seed_pack("hc-640-v1", pack.songs, "hinos")
-                    .map_err(std::io::Error::other)?;
-            }
-            let mut snapshot = Snapshot::default();
-            if let Some(raw) = db.get_setting("theme.v1").map_err(std::io::Error::other)? {
-                let theme: domain::presentation::Theme = serde_json::from_str(&raw)?;
-                theme.validate().map_err(std::io::Error::other)?;
-                snapshot.theme = theme;
-            }
-            app.manage(AppState {
-                db: Arc::new(Mutex::new(db)),
-                presentation: Mutex::new(snapshot),
-                song_cache: Arc::new(Mutex::new(Default::default())),
-                display_gate: Mutex::new(()),
-                output: Mutex::new(Default::default()),
-            });
-            commands::displays::watch_monitors(app.handle().clone());
+            startup::begin(app.handle().clone());
             Ok(())
         })
+        .on_window_event(startup::window_event)
         .invoke_handler(tauri::generate_handler![
+            commands::charts::list_charts,
+            commands::charts::get_chart,
+            commands::charts::create_chart_document,
+            commands::charts::save_chart,
+            commands::charts::delete_chart,
+            commands::charts::list_chart_revisions,
+            commands::charts::import_chart,
+            commands::charts::export_chart,
+            commands::charts::export_chart_file,
+            commands::charts::transpose_chart,
+            commands::charts::suggest_chart_capos,
+            commands::charts::suggest_chart_keys,
+            commands::charts::publish_chart,
+            externals::import_chart_url,
+            assistant::assistant_config,
+            assistant::assistant_save_config,
+            assistant::assistant_set_key,
+            assistant::assistant_remove_key,
+            assistant::assistant_split,
+            assistant::assistant_transcribe,
+            assistant::assistant_rank_capo,
+            team::team_interfaces,
+            team::team_status,
+            team::team_start,
+            team::team_stop,
+            team::team_refresh_avatar,
+            team::team_users,
+            team::team_save_user,
+            team::team_devices,
+            team::team_approve_device,
+            team::team_revoke_device,
+            startup::get_startup_state,
+            startup::mark_operator_ready,
+            startup::mark_operator_failed,
+            startup::retry_startup,
+            startup::complete_startup,
+            startup::close_startup,
             commands::bible::list_bible_versions,
             commands::bible::list_bible_books,
             commands::bible::get_bible_chapter,

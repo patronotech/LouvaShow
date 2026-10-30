@@ -7,6 +7,7 @@ No files, Git configuration, credentials or network services are modified.
 """
 
 from pathlib import PurePosixPath
+import hashlib
 import re
 import subprocess
 import sys
@@ -34,6 +35,7 @@ CONTENT_RULES = {
     'github-token': re.compile(rb'\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b'),
     'aws-access-key': re.compile(rb'\b(?:AKIA|ASIA)[A-Z0-9]{16}\b'),
     'service-api-key': re.compile(rb'\b(?:sk-(?:proj-|ant-)?[A-Za-z0-9_-]{32,}|AIza[A-Za-z0-9_-]{35}|xox[baprs]-[A-Za-z0-9-]{20,})\b'),
+    'groq-api-key': re.compile(rb'\bgsk_[A-Za-z0-9_-]{20,}\b'),
     'macos-personal-path': re.compile(rb'/Users/[A-Za-z0-9_.-]+(?:/|\b)'),
     'windows-personal-path': re.compile(rb'[A-Za-z]:\\(?:Users|Documents and Settings)\\[^\\\s"\']+', re.I),
     'linux-personal-path': re.compile(rb'/home/[A-Za-z0-9_.-]+/'),
@@ -43,6 +45,12 @@ LITERAL_CREDENTIAL = re.compile(
     rb'''(?ix)["']?(?:api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret|password|passwd)["']?\s*[:=]\s*["']([^"'\r\n]{8,})["']'''
 )
 PLACEHOLDERS = re.compile(rb'^(?:example|sample|dummy|test|fake|placeholder|your[_ -]|changeme|replace[_ -]|\$\{|<)', re.I)
+
+# Only these reviewed intro assets are allowed; replacement requires a new review.
+REVIEWED_MEDIA = {
+    'src/shared/assets/intro.mp4': '819c41a2589685d84745152c5167a27aded44fbc292a236af2afdf0b180663fd',
+    'src/shared/assets/intro-poster.jpg': 'ac9107f5c93560c9f6626e25728a978402b022c868ff6a8c988902b9b54d758a',
+}
 
 
 def violations(path: str, data: bytes, mode: str = '100644') -> list[str]:
@@ -64,7 +72,10 @@ def violations(path: str, data: bytes, mode: str = '100644') -> list[str]:
             rules.append(name)
     if any(not PLACEHOLDERS.search(match.group(1)) for match in LITERAL_CREDENTIAL.finditer(data)):
         rules.append('literal-credential')
-    if b'\x00' in data and lowered.suffix not in {'.png', '.ico', '.icns', '.woff', '.woff2'}:
+    reviewed_media = REVIEWED_MEDIA.get(path)
+    if reviewed_media and hashlib.sha256(data).hexdigest() != reviewed_media:
+        rules.append('reviewed-media-changed')
+    if b'\x00' in data and lowered.suffix not in {'.png', '.ico', '.icns', '.woff', '.woff2'} and not reviewed_media:
         rules.append('unreviewed-binary')
     return rules
 

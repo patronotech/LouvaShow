@@ -205,3 +205,31 @@ O [run de checks 40983714675](https://github.com/dantetesta/LouvaShow/actions/ru
 O instalador NSIS x64 foi obtido do artifact `installer-windows-x64` do run 40983714897. A listagem e o teste de integridade com 7-Zip passaram: nove entradas, compostas pelo executável, avisos legais, desinstalador, componentes do NSIS e instalador offline do WebView2. Não foram encontrados bancos pessoais, certificados, documentação interna nem fontes de desenvolvimento na lista do pacote. O EXE não foi executado no macOS; instalação e operação nativa em Windows continuam pendentes.
 
 Os dois jobs de instaladores do [run 40983714897](https://github.com/dantetesta/LouvaShow/actions/runs/40983714897) concluíram com sucesso. O DMG produzido no CI é substituído na release pelo DMG público notarizado localmente; seu hash final é diferente do artifact não notarizado do CI. A versão local com hinário permanece fora da release.
+
+## Introdução e recuperação de carga — desenvolvimento 0.6.0
+
+No aplicativo debug isolado do macOS, a janela de abertura foi observada em 640 × 360: vídeo, autoria, versão e barra fina apareceram; ao concluir a abertura, o operador recebeu foco. O MP4 distribuído foi conferido com ffprobe: uma única faixa H.264, 1280 × 720, 10 segundos e nenhuma faixa de áudio.
+
+Para ensaiar falha real sem usar o banco do usuário, o banco do identificador QA foi preservado por renomeação e substituído temporariamente por um diretório vazio. A janela informou que não conseguiu abrir o banco e ofereceu Tentar novamente. Após restaurar o arquivo original intacto, o botão retomou a inicialização e abriu o operador. Não houve reset ou perda do banco. A sequência foi observada pela interface nativa.
+
+## Cifras e equipe — validação integrada 0.6.0
+
+No bundle debug isolado do macOS, foi criada uma cifra a partir da demonstração própria. Um acorde D/F# foi inserido e transposto em dois passos de meio tom para E/G#, com tom real E. Salvar criou revisão 1. O viewer abriu dois painéis independentes; subir meio tom somente no segundo mostrou F/A e tom F, preservando E/G# e tom E no primeiro. A captura encontrou a barra do operador ainda aparecendo no modo palco; a correção usa um portal fora do isolamento do workspace e exige o smoke final do bundle reconstruído.
+
+O servidor foi iniciado explicitamente somente em 127.0.0.1, com perfil e e-mail sintéticos. O navegador mostrou o código de pareamento correspondente ao operador, que aprovou o dispositivo. Recarregar a página manteve a sessão. A cifra pessoal do operador não apareceu para o músico; depois de publicar uma cópia para a igreja e recarregar a biblioteca, ela apareceu com Abrir/Duplicar, sem editar/excluir a versão alheia. Criar o repertório pessoal Ensaio QA e adicionar a cifra fixou revisão 1. A cifra foi aberta e conferida visualmente no Chrome. Encerrar o aplicativo fechou a porta 14210, conferida por conexão recusada. Esse ensaio usa o mesmo computador/loopback; não comprova Wi-Fi ou outro dispositivo físico.
+
+A revisão também identificou Atualizar da área web sem renovar a lista de cifras da música já selecionada; o frontend recebeu a correção antes do smoke final. Não foram feitas chamadas reais à Groq, gravação de voz, consulta Gravatar com dados pessoais ou gravação de chave no cofre. Esses recursos exigem configuração explícita do usuário e ensaios próprios.
+
+### Verificações focadas e limites da entrega 0.6.0
+
+Passaram seis testes Rust do serviço de equipe: cookie protegido e pareamento pelo roteador HTTP, aprovação/revogação, isolamento de repertórios e revisão CAS, Host/Origin/CSRF, recusa de operações após desligar o serviço, migração/persistência e aprovação mantida até revogação com expiração somente dos pedidos pendentes. Passaram quatro testes do assistente: recursos desligados por padrão, validação de assinatura/extensão do áudio e divisões que preservam o texto original, inclusive parágrafo único, acentos e espaços. Clippy em todos os targets locais passou com avisos tratados como erro. Esses testes de roteador/domínio não comprovam uso por um aparelho externo.
+
+O destino do instalador Windows é Windows 10/11 x64, e os builds macOS são separados entre Apple Silicon e Intel. Não há execução nativa registrada de 0.6.0 em Windows, Mac Intel ou Linux. O ensaio Apple Silicon acima é parcial e não equivale a um ensaio de instalação dos três pacotes finais. Build, assinatura e notarização devem ser registrados somente quando concluídos para cada artefato.
+
+Permanecem sem ensaio real: chamada à Groq com chave válida, cofre em cada sistema, gravação de microfone, Gravatar externo, rede entre aparelhos físicos, segundo monitor e projetor. Navegadores exigem contexto seguro para microfone; o HTTP da LAN não oferece essa garantia. A importação Cifra Club pode receber HTTP 403 ou conteúdo incompatível e não contorna bloqueios.
+
+### Gate local 0.6.0
+
+- 74 testes frontend e 70 testes Rust públicos passaram; formatação e Clippy com `-D warnings` passaram.
+- Reinício do bundle isolado macOS Apple Silicon confirmou versão 0.6.0, vídeo de abertura, persistência da cifra e servidor desligado. Modo palco cobriu toda a área da aplicação, sem a barra de operação por cima.
+- Navegador de teste retomou dispositivo aprovado e repertório pessoal salvo depois do reinício. Os ajustes finais de editor e isolamento de notas possuem testes automatizados; não equivalem a teste de instalação em outros sistemas.

@@ -1,0 +1,15 @@
+html,body,#root{width:100%;height:100%;margin:0;overflow:hidden;background:#110a1e}
+.startup-screen{position:relative;width:100%;height:100%;overflow:hidden;background:#110a1e;color:#fff;font:11px/1.4 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;user-select:none;-webkit-user-select:none}
+.startup-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.startup-drag{position:absolute;inset:0 44px auto 0;height:44px}
+.startup-close{position:absolute;top:8px;right:8px;width:28px;height:28px;padding:0;border:1px solid #ffffff60;border-radius:5px;background:#160c2399;color:#fff;font-size:20px;line-height:1;cursor:pointer}
+.startup-close:hover{background:#372147}.startup-screen button:focus-visible{outline:2px solid #dfc8ff;outline-offset:3px}
+.startup-caption{position:absolute;inset:auto 0 4px;min-height:50px;box-sizing:border-box;padding:18px 14px 10px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;background:linear-gradient(transparent,#10071bd9);text-shadow:0 1px 3px #000}
+.startup-caption>div{display:flex;flex-direction:column;gap:1px}.startup-caption span{font-size:10px;line-height:1.4;color:#f3eafa}.startup-caption .startup-version{flex-shrink:0;font-size:11px;font-variant-numeric:tabular-nums}
+.startup-progress{position:absolute;bottom:0;left:0;right:0;height:3px;overflow:hidden;background:#4c315f}
+.startup-progress>span{display:block;width:35%;height:100%;background:#d0a9ff;animation:startup-loading 1.4s ease-in-out infinite}
+.startup-progress.failed>span{width:100%;background:#ffaaa6;animation:none}
+.startup-error{position:absolute;left:24px;right:24px;bottom:67px;padding:14px;background:#160c23ed;border:1px solid #b89bd1;border-radius:7px;box-shadow:0 5px 24px #0005;font-size:13px;line-height:1.5;max-height:200px;overflow:auto}
+.startup-error p{margin:0 0 10px;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text}.startup-error button{font:inherit;color:#22152f;background:#d0a9ff;border:1px solid #d0a9ff;border-radius:5px;padding:6px 10px;cursor:pointer}.startup-error button:disabled{opacity:.6;cursor:wait}
+@keyframes startup-loading{from{transform:translateX(-110%)}to{transform:translateX(390%)}}
+@media(prefers-reduced-motion:reduce){.startup-progress>span{animation:none;width:100%;opacity:.7}}

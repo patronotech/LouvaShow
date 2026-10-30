@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "LouvaShow",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "identifier": "app.louvashow.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -12,17 +12,31 @@
   "app": {
     "windows": [
       {
+        "label": "splash",
+        "title": "LouvaShow",
+        "url": "splash.html",
+        "width": 640,
+        "height": 360,
+        "resizable": false,
+        "maximizable": false,
+        "decorations": false,
+        "center": true,
+        "dragDropEnabled": false,
+        "backgroundColor": "#10091D"
+      },
+      {
         "label": "operator",
-        "title": "LouvaShow — Operador",
+        "title": "LouvaShow \u2014 Operador",
         "width": 1360,
         "height": 860,
         "minWidth": 760,
         "minHeight": 600,
-        "dragDropEnabled": false
+        "dragDropEnabled": false,
+        "visible": false
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src ipc: http://ipc.localhost"
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src ipc: http://ipc.localhost; media-src 'self' blob:"
     }
   },
   "bundle": {
@@ -36,6 +50,11 @@
     ],
     "resources": {
       "resources/bibles/THIRD_PARTY.txt": "BIBLE-NOTICES.txt"
+    },
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "infoPlist": "Info.plist",
+      "entitlements": "entitlements.plist"
     }
   }
 }

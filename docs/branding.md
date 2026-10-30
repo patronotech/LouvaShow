@@ -25,6 +25,14 @@ O README e o aplicativo usam a versão colorida adequada ao fundo. No aplicativo
 
 O retrato de Dante Testa usado nos créditos foi produzido a partir de uma referência fornecida pelo autor. O aplicativo incorpora somente o retrato final autorizado; a imagem original de referência não faz parte do código público.
 
+## Introdução do aplicativo
+
+A abertura usa o vídeo oficial fornecido pelo mantenedor, incorporado em `src/shared/assets/intro.mp4`: H.264, 1280 × 720, 24 quadros/s e 10 segundos. A cópia distribuída contém somente vídeo; a faixa de áudio e metadados dispensáveis foram removidos sem recodificar os quadros. `intro-poster.jpg` é o quadro estático de apoio.
+
+A animação roda uma vez numa janela 16:9. Versão, autoria e indicação da situação da licença aparecem discretamente acima da barra inferior. A barra é indeterminada: ela indica atividade, sem inventar uma porcentagem de carregamento. A janela do operador só é exibida após terminar a animação e concluir a inicialização. A preferência de movimento reduzido usa imagem estática; falha de reprodução também permite continuar quando o aplicativo estiver pronto.
+
+Esses dois arquivos têm hashes fixados na auditoria pública. Substituir o vídeo exige inspecionar novamente seu conteúdo e atualizar os hashes após a revisão. A referência original de Downloads não integra a distribuição.
+
 ## Uso dos arquivos
 
 Preserve as proporções originais, a legibilidade e o contraste. Estes arquivos identificam o projeto; sua disponibilidade para download não estabelece uma licença de marca nem autoriza sugerir parceria ou endosso.

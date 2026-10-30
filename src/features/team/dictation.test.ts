@@ -1,0 +1,9 @@
+import { describe, expect, it, vi } from 'vitest';
+import { appendDictation, canUseDictation, createDictationGuard, stopCapture } from './dictation';
+describe('ditado por campo', () => {
+ it('acrescenta sem apagar conteúdo e reduz quebras para espaço em campos curtos', () => { expect(appendDictation('Culto de', ' domingo\n à noite ')).toBe('Culto de domingo à noite'); expect(appendDictation('', ' Artista\n original ')).toBe('Artista original'); expect(appendDictation('Já existe ', 'novo')).toBe('Já existe novo'); expect(appendDictation('Preservar', '   ')).toBe('Preservar'); });
+ it('só disponibiliza ditado com feature, chave e transcrição ativas', () => { const config = {enabled:true,hasKey:true,transcription:true}; expect(canUseDictation(config)).toBe(true); for (const flag of ['enabled','hasKey','transcription'] as const) expect(canUseDictation({...config,[flag]:false})).toBe(false); expect(canUseDictation(config,true)).toBe(false); expect(canUseDictation(null)).toBe(false); });
+ it('ignora retorno tardio depois de fechar ou desligar e isola campos', () => { const title = createDictationGuard(); const artist = createDictationGuard(); const request = title.capture(); const other = artist.capture(); title.invalidate(); expect(title.current(request)).toBe(false); expect(artist.current(other)).toBe(true); expect(title.current(title.capture())).toBe(true); });
+ it('interrompe o gravador e todos os tracks', () => { const stop = vi.fn(); const stopA = vi.fn(); const stopB = vi.fn(); stopCapture({state:'recording',stop},{getTracks:()=>[{stop:stopA},{stop:stopB}]}); expect(stop).toHaveBeenCalledOnce(); expect(stopA).toHaveBeenCalledOnce(); expect(stopB).toHaveBeenCalledOnce(); });
+ it('libera tracks mesmo se o gravador já tiver falhado', () => { const track = vi.fn(); expect(()=>stopCapture({state:'recording',stop:()=>{throw new Error('device gone');}},{getTracks:()=>[{stop:track}]})).not.toThrow(); expect(track).toHaveBeenCalledOnce(); });
+});

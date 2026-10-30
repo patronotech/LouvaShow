@@ -1,4 +1,5 @@
 pub mod bible;
+pub mod charts;
 pub mod displays;
 pub mod exchange;
 pub mod library;
