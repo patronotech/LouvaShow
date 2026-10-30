@@ -87,3 +87,117 @@ html,body,#root{margin:0;min-height:100%;background:#101014}body{margin:0}
   .resizable-workspace .preview-caption { margin-top: 8px; gap: 2px; }
   .resizable-workspace .live-tools { margin-top: 10px; }
 }
+
+/* Native selects keep keyboard semantics while sharing comfortable control metrics.
+   Specificity/important supersede legacy compact feature styles, including Bible. */
+.operator-shell select:not([multiple]):not([size]),
+.operator-shell select[size="1"] {
+  -webkit-appearance: none;
+  appearance: none;
+  color-scheme: dark;
+  min-height: 42px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px 40px 10px 12px !important;
+  border: 1px solid #686477;
+  border-radius: 8px;
+  background-color: #202029;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23d6cbed' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  color: var(--text);
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: normal;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.operator-shell select:not(:disabled):hover { border-color: #b5a4d7; }
+.operator-shell select:focus-visible {
+  border-color: #c4b5fd;
+  outline: 3px solid #c4b5fd;
+  outline-offset: 2px;
+}
+.operator-shell select:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+.operator-shell select option,
+.operator-shell select optgroup { background-color: #202029; color: #f4f4f7; }
+@media (max-width: 650px) {
+  .operator-shell select:not([multiple]):not([size]),
+  .operator-shell select[size="1"] { min-height: 44px; font-size: 16px !important; }
+}
+@media (forced-colors: active) {
+  .operator-shell select:not([multiple]):not([size]),
+  .operator-shell select[size="1"] {
+    appearance: auto;
+    -webkit-appearance: auto;
+    background-image: none;
+    padding-right: 12px !important;
+  }
+}
+
+/* Application appearance is independent of the projected theme and its canvas. */
+:root[data-color-mode="light"],
+:root[data-color-mode="light"] body,
+:root[data-color-mode="light"] #root { background: #f2f3f7; }
+:root[data-color-mode="light"] .operator-shell {
+  color-scheme: light;
+  --bg: #f2f3f7;
+  --panel: #ffffff;
+  --raised: #eceef5;
+  --border: #bfc3d0;
+  --text: #222336;
+  --muted: #565b70;
+  --accent: #6941ba;
+  --accent-dark: #eee5ff;
+  --danger: #a3293b;
+  --success: #17763e;
+  --warning: #8a5408;
+  --error: #b02635;
+}
+:root[data-color-mode="light"] .operator-shell :focus-visible { outline-color: #6941ba; }
+:root[data-color-mode="light"] .operator-shell :is(.library-panel,.live-panel) { background: var(--panel); }
+:root[data-color-mode="light"] .operator-shell :is(input,textarea) { background: #fff; color: var(--text); }
+:root[data-color-mode="light"] .operator-shell :is(input,textarea)::placeholder { color: #656a7c; }
+:root[data-color-mode="light"] .operator-shell select:not([multiple]):not([size]),
+:root[data-color-mode="light"] .operator-shell select[size="1"] {
+  color-scheme: light;
+  background-color: #fff;
+  border-color: #9297ab;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23594678' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+:root[data-color-mode="light"] .operator-shell select:not(:disabled):hover,
+:root[data-color-mode="light"] .operator-shell select:focus-visible { border-color: #6941ba; }
+:root[data-color-mode="light"] .operator-shell :is(option,optgroup) { color: #222336; background: #fff; }
+:root[data-color-mode="light"] .operator-shell button:hover:not(:disabled) { background-color: #e1e3ee; border-color: #8e86a2; }
+:root[data-color-mode="light"] .operator-shell button.primary,
+:root[data-color-mode="light"] .operator-shell .settings-content .theme-editor button:not(.secondary):not(.text-box-move):not(.text-box-handle) { background-color: #6941ba; color: #fff; }
+:root[data-color-mode="light"] .operator-shell button.primary:hover:not(:disabled) { background-color: #56309f; }
+:root[data-color-mode="light"] .operator-shell :is(.song-row.selected,.block-card.live) { background: var(--accent-dark); border-color: var(--accent); }
+:root[data-color-mode="light"] .operator-shell :is(.selection-label,.block-label strong) { color: #6235a1; }
+:root[data-color-mode="light"] .operator-shell :is(.block-label,.operation-note,.confirm-dialog p) { color: var(--muted); }
+:root[data-color-mode="light"] .operator-shell .block-action { border-top-color: var(--border); }
+:root[data-color-mode="light"] .operator-shell .preparation-empty h3 { color: var(--text); }
+:root[data-color-mode="light"] .operator-shell :is(.setlist-item,.editor-block,.import-blocks section) { background: #f5f6fa; }
+:root[data-color-mode="light"] .operator-shell :is(.drag-handle,.item-actions button) { color: #555b70; }
+:root[data-color-mode="light"] .operator-shell .drag-preview { background: #eee5ff; box-shadow: 0 8px 30px #27203a26; }
+:root[data-color-mode="light"] .operator-shell .status-badge { color: #414d65; background: #e9edf4; border-color: #aab4c6; }
+:root[data-color-mode="light"] .operator-shell :is(.block-card.on-air,.status-badge.on-air,.restore-button,.bible-number-grid button.on-air,.bible-click-hint.output-active,.manager-notice) { color: #195a32; background: #e6f5eb; border-color: #43845a; }
+:root[data-color-mode="light"] .operator-shell .bible-number-grid button.on-air { box-shadow: inset 0 0 0 1px #43845a; }
+:root[data-color-mode="light"] .operator-shell :is(.block-card.on-air .block-label strong,.local-badge) { color: #21653b; }
+:root[data-color-mode="light"] .operator-shell .blank-button { color: #353347; background: #eae8ef; border-color: #8c839a; }
+:root[data-color-mode="light"] .operator-shell :is(.warning,.import-warnings) { color: #714509; background: #fff3d9; border-color: #ba8c3c; }
+:root[data-color-mode="light"] .operator-shell :is(.error-banner,.error-message,.danger) { color: #8b2635; background: #fff0f1; border-color: #c46a76; }
+:root[data-color-mode="light"] .operator-shell .danger:hover:not(:disabled) { background: #fbdbe0; border-color: #a3293b; }
+:root[data-color-mode="light"] .operator-shell dialog { background: #fff; border-color: #a5a8b8; box-shadow: 0 30px 120px #29233840; }
+:root[data-color-mode="light"] .operator-shell dialog::backdrop { background: #25253580; }
+:root[data-color-mode="light"] .operator-shell .theme-editor .draft-invalid { color: #982839 !important; }
+:root[data-color-mode="light"] .operator-shell .theme-editor .theme-applied { color: #22643c !important; }
+@media (forced-colors: active) {
+  :root[data-color-mode="light"] .operator-shell select:not([multiple]):not([size]),
+  :root[data-color-mode="light"] .operator-shell select[size="1"] { background-image: none; }
+}

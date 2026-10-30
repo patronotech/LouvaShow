@@ -1,0 +1,656 @@
+{
+  "id": "EPH",
+  "name": "Efésios",
+  "chapters": [
+    {
+      "number": 1,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Eu, Paulo, apóstolo de Cristo Jesus, de acordo com a vontade de Deus, é quem escreve esta carta para os cristãos que vivem em Éfeso e fiéis em Cristo Jesus."
+        },
+        {
+          "number": "2",
+          "text": "Que a graça e a paz de Deus, nosso Pai, e do Senhor Jesus Cristo estejam com vocês!"
+        },
+        {
+          "number": "3",
+          "text": "Louvemos a Deus, o Pai do nosso Senhor Jesus Cristo, que nos tem abençoado em Cristo com tudo que é espiritualmente bom do mundo celestial."
+        },
+        {
+          "number": "4",
+          "text": "Antes do início deste mundo, Deus nos escolheu para estarmos unidos a ele, para que, com amor, pudéssemos nos apresentar diante dele como santos e sem falhas."
+        },
+        {
+          "number": "5",
+          "text": "Ele decidiu antecipadamente nos adotar como seus filhos, trabalhando por meio de Jesus Cristo para nos levar para ele. Ele estava feliz ao fazer isso porque essa era a sua vontade."
+        },
+        {
+          "number": "6",
+          "text": "Então, nós o louvamos por sua gloriosa graça, que ele tão gentilmente nos deu, por meio do seu amado Filho."
+        },
+        {
+          "number": "7",
+          "text": "Por meio dele, nós ganhamos a salvação pelo seu sangue, o perdão dos nossos pecados, como resultado de sua valiosa bênção,"
+        },
+        {
+          "number": "8",
+          "text": "que ele tão generosamente nos deu, juntamente com toda a sabedoria e entendimento."
+        },
+        {
+          "number": "9",
+          "text": "Deus nos revelou sua vontade até então oculta, e ele ficou feliz em prosseguir com o seu plano,"
+        },
+        {
+          "number": "10",
+          "text": "mediante o qual, ele colocaria sob a autoridade de Cristo tudo o que existe no céu e na terra."
+        },
+        {
+          "number": "11",
+          "text": "Nele, fomos escolhidos com antecedência, de acordo com o plano daquele que está resolvendo tudo de acordo com a sua vontade,"
+        },
+        {
+          "number": "12",
+          "text": "para que, assim, nós, que fomos os primeiros a ter esperança em Cristo, pudéssemos louvar a sua glória."
+        },
+        {
+          "number": "13",
+          "text": "Nele, vocês também ouviram a palavra da verdade, o evangelho da nossa salvação. Nele, por causa da sua fé, vocês foram marcados com o selo da promessa do Espírito Santo,"
+        },
+        {
+          "number": "14",
+          "text": "que é a garantia da nossa herança, até a redenção daqueles que pertencem a Deus, para o seu louvor e a sua glória."
+        },
+        {
+          "number": "15",
+          "text": "Por isso, tendo eu ouvido falar a respeito da sua fé no Senhor Jesus e no amor que vocês têm por todos os cristãos,"
+        },
+        {
+          "number": "16",
+          "text": "eu sempre agradeço a Deus por vocês e também sempre os incluo em minhas orações."
+        },
+        {
+          "number": "17",
+          "text": "Eu oro para que o Deus do nosso Senhor Jesus Cristo, o Pai glorioso, possa lhes dar um espírito de sabedoria, para que vejam e saibam como ele realmente é."
+        },
+        {
+          "number": "18",
+          "text": "Que as mentes de vocês sejam iluminadas, para que possam entender a esperança para a qual ele os chamou. E para que saibam sobre as gloriosas riquezas que ele promete como uma herança para o seu povo santo."
+        },
+        {
+          "number": "19",
+          "text": "Que vocês também entendam o poder extraordinário de Deus,"
+        },
+        {
+          "number": "20",
+          "text": "que ele demonstrou ao ressuscitar Cristo dos mortos. Deus colocou Cristo sentado a sua direita no céu,"
+        },
+        {
+          "number": "21",
+          "text": "muito acima de qualquer outro governante, autoridade, poder ou senhor, ou qualquer líder com todos os seus títulos, não apenas neste mundo, mas, também, no mundo que está por vir."
+        },
+        {
+          "number": "22",
+          "text": "Deus sujeitou tudo à autoridade de Cristo e lhe deu a responsabilidade, como chefe, sobre tudo o que está relacionado à igreja,"
+        },
+        {
+          "number": "23",
+          "text": "que é o corpo de Cristo, que ele preencheu e completou, aquele que preenche e completa tudo em todos os lugares."
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Antigamente, vocês estavam mortos em seus pecados e más ações,"
+        },
+        {
+          "number": "2",
+          "text": "vivendo de acordo com os caminhos do mundo, sob o controle do diabo, cujo espírito está trabalhando naqueles que desobedecem a Deus."
+        },
+        {
+          "number": "3",
+          "text": "Todos nós já fomos assim, com nosso comportamento sendo determinado pelos desejos da nossa natureza humana pecadora e do nosso modo maligno de pensar. Como qualquer outra pessoa, por causa dessa natureza, éramos pessoas que deveriam sofrer o castigo de Deus."
+        },
+        {
+          "number": "4",
+          "text": "Mas Deus, em sua grande misericórdia, por causa do imenso amor que sente por nós,"
+        },
+        {
+          "number": "5",
+          "text": "mesmo enquanto estávamos mortos em nossos pecados, nos fez viver juntamente com Cristo. A fé que vocês têm nele os salvou."
+        },
+        {
+          "number": "6",
+          "text": "Ele nos ressuscitou com Cristo e em Cristo Jesus nos acolheu no céu ao seu lado."
+        },
+        {
+          "number": "7",
+          "text": "Assim, Deus demonstrou a grandeza da sua graça, ao nos revelar a sua bondade, por meio de Cristo Jesus, por toda a eternidade que está por vir."
+        },
+        {
+          "number": "8",
+          "text": "Pois vocês são salvos pela graça, ao crer nele. Isso não vem de vocês; mas é um presente de Deus."
+        },
+        {
+          "number": "9",
+          "text": "A salvação não tem nada que ver com esforços humanos. Então, não se sintam orgulhosos."
+        },
+        {
+          "number": "10",
+          "text": "Nós somos o resultado do que Deus faz, criados em Cristo Jesus para fazer o bem, que Deus já planejara para que o fizéssemos."
+        },
+        {
+          "number": "11",
+          "text": "Então, vocês que eram “pagãos”, falando em termos humanos, chamados “não circuncidados” por aqueles que são “circuncidados”, que nada mais é do que um procedimento feito por mãos humanas, precisam se lembrar de"
+        },
+        {
+          "number": "12",
+          "text": "que já estiveram afastados de Cristo. Vocês foram impedidos, por serem não-judeus, de se tornarem cidadãos de Israel. E também, por isso, não puderam fazer parte do acordo que Deus tinha prometido. Vocês não tinham esperança e viviam no mundo sem Deus."
+        },
+        {
+          "number": "13",
+          "text": "Mas agora, em Cristo Jesus, vocês, que já estiveram muito distantes de Deus, foram trazidos para perto dele por meio do sangue de Cristo."
+        },
+        {
+          "number": "14",
+          "text": "Cristo é a nossa paz. Por meio do seu corpo, ele fez com que os dois povos se tornassem um e destruiu o muro da separação que trazia hostilidade e nos dividia,"
+        },
+        {
+          "number": "15",
+          "text": "fazendo com que nos libertássemos da lei, com suas exigências e regulamentos. Ele fez isso para que pudesse criar um novo povo unido a ele, a partir dos judeus e dos não-judeus. Foi assim que ele trouxe a paz."
+        },
+        {
+          "number": "16",
+          "text": "Por meio da sua crucificação, Jesus quis reconciliar completamente os dois povos a Deus. Ele quis que eles se unissem em um só corpo, para destruir a hostilidade que havia entre eles."
+        },
+        {
+          "number": "17",
+          "text": "Ele veio e anunciou o evangelho da paz, tanto para aqueles que estavam longe, quanto para aqueles que estavam perto."
+        },
+        {
+          "number": "18",
+          "text": "E foi por meio dele que todos nós conseguimos chegar ao Pai, pelo mesmo Espírito."
+        },
+        {
+          "number": "19",
+          "text": "Isso significa que vocês não são mais estrangeiros nem visitantes, pois agora se tornaram compatriotas do povo de Deus e todos pertencem à família de Deus."
+        },
+        {
+          "number": "20",
+          "text": "Família essa que está se formando a partir dos alicerces que os apóstolos e os profetas construíram, com Cristo Jesus como a pedra fundamental."
+        },
+        {
+          "number": "21",
+          "text": "Nele, toda a construção está unida, crescendo para formar um templo sagrado para o Senhor."
+        },
+        {
+          "number": "22",
+          "text": "Vocês também estão sendo construídos, unidos a ele, como uma casa onde Deus vive por meio do seu Espírito."
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "verses": [
+        {
+          "number": "1",
+          "text": "É pelo bem de vocês, não-judeus, que eu, Paulo, sou um prisioneiro por causa de Jesus Cristo."
+        },
+        {
+          "number": "2",
+          "text": "Eu suponho que vocês tenham ouvido que Deus me deu a responsabilidade específica de compartilhar a bênção dele com vocês."
+        },
+        {
+          "number": "3",
+          "text": "Assim, por meio do que Deus me mostrou, o mistério que antes estava escondido foi revelado a mim. Eu já escrevi para vocês sobre isso de uma forma bem breve"
+        },
+        {
+          "number": "4",
+          "text": "e, ao lerem o que foi escrito, vocês serão capazes de entender o conhecimento que tenho sobre o mistério de Cristo."
+        },
+        {
+          "number": "5",
+          "text": "Antigamente, esse mistério não foi revelado a ninguém. Mas, agora, Deus o revelou aos apóstolos e aos profetas, por meio do Espírito."
+        },
+        {
+          "number": "6",
+          "text": "E o mistério diz que os não-judeus também são herdeiros, fazem parte do mesmo corpo e, unidos a Cristo Jesus, compartilham, juntamente com os judeus, da promessa, por meio do evangelho."
+        },
+        {
+          "number": "7",
+          "text": "Eu me tornei um servo do evangelho por causa do dom que Deus, em sua graça, me concedeu. Esse dom me foi dado pelo poder de Deus, que atua em mim."
+        },
+        {
+          "number": "8",
+          "text": "Eu, o menos importante de todos os cristãos, recebi essa graça de anunciar aos não-judeus o incrível valor de Cristo"
+        },
+        {
+          "number": "9",
+          "text": "e para fazer com que todos vissem o mistério, desde o início escondido em Deus, aquele que tudo fez."
+        },
+        {
+          "number": "10",
+          "text": "O plano de Deus era que os vários aspectos da sua sabedoria fossem revelados, por meio da igreja, aos governantes e às autoridades do mundo celestial."
+        },
+        {
+          "number": "11",
+          "text": "Isso foi feito de acordo com o eterno propósito de Deus, que ele realizou em Cristo Jesus, o nosso Senhor."
+        },
+        {
+          "number": "12",
+          "text": "Por causa dele e da nossa fé nele, nós podemos ir a Deus em total liberdade e cheios de confiança."
+        },
+        {
+          "number": "13",
+          "text": "Então, eu lhes peço que não percam a coragem por causa do meu sofrimento. Pois, se sofro, faço isso por vocês e espero que valorizem o meu esforço."
+        },
+        {
+          "number": "14",
+          "text": "É por isso que eu me ajoelho diante do Pai,"
+        },
+        {
+          "number": "15",
+          "text": "de quem cada uma das famílias, tanto as do céu quanto as da terra, recebe a sua natureza e o seu caráter."
+        },
+        {
+          "number": "16",
+          "text": "Eu peço que, com a sua gloriosa riqueza, ele possa lhes fortalecer no íntimo do seu ser com poder, por meio do seu Espírito."
+        },
+        {
+          "number": "17",
+          "text": "Que Cristo viva em vocês, por meio da sua fé nele. E que vocês, com raízes cravadas profundamente no amor,"
+        },
+        {
+          "number": "18",
+          "text": "tenham o poder para compreender, com todo o povo de Deus, as várias dimensões do amor de Cristo."
+        },
+        {
+          "number": "19",
+          "text": "Que vocês conheçam o amor de Cristo, que ultrapassa todo o conhecimento, para que a plenitude de Deus os preencha e os complete totalmente."
+        },
+        {
+          "number": "20",
+          "text": "E, finalmente, que Deus, que pode fazer infinitamente mais do que nós poderíamos pedir ou até mesmo pensar,"
+        },
+        {
+          "number": "21",
+          "text": "possa ser glorificado na igreja e em Cristo Jesus, por todas as gerações, para todo o sempre! Amém!"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Então, eu, este prisioneiro no Senhor, os incentivo para que vivam de acordo com os princípios para os quais vocês foram chamados."
+        },
+        {
+          "number": "2",
+          "text": "Não se orgulhem tanto de si mesmos e sejam gentis e pacientes, sempre demonstrando tolerância e amor uns aos outros."
+        },
+        {
+          "number": "3",
+          "text": "Façam todos os esforços para continuarem, por meio da paz que une vocês, na união trazida pelo Espírito."
+        },
+        {
+          "number": "4",
+          "text": "Pois há um só corpo e um só Espírito, assim como uma só esperança para a qual Deus os chamou."
+        },
+        {
+          "number": "5",
+          "text": "O Senhor é um só, nossa fé nele é uma só e só há um batismo."
+        },
+        {
+          "number": "6",
+          "text": "Há somente um Deus, que é o Pai de todos nós. Ele é o Senhor de todos, realiza por meio de todos e está em todos."
+        },
+        {
+          "number": "7",
+          "text": "E cada um de nós recebeu a graça, dada de acordo com o dom generoso de Cristo."
+        },
+        {
+          "number": "8",
+          "text": "Como está escrito nas Sagradas Escrituras: “Quando ele subiu ao céu, levou junto muitos prisioneiros e deu dons para as pessoas.”"
+        },
+        {
+          "number": "9",
+          "text": "Com relação a isso: essa passagem diz que ele subiu, mas significa que ele também desceu até aos lugares mais baixos da terra, ou seja, ao mundo dos mortos."
+        },
+        {
+          "number": "10",
+          "text": "Aquele que desceu é o mesmo que também subiu ao mais alto do céu, para que, assim, ele pudesse fazer com que todo o universo ficasse completo."
+        },
+        {
+          "number": "11",
+          "text": "Os dons que ele deu foram para que alguns possam ser apóstolos, outros profetas, evangelistas, pastores e mestres."
+        },
+        {
+          "number": "12",
+          "text": "O propósito de tudo isso é preparar o povo de Deus para o trabalho de ajudar os outros, fazendo com que o corpo de Cristo possa crescer."
+        },
+        {
+          "number": "13",
+          "text": "Nós cresceremos juntos, até que todos se tornem apenas um na fé e no conhecimento do Filho de Deus. E é assim que nos desenvolveremos completamente, alcançando a maturidade completa em Cristo."
+        },
+        {
+          "number": "14",
+          "text": "Nós não devemos ser mais como criancinhas, levados de um lado para outro por qualquer brisa passageira de doutrina, enganados por artimanhas humanas, levados a errar por pessoas astutas em seus esquemas enganadores."
+        },
+        {
+          "number": "15",
+          "text": "Em vez disso, devemos falar a verdade com amor, para que possamos crescer em tudo, até alcançar a Cristo, que é a cabeça."
+        },
+        {
+          "number": "16",
+          "text": "É por causa dele que todo o corpo funciona e as juntas se mantêm unidas, assim como cada parte individual faz o que é destinada a fazer, permitindo que todo o corpo cresça e se desenvolva no amor."
+        },
+        {
+          "number": "17",
+          "text": "Por isso, eu lhes digo e, na verdade, insisto sobre isso no Senhor: vocês não deveriam continuar vivendo como os pagãos vivem, com seus pensamento sem valor."
+        },
+        {
+          "number": "18",
+          "text": "Com as suas mentes mergulhadas nas trevas, eles nada entendem. E eles não têm parte na vida que Deus dá, por serem ignorantes e teimosos."
+        },
+        {
+          "number": "19",
+          "text": "Eles perderam a vergonha e, por isso, se entregam à sensualidade e fazem, descontroladamente, todos os tipos de indecências."
+        },
+        {
+          "number": "20",
+          "text": "Mas, não foi isso que vocês aprenderam sobre Cristo!"
+        },
+        {
+          "number": "21",
+          "text": "Por acaso, vocês não ouviram sobre ele? Não lhes ensinaram a respeito dele? Vocês não aprenderam a verdade que está nele?"
+        },
+        {
+          "number": "22",
+          "text": "Então, livrem-se dessa velha natureza, que destrói a vida de vocês por meio de desejos enganosos."
+        },
+        {
+          "number": "23",
+          "text": "Deixem-se renascer para uma vida espiritual e mentalmente diferente"
+        },
+        {
+          "number": "24",
+          "text": "e assumam a nova natureza que Deus criou, para que vocês se tornem como ele, justos e santos, na verdade."
+        },
+        {
+          "number": "25",
+          "text": "Então, rejeitem as mentiras e digam sempre a verdade uns aos outros, pois nós pertencemos uns aos outros."
+        },
+        {
+          "number": "26",
+          "text": "Não pequem por estarem furiosos, não fiquem o dia todo com raiva,"
+        },
+        {
+          "number": "27",
+          "text": "e não deem ao diabo qualquer oportunidade para que sejam tentados."
+        },
+        {
+          "number": "28",
+          "text": "Quem furtava que não furte mais, porém trabalhe de forma honesta e produtiva com as próprias mãos, para que tenham algo para dar a quem precisa."
+        },
+        {
+          "number": "29",
+          "text": "Não falem palavrões. Digam apenas palavras que encorajam as pessoas, conforme a necessidade, para que o que elas ouvirem faça bem a elas."
+        },
+        {
+          "number": "30",
+          "text": "Não entristeçam o Espírito Santo de Deus, que os marcou para mostrar que vocês pertencem a ele até o dia da salvação."
+        },
+        {
+          "number": "31",
+          "text": "Livrem-se de todo tipo de amargura, ódio, raiva, ofensas, insultos e de todas as formas de maldade."
+        },
+        {
+          "number": "32",
+          "text": "Sejam gentis e tenham compaixão uns pelos outros, perdoando-se uns aos outros, da mesma maneira que Deus os perdoou em Cristo."
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Imitem a Deus, pois vocês são os filhos que ele ama muito."
+        },
+        {
+          "number": "2",
+          "text": "Vivam com amor, da mesma maneira que Cristo os amou. Ele morreu por nós e se ofereceu como um presente e, em sacrifício, como um perfume agradável a Deus."
+        },
+        {
+          "number": "3",
+          "text": "Que nunca digam que vocês praticam imoralidade sexual ou qualquer outro tipo de indecência, ou que são cobiçosos, pois, como povo de Deus, vocês nem mesmo deveriam conversar sobre essas coisas."
+        },
+        {
+          "number": "4",
+          "text": "Não digam palavras indecentes, ou coisas estúpidas e sujas. Em vez disso, agradeçam a Deus."
+        },
+        {
+          "number": "5",
+          "text": "Saibam vocês que ninguém que seja sexualmente imoral ou que pratique atos indecentes, que seja ganancioso ou adore ídolos herdará o que quer que seja no Reino de Cristo e de Deus."
+        },
+        {
+          "number": "6",
+          "text": "Não deixem que ninguém os engane com palavras mentirosas, pois é justamente por essas coisas que os filhos da desobediência serão julgados por Deus."
+        },
+        {
+          "number": "7",
+          "text": "Então, fiquem atentos e não participem disso com eles."
+        },
+        {
+          "number": "8",
+          "text": "Vocês já estiveram nas trevas, mas agora, estão na luz junto com o Senhor. Vocês devem viver como filhos da luz"
+        },
+        {
+          "number": "9",
+          "text": "(a luz só produz o que é bom, justo e verdadeiro),"
+        },
+        {
+          "number": "10",
+          "text": "mostrando ao Senhor o que ele realmente valoriza."
+        },
+        {
+          "number": "11",
+          "text": "Não se envolvam com as coisas vazias que as trevas produzem. Pelo contrário, reprovem-nas."
+        },
+        {
+          "number": "12",
+          "text": "É vergonhoso até mesmo falar sobre o que determinadas pessoas fazem secretamente,"
+        },
+        {
+          "number": "13",
+          "text": "mas, apenas quando algo é exposto pela luz é que sabemos como isso verdadeiramente é. A luz torna tudo visível."
+        },
+        {
+          "number": "14",
+          "text": "É por isso que se diz: “Vocês que estão dormindo, levantem-se, ressuscitem dos mortos, e Cristo os iluminará.”"
+        },
+        {
+          "number": "15",
+          "text": "Portanto, cuidado com a forma como vocês vivem! Não vivam de uma forma estúpida, mas, sim, com sabedoria."
+        },
+        {
+          "number": "16",
+          "text": "Usem as oportunidades da melhor maneira possível, pois os dias em que vivemos são maus."
+        },
+        {
+          "number": "17",
+          "text": "Não sejam ignorantes, mas descubram qual é a vontade do Senhor."
+        },
+        {
+          "number": "18",
+          "text": "Não fiquem bêbados por tomarem vinho e estragarem suas vidas. Mas sim, que fiquem cheios do Espírito."
+        },
+        {
+          "number": "19",
+          "text": "Animem uns aos outros usando salmos e músicas sagradas. Cantem e façam música para o Senhor, para expressarem o que realmente sentem."
+        },
+        {
+          "number": "20",
+          "text": "Sempre agradeçam a Deus, o Pai, por tudo, em nome do nosso Senhor Jesus Cristo."
+        },
+        {
+          "number": "21",
+          "text": "Vocês deveriam estar dispostos a aceitar o que os outros lhes dizem para fazer, pelo respeito que vocês têm por Cristo."
+        },
+        {
+          "number": "22",
+          "text": "Esposa, faça o que o seu marido lhe diz para fazer, como faria se o Senhor lhe dissesse."
+        },
+        {
+          "number": "23",
+          "text": "O marido é o cabeça da esposa, da mesma maneira que Cristo é o cabeça da igreja, sendo este mesmo o salvador do corpo."
+        },
+        {
+          "number": "24",
+          "text": "Exatamente como a igreja faz o que Cristo diz, as esposas deveriam obedecer em tudo ao seu marido."
+        },
+        {
+          "number": "25",
+          "text": "Marido, você deve amar a sua esposa, da mesma maneira que Cristo amou a igreja e se doou para ela."
+        },
+        {
+          "number": "26",
+          "text": "Ele a tornou santa. Ele a limpou com a água da palavra,"
+        },
+        {
+          "number": "27",
+          "text": "para que ele pudesse tornar a igreja sua; uma igreja sem vício ou defeito ou qualquer tipo de falha e, sim, santa e íntegra."
+        },
+        {
+          "number": "28",
+          "text": "O marido deve amar a esposa exatamente assim. Ame a sua esposa como você ama o seu próprio corpo. Um homem que ama a sua esposa ama a si mesmo,"
+        },
+        {
+          "number": "29",
+          "text": "pois ninguém odeia seu próprio corpo. Pelo contrário, nós o alimentamos e cuidamos dele, exatamente como Cristo faz com a igreja,"
+        },
+        {
+          "number": "30",
+          "text": "pois somos membros do seu corpo."
+        },
+        {
+          "number": "31",
+          "text": "Como dizem as Sagradas Escrituras: “É por isso que um homem deixa seu pai e sua mãe e se une a sua esposa, e os dois se tornam um.”"
+        },
+        {
+          "number": "32",
+          "text": "Esta é uma verdade profunda, mas eu estou falando sobre Cristo e a igreja."
+        },
+        {
+          "number": "33",
+          "text": "No entanto, cada marido deve amar a sua própria esposa como ele ama a si mesmo, e a esposa deve respeitar o marido."
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Filhos, façam o que os seus pais lhes dizem, pois é o certo a se fazer."
+        },
+        {
+          "number": "2",
+          "text": "“Respeitem o seu pai e a sua mãe.” Esse é o primeiro mandamento que tem uma promessa, a qual diz:"
+        },
+        {
+          "number": "3",
+          "text": "“Faça isso para que tudo corra bem para você e para que possa viver uma longa vida na terra.”"
+        },
+        {
+          "number": "4",
+          "text": "Pais, não irritem seus filhos, mas cuidem deles, dando disciplina e orientando-os sobre Deus."
+        },
+        {
+          "number": "5",
+          "text": "Escravos, obedeçam àqueles que são os seus senhores humanos, com o devido respeito e admiração, e façam tudo com motivação sincera, como se estivessem servindo a Cristo."
+        },
+        {
+          "number": "6",
+          "text": "Não trabalhem bem apenas quando estiverem sendo olhados, para ganharem aprovação. Mas trabalhem como escravos de Cristo, fazendo, de forma honesta, a vontade de Deus,"
+        },
+        {
+          "number": "7",
+          "text": "servindo alegremente, como se estivessem fazendo suas tarefas para o Senhor, e não para as pessoas."
+        },
+        {
+          "number": "8",
+          "text": "Vocês sabem que todo aquele que faz o que é bom será recompensado pelo Senhor, seja essa pessoa um escravo ou alguém livre."
+        },
+        {
+          "number": "9",
+          "text": "Senhores, vocês devem tratar os seus escravos também com respeito. Não os ameacem; lembrem-se de que o Senhor no céu é tanto o senhor deles quanto é o seu senhor, e ele trata as pessoas da mesma maneira, sem favoritismo."
+        },
+        {
+          "number": "10",
+          "text": "E, finalmente, fiquem firmes, unidos ao Senhor e ao seu imenso poder."
+        },
+        {
+          "number": "11",
+          "text": "Vistam toda a armadura de Deus, para que vocês possam resistir aos ataques do diabo."
+        },
+        {
+          "number": "12",
+          "text": "Nós não estamos lutando contra forças humanas, mas, sim, contra poderes sobrenaturais, contra os senhores das trevas, que dominam este mundo de escuridão, contra as forças espirituais do mal, que vivem nas alturas."
+        },
+        {
+          "number": "13",
+          "text": "Peguem todas as armas que Deus lhes dá, para que sejam capazes de se defenderem no dia em que o mal atacar e, depois de lutarem até o fim, possam ainda permanecer firmes!"
+        },
+        {
+          "number": "14",
+          "text": "Então, levantem-se! Coloquem o cinto da verdade em volta da cintura, ponham o peitoral da justiça e da razão"
+        },
+        {
+          "number": "15",
+          "text": "e calcem os sapatos da vontade para anunciar o evangelho da paz."
+        },
+        {
+          "number": "16",
+          "text": "Acima de tudo, peguem o escudo da fé em Deus, com o qual vocês serão capazes de se proteger de todas as flechas incendiárias do diabo."
+        },
+        {
+          "number": "17",
+          "text": "Coloquem o capacete da salvação e levem a espada do Espírito, que é a palavra de Deus."
+        },
+        {
+          "number": "18",
+          "text": "Façam tudo isso orando a Deus e pedindo a ajuda dele. Orem sempre, guiados pelo Espírito Santo. Fiquem alerta e continuem orando por todo o povo de Deus."
+        },
+        {
+          "number": "19",
+          "text": "Também orem por mim, para que eu receba as palavras certas a serem ditas e seja capaz de falar com coragem as verdades escondidas do evangelho."
+        },
+        {
+          "number": "20",
+          "text": "Eu sou um embaixador a serviço deste evangelho, embora eu esteja na prisão. Então, por favor, orem para que eu fale, sem medo, como eu devo fazer."
+        },
+        {
+          "number": "21",
+          "text": "Tíquico, nosso querido irmão e fiel companheiro no trabalho do Senhor, lhes dará todas as notícias a meu respeito e lhes explicará tudo, para que vocês possam saber como estou passando."
+        },
+        {
+          "number": "22",
+          "text": "É por isso que eu o estou enviando a vocês, para que saibam sobre nós e para encorajá-los."
+        },
+        {
+          "number": "23",
+          "text": "Que Deus, o Pai, e o Senhor Jesus Cristo deem a todos os irmãos paz e amor, com fé!"
+        },
+        {
+          "number": "24",
+          "text": "E que a graça de Deus esteja com todos aqueles que amam o nosso Senhor Jesus com um amor eterno!"
+        }
+      ]
+    }
+  ]
+}

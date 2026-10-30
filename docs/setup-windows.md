@@ -23,6 +23,6 @@ cargo test --manifest-path src-tauri/Cargo.toml --locked
 npm run tauri build -- --no-bundle
 ```
 
-A distribuição offline deve contemplar a disponibilidade do WebView2 na máquina de destino. O instalador, sua assinatura e a instalação em máquina limpa ainda precisam de validação própria. Teste monitores com escalas diferentes e coordenadas negativas, bem como desconexão do cabo durante uma sessão de ensaio.
+O workflow de distribuição prepara `LouvaShow-windows-x64-setup.exe` com NSIS e o instalador offline do WebView2 incorporado. Esse pacote é maior, mas permite instalar o runtime sem baixá-lo na máquina de destino. O CI não assina o EXE; instalação em máquina limpa e comportamento de segurança do Windows ainda precisam de validação própria. Consulte o [processo de release](build-release.md#instaladores-pelo-github-actions) e os resultados da versão publicada. Teste monitores com escalas diferentes e coordenadas negativas, bem como desconexão do cabo durante uma sessão de ensaio.
 
 Referência: [pré-requisitos oficiais do Tauri para Windows](https://v2.tauri.app/start/prerequisites/#windows).

@@ -301,7 +301,8 @@ impl Database {
                     .query_map([id], |row| row.get::<_, String>(0))
                     .map_err(|e| db_error("consultar repertórios afetados", e))?;
                 for row in rows {
-                    affected.insert(row.map_err(|e| db_error("consultar repertórios afetados", e))?);
+                    affected
+                        .insert(row.map_err(|e| db_error("consultar repertórios afetados", e))?);
                 }
             }
         }
@@ -780,7 +781,8 @@ impl Database {
         .map_err(|e| db_error("criar o repertório", e))?;
         Self::persist_active_setlist(&tx, &id)?;
         let setlist = Self::read_setlist(&tx, &id)?;
-        tx.commit().map_err(|e| db_error("salvar o repertório", e))?;
+        tx.commit()
+            .map_err(|e| db_error("salvar o repertório", e))?;
         Ok(setlist)
     }
 
@@ -873,7 +875,8 @@ impl Database {
             .map_err(|e| db_error("adicionar ao repertório", e))?;
         Self::touch_setlist(&tx, setlist_id)?;
         let setlist = Self::read_setlist(&tx, setlist_id)?;
-        tx.commit().map_err(|e| db_error("salvar o repertório", e))?;
+        tx.commit()
+            .map_err(|e| db_error("salvar o repertório", e))?;
         Ok(setlist)
     }
 
@@ -899,7 +902,8 @@ impl Database {
         Self::normalize_positions(&tx, setlist_id)?;
         Self::touch_setlist(&tx, setlist_id)?;
         let setlist = Self::read_setlist(&tx, setlist_id)?;
-        tx.commit().map_err(|e| db_error("salvar o repertório", e))?;
+        tx.commit()
+            .map_err(|e| db_error("salvar o repertório", e))?;
         Ok(setlist)
     }
 
@@ -1531,6 +1535,50 @@ mod tests {
             );
         }
         std::fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn theme_text_box_defaults_and_custom_geometry_survive_settings_reopen() {
+        use crate::domain::presentation::{TextBox, Theme};
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("theme-settings.sqlite3");
+        let song_id;
+        {
+            let mut db = Database::open(&path).unwrap();
+            song_id = db.save_song(input("Dados preservados")).unwrap().id;
+            let mut old_theme = serde_json::to_value(Theme::default()).unwrap();
+            old_theme.as_object_mut().unwrap().remove("textBox");
+            db.set_setting("theme.v1", &old_theme.to_string()).unwrap();
+        }
+        let expected = TextBox {
+            x: 12.,
+            y: 18.,
+            width: 76.,
+            height: 55.,
+        };
+        {
+            let mut db = Database::open(&path).unwrap();
+            let mut theme: Theme =
+                serde_json::from_str(&db.get_setting("theme.v1").unwrap().unwrap()).unwrap();
+            assert_eq!(theme.text_box, TextBox::default());
+            theme.text_box = expected;
+            theme.validate().unwrap();
+            db.set_setting("theme.v1", &serde_json::to_string(&theme).unwrap())
+                .unwrap();
+        }
+        {
+            let db = Database::open(&path).unwrap();
+            let theme: Theme =
+                serde_json::from_str(&db.get_setting("theme.v1").unwrap().unwrap()).unwrap();
+            theme.validate().unwrap();
+            assert_eq!(theme.text_box, expected);
+            assert_eq!(db.get_song(&song_id).unwrap().title, "Dados preservados");
+            let version: i64 = db
+                .connection
+                .pragma_query_value(None, "user_version", |row| row.get(0))
+                .unwrap();
+            assert_eq!(version, SCHEMA_VERSION);
+        }
     }
 
     #[test]

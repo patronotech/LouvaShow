@@ -1,7 +1,11 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, SetlistSummary, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
+import type { BibleVersion, BibleBook, BibleChapter, Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, SetlistSummary, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
 export const api = {
+ listBibleVersions: () => invoke<BibleVersion[]>('list_bible_versions'),
+ listBibleBooks: (versionId:string) => invoke<BibleBook[]>('list_bible_books',{versionId}),
+ getBibleChapter: (versionId:string,bookId:string,chapter:number) => invoke<BibleChapter>('get_bible_chapter',{versionId,bookId,chapter}),
  openCommunityGroup: () => invoke<void>('open_community_group'),
+ openAuthorWebsite: () => invoke<void>('open_author_website'),
  exportSongs: (ids:string[],format:'json'|'openlyrics') => invoke<{fileName:string;count:number}|null>('export_songs',{ids,format}),
  listCategories: () => invoke<Category[]>('list_categories'),
  createCategory: (name:string) => invoke<Category>('create_category',{name}),

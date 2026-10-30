@@ -15,7 +15,7 @@ A prioridade é completar e validar o fluxo de projeção antes de expandir inte
 
 ## Funcionalidades futuras
 
-- **Bíblia:** fontes e traduções com licenciamento apropriado, consulta offline e apresentação explícita.
+- **Bíblia:** ampliar o catálogo após verificar cada licença, busca textual por toda a Bíblia, referências digitadas e inclusão de passagens no repertório. A consulta offline por versão/livro/capítulo e a apresentação de versículos já integram o módulo inicial.
 - **Retorno:** uma saída própria para músicos, sem acoplar sua composição à saída da congregação.
 - **Controle remoto:** autenticação e limites de autorização explícitos; rede opcional, nunca requisito da operação local.
 - **Integrações:** contratos estáveis de aplicação antes de automações externas; sem carregamento dinâmico de plugins nesta versão.

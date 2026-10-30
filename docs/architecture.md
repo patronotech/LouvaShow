@@ -14,7 +14,11 @@ Ao apresentar, o coordenador conserva uma cópia do conteúdo da música usada n
 
 ## Contextos do operador
 
-A navegação entre Operação ao vivo, Repertórios, Músicas e Configurações é estado de interface e não envia comandos de apresentação. A música preparada e o snapshot permanecem no componente do operador. A área Músicas renderiza os blocos como conteúdo de revisão, sem ação de projetar. Atalhos de apresentação são limitados ao contexto ao vivo; os controles explícitos da barra de operação continuam disponíveis nos demais contextos.
+O módulo Bíblia mantém sua consulta separada da preparação musical. Versões, livros e capítulos são lidos por comandos Rust somente do operador. As traduções autorizadas são recursos imutáveis incorporados ao executável; não entram nas tabelas de músicas e não exigem download durante o uso. Cada edição preserva identificação, licença, atribuição e procedência próprias. Os textos passam por validação estrutural antes de serem expostos à interface.
+
+Apresentar um versículo cria uma sequência de páginas do capítulo no mesmo coordenador Rust da apresentação. O snapshot leva texto, referência e identificação da tradução, sem exigir acesso ao catálogo pela janela de saída. A navegação fica limitada a esse capítulo; preparar outro livro ou versão não muda o que está ao vivo. Versículos longos são divididos em limites de palavras e identificados por parte, preservando seu texto. A referência ocupa uma área reservada no componente de slide compartilhado entre prévia e projeção.
+
+A navegação entre Operação ao vivo, Repertórios, Músicas, Bíblia e Configurações é estado de interface e não envia comandos de apresentação. A música preparada e o snapshot permanecem no componente do operador. A área Músicas renderiza os blocos como conteúdo de revisão, sem ação de projetar. Atalhos de apresentação são limitados aos contextos ao vivo e Bíblia; os controles explícitos da barra de operação continuam disponíveis nos demais contextos.
 
 As dimensões e o recolhimento dos painéis são preferências de interface versionadas por contexto no armazenamento local da WebView. Não alteram músicas, repertórios ou temas do SQLite. A leitura valida tipos, versão e números finitos e limita as dimensões. O ajuste automático à largura disponível não sobrescreve as dimensões preferidas. O arraste só persiste ao terminar; Escape, cancelamento do ponteiro, perda de captura ou foco restauram o estado anterior. Painéis recolhidos usam `hidden` e `inert` para retirar seus controles da navegação por teclado.
 
@@ -51,3 +55,9 @@ Uma única janela de projeção é reutilizada. A escolha de monitor é uma suge
 A prévia e a saída compartilham as regras do slide e um canvas 16:9, com barras pretas quando a proporção da janela difere. Letras são texto, nunca HTML. Fundo, contraste e texto têm responsabilidades separadas. Ajustes de legibilidade têm um mínimo de fonte: se um bloco não couber, a interface deve pedir sua divisão. Os temas de fundo sólido são persistidos nas preferências locais. Mídia de fundo é uma evolução futura; quando implementada, a troca de bloco não deverá recriar o vídeo.
 
 Referências: [comandos Rust](https://v2.tauri.app/develop/calling-rust/), [eventos para o frontend](https://v2.tauri.app/develop/calling-frontend/), [capabilities](https://v2.tauri.app/security/capabilities/).
+
+## Prévia de tema e caixa de texto
+
+O formulário mantém um rascunho independente do tema aplicado. Alterações de campos e geometria renderizam uma cópia de prévia, sem comandos nativos; somente Aplicar à saída envia o tema ao coordenador. O snapshot real continua alimentando a prévia ao vivo e a projeção. Erros de aplicação preservam o rascunho para nova tentativa.
+
+`Theme.textBox` representa x, y, largura e altura em percentuais do canvas, com mínimo de 10% por dimensão e limites finitos dentro de 0–100. Temas anteriores recebem o padrão 7/7/86/86 na desserialização, sem apagar preferências existentes. Para Bíblia, o renderer e o editor compartilham a geometria efetiva que reserva os 19% inferiores à referência. As alças pertencem somente ao operador; a saída mantém renderização enxuta.

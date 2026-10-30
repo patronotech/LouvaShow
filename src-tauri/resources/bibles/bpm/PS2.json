@@ -1,0 +1,39 @@
+{
+  "id": "PS2",
+  "name": "Salmo 151",
+  "chapters": [
+    {
+      "number": 1,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Este salmo é genuinamente de Davi, embora adicional, composto quando ele lutou em combate individual contra Golias. Eu era pequeno entre meus irmãos, e o mais jovem na casa de meu pai. Eu cuidava das ovelhas de meu pai."
+        },
+        {
+          "number": "2",
+          "text": "Minhas mãos fizeram um instrumento musical, e meus dedos afinavam uma lira."
+        },
+        {
+          "number": "3",
+          "text": "Quem contará isso ao meu Senhor? O próprio Senhor, ele mesmo ouve."
+        },
+        {
+          "number": "4",
+          "text": "Ele enviou seu anjo e me tirou das ovelhas de meu pai, e me ungiu com seu óleo de unção."
+        },
+        {
+          "number": "5",
+          "text": "Meus irmãos eram bonitos e altos, mas o Senhor não se agradou deles."
+        },
+        {
+          "number": "6",
+          "text": "Saí para enfrentar o filisteu, e ele me amaldiçoou por seus ídolos."
+        },
+        {
+          "number": "7",
+          "text": "Mas saquei a própria espada dele e cortei-lhe a cabeça, e removi a vergonha dos filhos de Israel."
+        }
+      ]
+    }
+  ]
+}

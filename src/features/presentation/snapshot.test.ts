@@ -8,6 +8,7 @@ function snapshot(revision: number, title = `Revisão ${revision}`): Snapshot {
     title,
     blanked: true,
     songId: null,
+    bible: null,
     blocks: [],
     blockIndex: 0,
     theme: {
@@ -15,6 +16,7 @@ function snapshot(revision: number, title = `Revisão ${revision}`): Snapshot {
       textColor: '#ffffff', backgroundColor: '#000000', textAlign: 'center',
       verticalAlign: 'center', backgroundMediaId: null, overlayOpacity: 0,
       transitionType: 'none', transitionDurationMs: 0,
+      textBox: { x: 7, y: 7, width: 86, height: 86 },
     },
   };
 }
@@ -49,5 +51,17 @@ describe('coordenação dos snapshots da apresentação', () => {
     const result = [blanked, projected, restored, blanked].reduce(newer, projected);
     expect(result).toBe(restored);
     expect(result.blanked).toBe(false);
+  });
+
+  it('preserva a referência bíblica e as páginas ao receber uma música atrasada', () => {
+    const bible: Snapshot = {
+      ...snapshot(13, 'Livro de teste 1 · TESTE'),
+      blanked: false,
+      bible: { versionId: 'test', bookId: 'TST', chapter: 1, versionAbbreviation: 'TESTE', attribution: 'Conteúdo de teste' },
+      blocks: [{ id: 'bible:test:TST:1:1:1', label: 'Livro de teste 1:1', text: 'Texto de teste.', position: 0 }],
+    };
+    const oldSong = { ...snapshot(12), songId: 'song' };
+    expect(newer(bible, oldSong)).toBe(bible);
+    expect(newer(bible, { ...bible, revision: 14, blanked: true }).blocks).toEqual(bible.blocks);
   });
 });

@@ -1,5 +1,45 @@
+use super::bible::{BiblePresentation, PreparedBible};
 use super::library::{Song, SongBlock};
 use serde::{Deserialize, Serialize};
+
+/// Percentages of the slide canvas, independent of output resolution and DPI.
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct TextBox {
+    pub x: f64,
+    pub y: f64,
+    pub width: f64,
+    pub height: f64,
+}
+
+impl Default for TextBox {
+    fn default() -> Self {
+        Self {
+            x: 7.,
+            y: 7.,
+            width: 86.,
+            height: 86.,
+        }
+    }
+}
+
+impl TextBox {
+    pub fn validate(&self) -> Result<(), String> {
+        if ![self.x, self.y, self.width, self.height]
+            .iter()
+            .all(|v| v.is_finite())
+            || self.x < 0.
+            || self.y < 0.
+            || self.width < 10.
+            || self.height < 10.
+            || self.x + self.width > 100.
+            || self.y + self.height > 100.
+        {
+            return Err("Área de texto inválida. Use largura e altura de pelo menos 10% e mantenha a caixa dentro da tela.".into());
+        }
+        Ok(())
+    }
+}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -16,6 +56,8 @@ pub struct Theme {
     pub overlay_opacity: f64,
     pub transition_type: String,
     pub transition_duration_ms: u32,
+    #[serde(default)]
+    pub text_box: TextBox,
 }
 impl Default for Theme {
     fn default() -> Self {
@@ -32,11 +74,13 @@ impl Default for Theme {
             overlay_opacity: 0.,
             transition_type: "fade".into(),
             transition_duration_ms: 180,
+            text_box: TextBox::default(),
         }
     }
 }
 impl Theme {
     pub fn validate(&self) -> Result<(), String> {
+        self.text_box.validate()?;
         let color = |v: &str| {
             v.len() == 7 && v.starts_with('#') && v[1..].bytes().all(|c| c.is_ascii_hexdigit())
         };
@@ -60,12 +104,33 @@ impl Theme {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct PresentationBlock {
+    pub id: String,
+    pub label: Option<String>,
+    pub text: String,
+    pub position: usize,
+}
+impl From<SongBlock> for PresentationBlock {
+    fn from(block: SongBlock) -> Self {
+        Self {
+            id: block.id,
+            label: block.label,
+            text: block.text,
+            position: block.position,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Snapshot {
     pub revision: u64,
     pub blanked: bool,
     pub song_id: Option<String>,
     pub title: String,
-    pub blocks: Vec<SongBlock>,
+    pub blocks: Vec<PresentationBlock>,
+    #[serde(default)]
+    pub bible: Option<BiblePresentation>,
     pub block_index: usize,
     pub theme: Theme,
 }
@@ -77,6 +142,7 @@ impl Default for Snapshot {
             song_id: None,
             title: String::new(),
             blocks: vec![],
+            bible: None,
             block_index: 0,
             theme: Theme::default(),
         }
@@ -90,9 +156,25 @@ impl Snapshot {
             .position(|b| b.id == block_id)
             .ok_or("Trecho não encontrado. Atualize a biblioteca.")?;
         self.song_id = Some(song.id);
+        self.bible = None;
         self.title = song.title;
-        self.blocks = song.blocks;
+        self.blocks = song.blocks.into_iter().map(Into::into).collect();
         self.block_index = index;
+        self.blanked = false;
+        self.revision += 1;
+        Ok(())
+    }
+    pub fn present_bible(&mut self, prepared: PreparedBible) -> Result<(), String> {
+        if prepared.blocks.is_empty() || prepared.block_index >= prepared.blocks.len() {
+            return Err(
+                "O trecho bíblico preparado é inválido. Escolha o versículo novamente.".into(),
+            );
+        }
+        self.song_id = None;
+        self.bible = Some(prepared.bible);
+        self.title = prepared.title;
+        self.blocks = prepared.blocks;
+        self.block_index = prepared.block_index;
         self.blanked = false;
         self.revision += 1;
         Ok(())
@@ -128,6 +210,14 @@ pub enum Action {
         #[serde(rename = "blockId")]
         block_id: String,
     },
+    PresentBible {
+        #[serde(rename = "versionId")]
+        version_id: String,
+        #[serde(rename = "bookId")]
+        book_id: String,
+        chapter: u32,
+        verse: String,
+    },
     Next,
     Previous,
     ToggleBlank,
@@ -138,6 +228,10 @@ pub enum Action {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{
+        application::bible::prepare_chapter,
+        domain::bible::{BibleChapter, BibleVerse, BibleVersion},
+    };
     fn song() -> Song {
         serde_json::from_value(serde_json::json!({"id":"s","title":"Teste", "artist":null,"createdAt":"now","updatedAt":"now","blocks":[{"id":"a","songId":"s","label":null,"text":"Um","position":0},{"id":"b","songId":"s","label":null,"text":"Dois","position":1}]})).unwrap()
     }
@@ -169,5 +263,228 @@ mod tests {
         assert!(s.present(source, "missing").is_err());
         assert_eq!(r, s.revision);
         assert_eq!(s.blocks[0].text, "Um");
+    }
+
+    #[test]
+    fn legacy_theme_without_text_box_uses_existing_safe_margins() {
+        let mut legacy = serde_json::to_value(Theme::default()).unwrap();
+        legacy.as_object_mut().unwrap().remove("textBox");
+        let restored: Theme = serde_json::from_value(legacy).unwrap();
+        assert_eq!(
+            restored.text_box,
+            TextBox {
+                x: 7.,
+                y: 7.,
+                width: 86.,
+                height: 86.
+            }
+        );
+        restored.validate().unwrap();
+        let json = serde_json::to_value(restored).unwrap();
+        assert_eq!(json["textBox"]["width"], 86.);
+        assert!(json.get("text_box").is_none());
+    }
+
+    #[test]
+    fn text_box_validates_finite_values_minimum_dimensions_and_canvas_bounds() {
+        for valid in [
+            TextBox::default(),
+            TextBox {
+                x: 0.,
+                y: 0.,
+                width: 100.,
+                height: 100.,
+            },
+            TextBox {
+                x: 90.,
+                y: 90.,
+                width: 10.,
+                height: 10.,
+            },
+        ] {
+            assert!(valid.validate().is_ok());
+        }
+        let valid = TextBox::default();
+        for invalid in [
+            TextBox {
+                x: f64::NAN,
+                ..valid
+            },
+            TextBox {
+                y: f64::INFINITY,
+                ..valid
+            },
+            TextBox {
+                width: f64::NEG_INFINITY,
+                ..valid
+            },
+            TextBox {
+                height: f64::NAN,
+                ..valid
+            },
+            TextBox { x: -0.01, ..valid },
+            TextBox { y: -0.01, ..valid },
+            TextBox {
+                width: 9.99,
+                ..valid
+            },
+            TextBox {
+                height: 9.99,
+                ..valid
+            },
+            TextBox { x: 15., ..valid },
+            TextBox { y: 15., ..valid },
+        ] {
+            assert!(invalid.validate().is_err(), "{invalid:?}");
+        }
+        for malformed in [
+            serde_json::Value::Null,
+            serde_json::json!({"x":0,"y":0,"width":90}),
+            serde_json::json!({"x":"7","y":7,"width":86,"height":86}),
+        ] {
+            let mut json = serde_json::to_value(Theme::default()).unwrap();
+            json["textBox"] = malformed;
+            assert!(serde_json::from_value::<Theme>(json).is_err());
+        }
+    }
+
+    #[test]
+    fn text_box_draft_changes_only_go_live_when_valid_theme_is_applied() {
+        let mut state = Snapshot::default();
+        state.present(song(), "a").unwrap();
+        state.toggle_blank();
+        let before = serde_json::to_value(&state).unwrap();
+        let mut draft = state.theme.clone();
+        draft.text_box = TextBox {
+            x: 10.,
+            y: 20.,
+            width: 70.,
+            height: 50.,
+        };
+        assert_eq!(serde_json::to_value(&state).unwrap(), before);
+        let mut invalid = draft.clone();
+        invalid.text_box.width = 95.;
+        assert!(state.apply_theme(invalid).is_err());
+        assert_eq!(serde_json::to_value(&state).unwrap(), before);
+        let revision = state.revision;
+        state.apply_theme(draft.clone()).unwrap();
+        assert_eq!(state.revision, revision + 1);
+        assert_eq!(state.theme.text_box, draft.text_box);
+        assert!(state.blanked);
+        assert_eq!(state.blocks[0].text, "Um");
+        let restored: Snapshot =
+            serde_json::from_value(serde_json::to_value(&state).unwrap()).unwrap();
+        assert_eq!(restored.theme.text_box, draft.text_box);
+    }
+
+    fn bible_fixture() -> (BibleVersion, BibleChapter) {
+        let version = BibleVersion {
+            id: "test".into(),
+            name: "Versão de teste".into(),
+            abbreviation: "TEST".into(),
+            language: "pt".into(),
+            license: "Teste".into(),
+            license_url: "https://example.com/license".into(),
+            attribution: "Texto sintético para validação".into(),
+            source_url: "https://example.com/source".into(),
+        };
+        let chapter = BibleChapter {
+            version_id: "test".into(),
+            book_id: "TST".into(),
+            book_name: "Livro de teste".into(),
+            chapter: 1,
+            verses: vec![
+                BibleVerse {
+                    number: "1".into(),
+                    text: "Primeiro versículo sintético".into(),
+                },
+                BibleVerse {
+                    number: "2-3".into(),
+                    text: "Segundo versículo sintético com acentuação. ".repeat(20),
+                },
+            ],
+        };
+        (version, chapter)
+    }
+
+    #[test]
+    fn music_bible_music_switches_owned_content_and_navigation_stays_in_chapter() {
+        let mut state = Snapshot::default();
+        state.present(song(), "a").unwrap();
+        assert!(state.bible.is_none());
+        let (version, chapter) = bible_fixture();
+        let expected = chapter.verses[1].text.clone();
+        state
+            .present_bible(prepare_chapter(&version, chapter, "2-3").unwrap())
+            .unwrap();
+        assert_eq!(state.revision, 2);
+        assert!(state.song_id.is_none());
+        assert_eq!(state.bible.as_ref().unwrap().version_id, "test");
+        assert_eq!(state.blocks[state.block_index].id, "bible:test:TST:1:2-3:1");
+        assert!(state.blocks[state.block_index]
+            .label
+            .as_deref()
+            .unwrap()
+            .contains("parte 1/"));
+        assert_eq!(
+            state
+                .blocks
+                .iter()
+                .filter(|b| b.id.starts_with("bible:test:TST:1:2-3:"))
+                .map(|b| b.text.as_str())
+                .collect::<String>(),
+            expected
+        );
+        for _ in 0..state.blocks.len() + 1 {
+            state.navigate(true);
+        }
+        let last = state.revision;
+        state.navigate(true);
+        assert_eq!(state.revision, last);
+        assert_eq!(state.bible.as_ref().unwrap().chapter, 1);
+        for _ in 0..state.blocks.len() + 1 {
+            state.navigate(false);
+        }
+        let first = state.revision;
+        state.navigate(false);
+        assert_eq!(state.revision, first);
+        assert_eq!(state.block_index, 0);
+        state.toggle_blank();
+        state.navigate(true);
+        assert!(state.blanked);
+        state.toggle_blank();
+        state.present(song(), "b").unwrap();
+        assert!(state.bible.is_none());
+        assert_eq!(state.song_id.as_deref(), Some("s"));
+        assert_eq!(state.blocks[state.block_index].text, "Dois");
+    }
+
+    #[test]
+    fn invalid_bible_selection_does_not_mutate_live_snapshot() {
+        let mut state = Snapshot::default();
+        state.present(song(), "a").unwrap();
+        let before = serde_json::to_value(&state).unwrap();
+        let (version, chapter) = bible_fixture();
+        assert!(prepare_chapter(&version, chapter.clone(), "missing").is_err());
+        assert!(prepare_chapter(&version, chapter.clone(), "2").is_err());
+        let mut invalid = prepare_chapter(&version, chapter, "1").unwrap();
+        invalid.block_index = invalid.blocks.len();
+        assert!(state.present_bible(invalid).is_err());
+        assert_eq!(serde_json::to_value(&state).unwrap(), before);
+    }
+
+    #[test]
+    fn bible_snapshot_roundtrips_and_generic_blocks_exclude_song_identity() {
+        let mut state = Snapshot::default();
+        let (version, chapter) = bible_fixture();
+        state
+            .present_bible(prepare_chapter(&version, chapter, "1").unwrap())
+            .unwrap();
+        let serialized = serde_json::to_value(&state).unwrap();
+        assert!(serialized["blocks"][0].get("songId").is_none());
+        let restored: Snapshot = serde_json::from_value(serialized.clone()).unwrap();
+        assert_eq!(serde_json::to_value(restored).unwrap(), serialized);
+        let action:Action=serde_json::from_value(serde_json::json!({"type":"presentBible","versionId":"test","bookId":"TST","chapter":1,"verse":"2-3"})).unwrap();
+        assert!(matches!(action,Action::PresentBible{verse,..} if verse=="2-3"));
     }
 }

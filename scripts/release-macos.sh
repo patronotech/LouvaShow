@@ -16,6 +16,7 @@ INCLUDE_BUNDLED_HYMNS="${INCLUDE_BUNDLED_HYMNS:-0}"
 BUILD_APP="${BUILD_APP:-1}"
 [[ "$INCLUDE_BUNDLED_HYMNS" == 0 || "$INCLUDE_BUNDLED_HYMNS" == 1 ]] || fail 'INCLUDE_BUNDLED_HYMNS deve ser 0 ou 1.'
 [[ "$BUILD_APP" == 0 || "$BUILD_APP" == 1 ]] || fail 'BUILD_APP deve ser 0 ou 1.'
+[[ "$BUILD_APP" == 1 || "$INCLUDE_BUNDLED_HYMNS" == 1 ]] || fail 'A distribuição pública exige build novo sem o hinário privado; não reutilize APP_SOURCE.'
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
@@ -46,6 +47,7 @@ if [[ "$BUILD_APP" == 1 ]]; then
   if [[ "$INCLUDE_BUNDLED_HYMNS" == 1 ]]; then
     BUILD_ARGS+=(--features bundled-hymns)
   fi
+  BUILD_ARGS+=(-- --locked --no-default-features)
   # Avoid inheriting unrelated certificate/password exports. The signing step
   # below uses only the installed identity and the existing Keychain profile.
   env -u APPLE_CERTIFICATE -u APPLE_CERTIFICATE_PASSWORD -u APPLE_ID \
@@ -64,10 +66,11 @@ version, hymns = sys.argv[3:]
 allowed = {
     'Contents/Info.plist', 'Contents/MacOS/louvashow',
     'Contents/PkgInfo', 'Contents/Resources/icon.icns',
+    'Contents/Resources/BIBLE-NOTICES.txt',
 }
 if hymns == '1':
     allowed.add('Contents/Resources/hc_xml.zip')
-required = {'Contents/Info.plist', 'Contents/MacOS/louvashow'}
+required = {'Contents/Info.plist', 'Contents/MacOS/louvashow', 'Contents/Resources/BIBLE-NOTICES.txt'}
 found = set()
 for path in source.rglob('*'):
     if path.is_symlink():
@@ -122,8 +125,12 @@ PY
   for attempt in $(seq 1 60); do
     xcrun notarytool wait "$submission" --keychain-profile "$NOTARY_KEYCHAIN_PROFILE" \
       --timeout 50s --output-format json > "$RELEASE_WORK/evidence/$name-wait.json" 2>/dev/null || true
-    xcrun notarytool info "$submission" --keychain-profile "$NOTARY_KEYCHAIN_PROFILE" \
-      --output-format json > "$RELEASE_WORK/evidence/$name-status.json"
+    if ! xcrun notarytool info "$submission" --keychain-profile "$NOTARY_KEYCHAIN_PROFILE" \
+      --output-format json > "$RELEASE_WORK/evidence/$name-status.json" 2>/dev/null; then
+      printf 'Consulta temporariamente indisponível para %s; mantendo a submissão existente.\n' "$name"
+      sleep 5
+      continue
+    fi
     status="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["status"])' "$RELEASE_WORK/evidence/$name-status.json")"
     printf 'Notarização %s: %s (consulta %s).\n' "$name" "$status" "$attempt"
     case "$status" in

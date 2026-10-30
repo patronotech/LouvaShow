@@ -1,0 +1,183 @@
+name: Preparar instaladores públicos
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: installers-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Instalador · ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-x64
+            runner: windows-2022
+            target: x86_64-pc-windows-msvc
+            bundle: nsis
+            extension: exe
+            asset: LouvaShow-windows-x64-setup.exe
+          - platform: macos-arm64
+            runner: macos-15
+            target: aarch64-apple-darwin
+            bundle: dmg
+            extension: dmg
+            asset: LouvaShow-macos-arm64.dmg
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Obter código da tag selecionada
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Python para auditoria e validação
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.13'
+      - name: Verificar versão, tag e ausência de conteúdo privado
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, re, tomllib
+          root = pathlib.Path('.')
+          ref = os.environ['GITHUB_REF']
+          match = re.fullmatch(r'refs/tags/v(\d+\.\d+\.\d+)', ref)
+          if not match:
+              raise SystemExit('Execute este workflow em uma tag estável existente: vMAJOR.MINOR.PATCH.')
+          version = match[1]
+          package = json.loads((root / 'package.json').read_text())
+          config = json.loads((root / 'src-tauri/tauri.conf.json').read_text())
+          cargo = tomllib.loads((root / 'src-tauri/Cargo.toml').read_text())
+          if {package['version'], config['version'], cargo['package']['version']} != {version}:
+              raise SystemExit('Versões package.json, Cargo.toml e tauri.conf.json devem coincidir com a tag.')
+          if (root / 'src-tauri/resources/hc_xml.zip').exists():
+              raise SystemExit('O catálogo privado não pode estar no checkout público.')
+          if cargo.get('features', {}).get('default', []):
+              raise SystemExit('A distribuição pública exige features padrão vazias; revise o build.')
+          print('Versão pública validada:', version)
+          PY
+          python scripts/audit-public-source.py
+      - name: Rust estável e target explícito
+        env:
+          RUST_TARGET: ${{ matrix.target }}
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+          rustup default stable
+          rustup target add "$RUST_TARGET"
+      - name: Dependências frontend fixadas
+        run: npm ci
+      - name: Testes frontend e formatação Rust
+        run: |
+          npm test
+          cargo fmt --manifest-path src-tauri/Cargo.toml --all -- --check
+      - name: Testes e análise Rust sem acervo privado
+        run: |
+          cargo test --manifest-path src-tauri/Cargo.toml --locked --no-default-features
+          cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked --no-default-features -- -D warnings
+      - name: Configuração exclusiva do instalador público
+        env:
+          BUILD_PLATFORM: ${{ matrix.platform }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          bundle = {'active': True}
+          if os.environ['BUILD_PLATFORM'] == 'windows-x64':
+              bundle['windows'] = {'webviewInstallMode': {'type': 'offlineInstaller'}}
+          pathlib.Path('src-tauri/tauri.ci-release.json').write_text(json.dumps({'bundle': bundle}))
+          PY
+      - name: Compilar e empacotar
+        env:
+          RUST_TARGET: ${{ matrix.target }}
+          BUNDLE: ${{ matrix.bundle }}
+        run: |
+          npm run tauri build -- --ci --target "$RUST_TARGET" --bundles "$BUNDLE" --config src-tauri/tauri.ci-release.json -- --locked --no-default-features
+      - name: Selecionar somente o instalador para entrega
+        env:
+          RUST_TARGET: ${{ matrix.target }}
+          BUNDLE: ${{ matrix.bundle }}
+          EXTENSION: ${{ matrix.extension }}
+          ASSET_NAME: ${{ matrix.asset }}
+        run: |
+          python - <<'PY'
+          import hashlib, os, pathlib, shutil
+          source = pathlib.Path('src-tauri/target') / os.environ['RUST_TARGET'] / 'release/bundle' / os.environ['BUNDLE']
+          matches = list(source.glob('*.' + os.environ['EXTENSION']))
+          if len(matches) != 1 or not matches[0].is_file():
+              raise SystemExit(f'Esperado exatamente um instalador em {source}; encontrados {len(matches)}.')
+          output = pathlib.Path('release-assets')
+          output.mkdir()
+          asset = output / os.environ['ASSET_NAME']
+          shutil.copyfile(matches[0], asset)
+          digest = hashlib.file_digest(asset.open('rb'), 'sha256').hexdigest()
+          print(f'{digest}  {asset.name}')
+          PY
+      - name: Guardar instalador para o job de release
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: installer-${{ matrix.platform }}
+          path: release-assets/${{ matrix.asset }}
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  release:
+    name: Criar rascunho após ambos os builds
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Reunir apenas os dois instaladores
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: installer-*
+          path: release-assets
+          merge-multiple: true
+      - name: Conferir artefatos e gerar hashes
+        shell: bash
+        working-directory: release-assets
+        run: |
+          test -s LouvaShow-windows-x64-setup.exe
+          test -s LouvaShow-macos-arm64.dmg
+          test "$(find . -maxdepth 1 -type f | wc -l)" -eq 2
+          sha256sum LouvaShow-windows-x64-setup.exe LouvaShow-macos-arm64.dmg > SHA256SUMS.txt
+      - name: Criar release em rascunho, sem publicação automática
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo 'Já existe release para esta tag. Nenhum asset existente será sobrescrito.' >&2
+            exit 1
+          fi
+          cat > release-notes.md <<'NOTES'
+          Instaladores públicos sem o catálogo privado de hinos. Os quatro catálogos bíblicos licenciados fazem parte do aplicativo.
+
+          - Windows x64: instalador NSIS, com instalador offline do WebView2. Este EXE não possui assinatura de código.
+          - macOS Apple Silicon: DMG produzido no CI, sem assinatura Developer ID nem notarização. Antes de publicar, substituir este asset pelo DMG público assinado e notarizado localmente, mantendo o nome e atualizando SHA256SUMS.txt.
+
+          Builds e testes automatizados não comprovam instalação, operação ao vivo ou uso com segundo monitor. Revisar instalação, conteúdo dos pacotes e notas antes de publicar este rascunho. Não inclui build macOS Intel, Windows ARM ou Linux.
+          NOTES
+          gh release create "$RELEASE_TAG" --verify-tag --draft \
+            --title "LouvaShow $RELEASE_TAG" --notes-file release-notes.md \
+            release-assets/LouvaShow-windows-x64-setup.exe \
+            release-assets/LouvaShow-macos-arm64.dmg \
+            release-assets/SHA256SUMS.txt

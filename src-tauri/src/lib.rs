@@ -60,7 +60,11 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            commands::bible::list_bible_versions,
+            commands::bible::list_bible_books,
+            commands::bible::get_bible_chapter,
             commands::open_community_group,
+            commands::open_author_website,
             commands::library::list_categories,
             commands::library::create_category,
             commands::library::rename_category,

@@ -1,0 +1,1494 @@
+[
+  {
+    "id": "blivre",
+    "name": "Bíblia Livre — edição de fevereiro de 2018",
+    "abbreviation": "BLIVRE",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Bíblia Livre (BLIVRE), Copyright © 2018 Diego Santos, Mario Sérgio e Marco Teles. Edição de fevereiro de 2018. https://sites.google.com/site/biblialivre/ — CC BY 4.0: https://creativecommons.org/licenses/by/4.0/. Reprodução permitida com menção à fonte e aos autores. Trabalho em andamento. Conversão técnica do VPL XML publicado pelo eBible.org para JSON por livro; nomes de livros apresentados em português. A fonte VPL já omite notas, títulos editoriais, introduções e formatação. Espaços nas extremidades dos registros foram removidos; o texto dos versículos não foi reescrito. Esta conversão não implica endosso dos titulares ao LouvaShow.",
+    "sourceSha256": "1f71b7765795ae7cc416a9255c7d9c3a3932ce868206fa762606c7438c8fc682",
+    "language": "pt-BR",
+    "sourceUrl": "https://ebible.org/details.php?id=porbr2018",
+    "books": [
+      {
+        "id": "GEN",
+        "name": "Gênesis",
+        "chapterCount": 50,
+        "file": "blivre/GEN.json"
+      },
+      {
+        "id": "EXO",
+        "name": "Êxodo",
+        "chapterCount": 40,
+        "file": "blivre/EXO.json"
+      },
+      {
+        "id": "LEV",
+        "name": "Levítico",
+        "chapterCount": 27,
+        "file": "blivre/LEV.json"
+      },
+      {
+        "id": "NUM",
+        "name": "Números",
+        "chapterCount": 36,
+        "file": "blivre/NUM.json"
+      },
+      {
+        "id": "DEU",
+        "name": "Deuteronômio",
+        "chapterCount": 34,
+        "file": "blivre/DEU.json"
+      },
+      {
+        "id": "JOS",
+        "name": "Josué",
+        "chapterCount": 24,
+        "file": "blivre/JOS.json"
+      },
+      {
+        "id": "JDG",
+        "name": "Juízes",
+        "chapterCount": 21,
+        "file": "blivre/JDG.json"
+      },
+      {
+        "id": "RUT",
+        "name": "Rute",
+        "chapterCount": 4,
+        "file": "blivre/RUT.json"
+      },
+      {
+        "id": "1SA",
+        "name": "1 Samuel",
+        "chapterCount": 31,
+        "file": "blivre/1SA.json"
+      },
+      {
+        "id": "2SA",
+        "name": "2 Samuel",
+        "chapterCount": 24,
+        "file": "blivre/2SA.json"
+      },
+      {
+        "id": "1KI",
+        "name": "1 Reis",
+        "chapterCount": 22,
+        "file": "blivre/1KI.json"
+      },
+      {
+        "id": "2KI",
+        "name": "2 Reis",
+        "chapterCount": 25,
+        "file": "blivre/2KI.json"
+      },
+      {
+        "id": "1CH",
+        "name": "1 Crônicas",
+        "chapterCount": 29,
+        "file": "blivre/1CH.json"
+      },
+      {
+        "id": "2CH",
+        "name": "2 Crônicas",
+        "chapterCount": 36,
+        "file": "blivre/2CH.json"
+      },
+      {
+        "id": "EZR",
+        "name": "Esdras",
+        "chapterCount": 10,
+        "file": "blivre/EZR.json"
+      },
+      {
+        "id": "NEH",
+        "name": "Neemias",
+        "chapterCount": 13,
+        "file": "blivre/NEH.json"
+      },
+      {
+        "id": "EST",
+        "name": "Ester",
+        "chapterCount": 10,
+        "file": "blivre/EST.json"
+      },
+      {
+        "id": "JOB",
+        "name": "Jó",
+        "chapterCount": 42,
+        "file": "blivre/JOB.json"
+      },
+      {
+        "id": "PSA",
+        "name": "Salmos",
+        "chapterCount": 150,
+        "file": "blivre/PSA.json"
+      },
+      {
+        "id": "PRO",
+        "name": "Provérbios",
+        "chapterCount": 31,
+        "file": "blivre/PRO.json"
+      },
+      {
+        "id": "ECC",
+        "name": "Eclesiastes",
+        "chapterCount": 12,
+        "file": "blivre/ECC.json"
+      },
+      {
+        "id": "SNG",
+        "name": "Cântico dos Cânticos",
+        "chapterCount": 8,
+        "file": "blivre/SNG.json"
+      },
+      {
+        "id": "ISA",
+        "name": "Isaías",
+        "chapterCount": 66,
+        "file": "blivre/ISA.json"
+      },
+      {
+        "id": "JER",
+        "name": "Jeremias",
+        "chapterCount": 52,
+        "file": "blivre/JER.json"
+      },
+      {
+        "id": "LAM",
+        "name": "Lamentações",
+        "chapterCount": 5,
+        "file": "blivre/LAM.json"
+      },
+      {
+        "id": "EZK",
+        "name": "Ezequiel",
+        "chapterCount": 48,
+        "file": "blivre/EZK.json"
+      },
+      {
+        "id": "DAN",
+        "name": "Daniel",
+        "chapterCount": 12,
+        "file": "blivre/DAN.json"
+      },
+      {
+        "id": "HOS",
+        "name": "Oseias",
+        "chapterCount": 14,
+        "file": "blivre/HOS.json"
+      },
+      {
+        "id": "JOL",
+        "name": "Joel",
+        "chapterCount": 3,
+        "file": "blivre/JOL.json"
+      },
+      {
+        "id": "AMO",
+        "name": "Amós",
+        "chapterCount": 9,
+        "file": "blivre/AMO.json"
+      },
+      {
+        "id": "OBA",
+        "name": "Obadias",
+        "chapterCount": 1,
+        "file": "blivre/OBA.json"
+      },
+      {
+        "id": "JON",
+        "name": "Jonas",
+        "chapterCount": 4,
+        "file": "blivre/JON.json"
+      },
+      {
+        "id": "MIC",
+        "name": "Miqueias",
+        "chapterCount": 7,
+        "file": "blivre/MIC.json"
+      },
+      {
+        "id": "NAM",
+        "name": "Naum",
+        "chapterCount": 3,
+        "file": "blivre/NAM.json"
+      },
+      {
+        "id": "HAB",
+        "name": "Habacuque",
+        "chapterCount": 3,
+        "file": "blivre/HAB.json"
+      },
+      {
+        "id": "ZEP",
+        "name": "Sofonias",
+        "chapterCount": 3,
+        "file": "blivre/ZEP.json"
+      },
+      {
+        "id": "HAG",
+        "name": "Ageu",
+        "chapterCount": 2,
+        "file": "blivre/HAG.json"
+      },
+      {
+        "id": "ZEC",
+        "name": "Zacarias",
+        "chapterCount": 14,
+        "file": "blivre/ZEC.json"
+      },
+      {
+        "id": "MAL",
+        "name": "Malaquias",
+        "chapterCount": 4,
+        "file": "blivre/MAL.json"
+      },
+      {
+        "id": "MAT",
+        "name": "Mateus",
+        "chapterCount": 28,
+        "file": "blivre/MAT.json"
+      },
+      {
+        "id": "MRK",
+        "name": "Marcos",
+        "chapterCount": 16,
+        "file": "blivre/MRK.json"
+      },
+      {
+        "id": "LUK",
+        "name": "Lucas",
+        "chapterCount": 24,
+        "file": "blivre/LUK.json"
+      },
+      {
+        "id": "JHN",
+        "name": "João",
+        "chapterCount": 21,
+        "file": "blivre/JHN.json"
+      },
+      {
+        "id": "ACT",
+        "name": "Atos",
+        "chapterCount": 28,
+        "file": "blivre/ACT.json"
+      },
+      {
+        "id": "ROM",
+        "name": "Romanos",
+        "chapterCount": 16,
+        "file": "blivre/ROM.json"
+      },
+      {
+        "id": "1CO",
+        "name": "1 Coríntios",
+        "chapterCount": 16,
+        "file": "blivre/1CO.json"
+      },
+      {
+        "id": "2CO",
+        "name": "2 Coríntios",
+        "chapterCount": 13,
+        "file": "blivre/2CO.json"
+      },
+      {
+        "id": "GAL",
+        "name": "Gálatas",
+        "chapterCount": 6,
+        "file": "blivre/GAL.json"
+      },
+      {
+        "id": "EPH",
+        "name": "Efésios",
+        "chapterCount": 6,
+        "file": "blivre/EPH.json"
+      },
+      {
+        "id": "PHP",
+        "name": "Filipenses",
+        "chapterCount": 4,
+        "file": "blivre/PHP.json"
+      },
+      {
+        "id": "COL",
+        "name": "Colossenses",
+        "chapterCount": 4,
+        "file": "blivre/COL.json"
+      },
+      {
+        "id": "1TH",
+        "name": "1 Tessalonicenses",
+        "chapterCount": 5,
+        "file": "blivre/1TH.json"
+      },
+      {
+        "id": "2TH",
+        "name": "2 Tessalonicenses",
+        "chapterCount": 3,
+        "file": "blivre/2TH.json"
+      },
+      {
+        "id": "1TI",
+        "name": "1 Timóteo",
+        "chapterCount": 6,
+        "file": "blivre/1TI.json"
+      },
+      {
+        "id": "2TI",
+        "name": "2 Timóteo",
+        "chapterCount": 4,
+        "file": "blivre/2TI.json"
+      },
+      {
+        "id": "TIT",
+        "name": "Tito",
+        "chapterCount": 3,
+        "file": "blivre/TIT.json"
+      },
+      {
+        "id": "PHM",
+        "name": "Filemom",
+        "chapterCount": 1,
+        "file": "blivre/PHM.json"
+      },
+      {
+        "id": "HEB",
+        "name": "Hebreus",
+        "chapterCount": 13,
+        "file": "blivre/HEB.json"
+      },
+      {
+        "id": "JAS",
+        "name": "Tiago",
+        "chapterCount": 5,
+        "file": "blivre/JAS.json"
+      },
+      {
+        "id": "1PE",
+        "name": "1 Pedro",
+        "chapterCount": 5,
+        "file": "blivre/1PE.json"
+      },
+      {
+        "id": "2PE",
+        "name": "2 Pedro",
+        "chapterCount": 3,
+        "file": "blivre/2PE.json"
+      },
+      {
+        "id": "1JN",
+        "name": "1 João",
+        "chapterCount": 5,
+        "file": "blivre/1JN.json"
+      },
+      {
+        "id": "2JN",
+        "name": "2 João",
+        "chapterCount": 1,
+        "file": "blivre/2JN.json"
+      },
+      {
+        "id": "3JN",
+        "name": "3 João",
+        "chapterCount": 1,
+        "file": "blivre/3JN.json"
+      },
+      {
+        "id": "JUD",
+        "name": "Judas",
+        "chapterCount": 1,
+        "file": "blivre/JUD.json"
+      },
+      {
+        "id": "REV",
+        "name": "Apocalipse",
+        "chapterCount": 22,
+        "file": "blivre/REV.json"
+      }
+    ]
+  },
+  {
+    "id": "onbv",
+    "name": "Biblica® Open Nova Bíblia Viva™",
+    "abbreviation": "ONBV",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Biblica® Open Nova Bíblia Viva™. Copyright © 2007, 2010 by Biblica, Inc. “Biblica” é uma marca registrada na Oficina de Patentes e Marcas dos Estados Unidos por Biblica, Inc. Usado com permissão. “Biblica” is a trademark registered in the United States Patent and Trademark Office by Biblica, Inc. Used with permission. The original Work by its copyright holders is available for free at www.biblica.com and open.bible. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/. O texto e esta conversão de dados são distribuídos sob a mesma licença CC BY-SA 4.0. Conversão técnica do VPL XML publicado pelo eBible.org para JSON por livro; nomes de livros apresentados em português. A fonte VPL já omite notas, títulos editoriais, introduções e formatação. Espaços nas extremidades dos registros foram removidos; o texto dos versículos não foi reescrito. Esta conversão não implica endosso dos titulares ao LouvaShow.",
+    "sourceSha256": "c63a702ba4b33ea0d4ff52048b5e488bf61b0fbc115f411d3a24731615cfc8db",
+    "language": "pt-BR",
+    "sourceUrl": "https://ebible.org/details.php?id=poronbv",
+    "books": [
+      {
+        "id": "GEN",
+        "name": "Gênesis",
+        "chapterCount": 50,
+        "file": "onbv/GEN.json"
+      },
+      {
+        "id": "EXO",
+        "name": "Êxodo",
+        "chapterCount": 40,
+        "file": "onbv/EXO.json"
+      },
+      {
+        "id": "LEV",
+        "name": "Levítico",
+        "chapterCount": 27,
+        "file": "onbv/LEV.json"
+      },
+      {
+        "id": "NUM",
+        "name": "Números",
+        "chapterCount": 36,
+        "file": "onbv/NUM.json"
+      },
+      {
+        "id": "DEU",
+        "name": "Deuteronômio",
+        "chapterCount": 34,
+        "file": "onbv/DEU.json"
+      },
+      {
+        "id": "JOS",
+        "name": "Josué",
+        "chapterCount": 24,
+        "file": "onbv/JOS.json"
+      },
+      {
+        "id": "JDG",
+        "name": "Juízes",
+        "chapterCount": 21,
+        "file": "onbv/JDG.json"
+      },
+      {
+        "id": "RUT",
+        "name": "Rute",
+        "chapterCount": 4,
+        "file": "onbv/RUT.json"
+      },
+      {
+        "id": "1SA",
+        "name": "1 Samuel",
+        "chapterCount": 31,
+        "file": "onbv/1SA.json"
+      },
+      {
+        "id": "2SA",
+        "name": "2 Samuel",
+        "chapterCount": 24,
+        "file": "onbv/2SA.json"
+      },
+      {
+        "id": "1KI",
+        "name": "1 Reis",
+        "chapterCount": 22,
+        "file": "onbv/1KI.json"
+      },
+      {
+        "id": "2KI",
+        "name": "2 Reis",
+        "chapterCount": 25,
+        "file": "onbv/2KI.json"
+      },
+      {
+        "id": "1CH",
+        "name": "1 Crônicas",
+        "chapterCount": 29,
+        "file": "onbv/1CH.json"
+      },
+      {
+        "id": "2CH",
+        "name": "2 Crônicas",
+        "chapterCount": 36,
+        "file": "onbv/2CH.json"
+      },
+      {
+        "id": "EZR",
+        "name": "Esdras",
+        "chapterCount": 10,
+        "file": "onbv/EZR.json"
+      },
+      {
+        "id": "NEH",
+        "name": "Neemias",
+        "chapterCount": 13,
+        "file": "onbv/NEH.json"
+      },
+      {
+        "id": "EST",
+        "name": "Ester",
+        "chapterCount": 10,
+        "file": "onbv/EST.json"
+      },
+      {
+        "id": "JOB",
+        "name": "Jó",
+        "chapterCount": 42,
+        "file": "onbv/JOB.json"
+      },
+      {
+        "id": "PSA",
+        "name": "Salmos",
+        "chapterCount": 150,
+        "file": "onbv/PSA.json"
+      },
+      {
+        "id": "PRO",
+        "name": "Provérbios",
+        "chapterCount": 31,
+        "file": "onbv/PRO.json"
+      },
+      {
+        "id": "ECC",
+        "name": "Eclesiastes",
+        "chapterCount": 12,
+        "file": "onbv/ECC.json"
+      },
+      {
+        "id": "SNG",
+        "name": "Cântico dos Cânticos",
+        "chapterCount": 8,
+        "file": "onbv/SNG.json"
+      },
+      {
+        "id": "ISA",
+        "name": "Isaías",
+        "chapterCount": 66,
+        "file": "onbv/ISA.json"
+      },
+      {
+        "id": "JER",
+        "name": "Jeremias",
+        "chapterCount": 52,
+        "file": "onbv/JER.json"
+      },
+      {
+        "id": "LAM",
+        "name": "Lamentações",
+        "chapterCount": 5,
+        "file": "onbv/LAM.json"
+      },
+      {
+        "id": "EZK",
+        "name": "Ezequiel",
+        "chapterCount": 48,
+        "file": "onbv/EZK.json"
+      },
+      {
+        "id": "DAN",
+        "name": "Daniel",
+        "chapterCount": 12,
+        "file": "onbv/DAN.json"
+      },
+      {
+        "id": "HOS",
+        "name": "Oseias",
+        "chapterCount": 14,
+        "file": "onbv/HOS.json"
+      },
+      {
+        "id": "JOL",
+        "name": "Joel",
+        "chapterCount": 3,
+        "file": "onbv/JOL.json"
+      },
+      {
+        "id": "AMO",
+        "name": "Amós",
+        "chapterCount": 9,
+        "file": "onbv/AMO.json"
+      },
+      {
+        "id": "OBA",
+        "name": "Obadias",
+        "chapterCount": 1,
+        "file": "onbv/OBA.json"
+      },
+      {
+        "id": "JON",
+        "name": "Jonas",
+        "chapterCount": 4,
+        "file": "onbv/JON.json"
+      },
+      {
+        "id": "MIC",
+        "name": "Miqueias",
+        "chapterCount": 7,
+        "file": "onbv/MIC.json"
+      },
+      {
+        "id": "NAM",
+        "name": "Naum",
+        "chapterCount": 3,
+        "file": "onbv/NAM.json"
+      },
+      {
+        "id": "HAB",
+        "name": "Habacuque",
+        "chapterCount": 3,
+        "file": "onbv/HAB.json"
+      },
+      {
+        "id": "ZEP",
+        "name": "Sofonias",
+        "chapterCount": 3,
+        "file": "onbv/ZEP.json"
+      },
+      {
+        "id": "HAG",
+        "name": "Ageu",
+        "chapterCount": 2,
+        "file": "onbv/HAG.json"
+      },
+      {
+        "id": "ZEC",
+        "name": "Zacarias",
+        "chapterCount": 14,
+        "file": "onbv/ZEC.json"
+      },
+      {
+        "id": "MAL",
+        "name": "Malaquias",
+        "chapterCount": 4,
+        "file": "onbv/MAL.json"
+      },
+      {
+        "id": "MAT",
+        "name": "Mateus",
+        "chapterCount": 28,
+        "file": "onbv/MAT.json"
+      },
+      {
+        "id": "MRK",
+        "name": "Marcos",
+        "chapterCount": 16,
+        "file": "onbv/MRK.json"
+      },
+      {
+        "id": "LUK",
+        "name": "Lucas",
+        "chapterCount": 24,
+        "file": "onbv/LUK.json"
+      },
+      {
+        "id": "JHN",
+        "name": "João",
+        "chapterCount": 21,
+        "file": "onbv/JHN.json"
+      },
+      {
+        "id": "ACT",
+        "name": "Atos",
+        "chapterCount": 28,
+        "file": "onbv/ACT.json"
+      },
+      {
+        "id": "ROM",
+        "name": "Romanos",
+        "chapterCount": 16,
+        "file": "onbv/ROM.json"
+      },
+      {
+        "id": "1CO",
+        "name": "1 Coríntios",
+        "chapterCount": 16,
+        "file": "onbv/1CO.json"
+      },
+      {
+        "id": "2CO",
+        "name": "2 Coríntios",
+        "chapterCount": 13,
+        "file": "onbv/2CO.json"
+      },
+      {
+        "id": "GAL",
+        "name": "Gálatas",
+        "chapterCount": 6,
+        "file": "onbv/GAL.json"
+      },
+      {
+        "id": "EPH",
+        "name": "Efésios",
+        "chapterCount": 6,
+        "file": "onbv/EPH.json"
+      },
+      {
+        "id": "PHP",
+        "name": "Filipenses",
+        "chapterCount": 4,
+        "file": "onbv/PHP.json"
+      },
+      {
+        "id": "COL",
+        "name": "Colossenses",
+        "chapterCount": 4,
+        "file": "onbv/COL.json"
+      },
+      {
+        "id": "1TH",
+        "name": "1 Tessalonicenses",
+        "chapterCount": 5,
+        "file": "onbv/1TH.json"
+      },
+      {
+        "id": "2TH",
+        "name": "2 Tessalonicenses",
+        "chapterCount": 3,
+        "file": "onbv/2TH.json"
+      },
+      {
+        "id": "1TI",
+        "name": "1 Timóteo",
+        "chapterCount": 6,
+        "file": "onbv/1TI.json"
+      },
+      {
+        "id": "2TI",
+        "name": "2 Timóteo",
+        "chapterCount": 4,
+        "file": "onbv/2TI.json"
+      },
+      {
+        "id": "TIT",
+        "name": "Tito",
+        "chapterCount": 3,
+        "file": "onbv/TIT.json"
+      },
+      {
+        "id": "PHM",
+        "name": "Filemom",
+        "chapterCount": 1,
+        "file": "onbv/PHM.json"
+      },
+      {
+        "id": "HEB",
+        "name": "Hebreus",
+        "chapterCount": 13,
+        "file": "onbv/HEB.json"
+      },
+      {
+        "id": "JAS",
+        "name": "Tiago",
+        "chapterCount": 5,
+        "file": "onbv/JAS.json"
+      },
+      {
+        "id": "1PE",
+        "name": "1 Pedro",
+        "chapterCount": 5,
+        "file": "onbv/1PE.json"
+      },
+      {
+        "id": "2PE",
+        "name": "2 Pedro",
+        "chapterCount": 3,
+        "file": "onbv/2PE.json"
+      },
+      {
+        "id": "1JN",
+        "name": "1 João",
+        "chapterCount": 5,
+        "file": "onbv/1JN.json"
+      },
+      {
+        "id": "2JN",
+        "name": "2 João",
+        "chapterCount": 1,
+        "file": "onbv/2JN.json"
+      },
+      {
+        "id": "3JN",
+        "name": "3 João",
+        "chapterCount": 1,
+        "file": "onbv/3JN.json"
+      },
+      {
+        "id": "JUD",
+        "name": "Judas",
+        "chapterCount": 1,
+        "file": "onbv/JUD.json"
+      },
+      {
+        "id": "REV",
+        "name": "Apocalipse",
+        "chapterCount": 22,
+        "file": "onbv/REV.json"
+      }
+    ]
+  },
+  {
+    "id": "bpm",
+    "name": "Bíblia Portuguesa Mundial (rascunho)",
+    "abbreviation": "BPM",
+    "license": "Domínio público",
+    "licenseUrl": "https://ebible.org/details.php?id=porbrbsl",
+    "attribution": "Bíblia Portuguesa Mundial (BPM), domínio público conforme declaração do eBible.org. Rascunho de tradução ainda em revisão; fonte atualizada em 2026-10-08. Inclui os 81 livros/documentos presentes no pacote, com deuterocanônicos e livros adicionais; não representa uma escolha de cânon pelo LouvaShow. 29 registros vazios da fonte foram omitidos, preservando lacunas na numeração. Conversão técnica do VPL XML publicado pelo eBible.org para JSON por livro; nomes de livros apresentados em português. A fonte VPL já omite notas, títulos editoriais, introduções e formatação. Espaços nas extremidades dos registros foram removidos; o texto dos versículos não foi reescrito. Esta conversão não implica endosso dos titulares ao LouvaShow.",
+    "sourceSha256": "c203fcc6c198f0e8469c22838a7106ee1a5d9034f2c817229834fa35b080880a",
+    "language": "pt-BR",
+    "sourceUrl": "https://ebible.org/details.php?id=porbrbsl",
+    "books": [
+      {
+        "id": "GEN",
+        "name": "Gênesis",
+        "chapterCount": 50,
+        "file": "bpm/GEN.json"
+      },
+      {
+        "id": "EXO",
+        "name": "Êxodo",
+        "chapterCount": 40,
+        "file": "bpm/EXO.json"
+      },
+      {
+        "id": "LEV",
+        "name": "Levítico",
+        "chapterCount": 27,
+        "file": "bpm/LEV.json"
+      },
+      {
+        "id": "NUM",
+        "name": "Números",
+        "chapterCount": 36,
+        "file": "bpm/NUM.json"
+      },
+      {
+        "id": "DEU",
+        "name": "Deuteronômio",
+        "chapterCount": 34,
+        "file": "bpm/DEU.json"
+      },
+      {
+        "id": "JOS",
+        "name": "Josué",
+        "chapterCount": 24,
+        "file": "bpm/JOS.json"
+      },
+      {
+        "id": "JDG",
+        "name": "Juízes",
+        "chapterCount": 21,
+        "file": "bpm/JDG.json"
+      },
+      {
+        "id": "RUT",
+        "name": "Rute",
+        "chapterCount": 4,
+        "file": "bpm/RUT.json"
+      },
+      {
+        "id": "1SA",
+        "name": "1 Samuel",
+        "chapterCount": 31,
+        "file": "bpm/1SA.json"
+      },
+      {
+        "id": "2SA",
+        "name": "2 Samuel",
+        "chapterCount": 24,
+        "file": "bpm/2SA.json"
+      },
+      {
+        "id": "1KI",
+        "name": "1 Reis",
+        "chapterCount": 22,
+        "file": "bpm/1KI.json"
+      },
+      {
+        "id": "2KI",
+        "name": "2 Reis",
+        "chapterCount": 25,
+        "file": "bpm/2KI.json"
+      },
+      {
+        "id": "1CH",
+        "name": "1 Crônicas",
+        "chapterCount": 29,
+        "file": "bpm/1CH.json"
+      },
+      {
+        "id": "2CH",
+        "name": "2 Crônicas",
+        "chapterCount": 36,
+        "file": "bpm/2CH.json"
+      },
+      {
+        "id": "EZR",
+        "name": "Esdras",
+        "chapterCount": 10,
+        "file": "bpm/EZR.json"
+      },
+      {
+        "id": "NEH",
+        "name": "Neemias",
+        "chapterCount": 13,
+        "file": "bpm/NEH.json"
+      },
+      {
+        "id": "EST",
+        "name": "Ester",
+        "chapterCount": 10,
+        "file": "bpm/EST.json"
+      },
+      {
+        "id": "JOB",
+        "name": "Jó",
+        "chapterCount": 42,
+        "file": "bpm/JOB.json"
+      },
+      {
+        "id": "PSA",
+        "name": "Salmos",
+        "chapterCount": 150,
+        "file": "bpm/PSA.json"
+      },
+      {
+        "id": "PRO",
+        "name": "Provérbios",
+        "chapterCount": 31,
+        "file": "bpm/PRO.json"
+      },
+      {
+        "id": "ECC",
+        "name": "Eclesiastes",
+        "chapterCount": 12,
+        "file": "bpm/ECC.json"
+      },
+      {
+        "id": "SNG",
+        "name": "Cântico dos Cânticos",
+        "chapterCount": 8,
+        "file": "bpm/SNG.json"
+      },
+      {
+        "id": "ISA",
+        "name": "Isaías",
+        "chapterCount": 66,
+        "file": "bpm/ISA.json"
+      },
+      {
+        "id": "JER",
+        "name": "Jeremias",
+        "chapterCount": 52,
+        "file": "bpm/JER.json"
+      },
+      {
+        "id": "LAM",
+        "name": "Lamentações",
+        "chapterCount": 5,
+        "file": "bpm/LAM.json"
+      },
+      {
+        "id": "EZK",
+        "name": "Ezequiel",
+        "chapterCount": 48,
+        "file": "bpm/EZK.json"
+      },
+      {
+        "id": "DAN",
+        "name": "Daniel",
+        "chapterCount": 12,
+        "file": "bpm/DAN.json"
+      },
+      {
+        "id": "HOS",
+        "name": "Oseias",
+        "chapterCount": 14,
+        "file": "bpm/HOS.json"
+      },
+      {
+        "id": "JOL",
+        "name": "Joel",
+        "chapterCount": 3,
+        "file": "bpm/JOL.json"
+      },
+      {
+        "id": "AMO",
+        "name": "Amós",
+        "chapterCount": 9,
+        "file": "bpm/AMO.json"
+      },
+      {
+        "id": "OBA",
+        "name": "Obadias",
+        "chapterCount": 1,
+        "file": "bpm/OBA.json"
+      },
+      {
+        "id": "JON",
+        "name": "Jonas",
+        "chapterCount": 4,
+        "file": "bpm/JON.json"
+      },
+      {
+        "id": "MIC",
+        "name": "Miqueias",
+        "chapterCount": 7,
+        "file": "bpm/MIC.json"
+      },
+      {
+        "id": "NAM",
+        "name": "Naum",
+        "chapterCount": 3,
+        "file": "bpm/NAM.json"
+      },
+      {
+        "id": "HAB",
+        "name": "Habacuque",
+        "chapterCount": 3,
+        "file": "bpm/HAB.json"
+      },
+      {
+        "id": "ZEP",
+        "name": "Sofonias",
+        "chapterCount": 3,
+        "file": "bpm/ZEP.json"
+      },
+      {
+        "id": "HAG",
+        "name": "Ageu",
+        "chapterCount": 2,
+        "file": "bpm/HAG.json"
+      },
+      {
+        "id": "ZEC",
+        "name": "Zacarias",
+        "chapterCount": 14,
+        "file": "bpm/ZEC.json"
+      },
+      {
+        "id": "MAL",
+        "name": "Malaquias",
+        "chapterCount": 4,
+        "file": "bpm/MAL.json"
+      },
+      {
+        "id": "TOB",
+        "name": "Tobias",
+        "chapterCount": 14,
+        "file": "bpm/TOB.json"
+      },
+      {
+        "id": "JDT",
+        "name": "Judite",
+        "chapterCount": 16,
+        "file": "bpm/JDT.json"
+      },
+      {
+        "id": "ESG",
+        "name": "Ester (grego)",
+        "chapterCount": 10,
+        "file": "bpm/ESG.json"
+      },
+      {
+        "id": "WIS",
+        "name": "Sabedoria",
+        "chapterCount": 19,
+        "file": "bpm/WIS.json"
+      },
+      {
+        "id": "SIR",
+        "name": "Sirácida (Eclesiástico)",
+        "chapterCount": 51,
+        "file": "bpm/SIR.json"
+      },
+      {
+        "id": "BAR",
+        "name": "Baruc",
+        "chapterCount": 6,
+        "file": "bpm/BAR.json"
+      },
+      {
+        "id": "1MA",
+        "name": "1 Macabeus",
+        "chapterCount": 16,
+        "file": "bpm/1MA.json"
+      },
+      {
+        "id": "2MA",
+        "name": "2 Macabeus",
+        "chapterCount": 15,
+        "file": "bpm/2MA.json"
+      },
+      {
+        "id": "1ES",
+        "name": "1 Esdras",
+        "chapterCount": 9,
+        "file": "bpm/1ES.json"
+      },
+      {
+        "id": "MAN",
+        "name": "Oração de Manassés",
+        "chapterCount": 1,
+        "file": "bpm/MAN.json"
+      },
+      {
+        "id": "PS2",
+        "name": "Salmo 151",
+        "chapterCount": 1,
+        "file": "bpm/PS2.json"
+      },
+      {
+        "id": "3MA",
+        "name": "3 Macabeus",
+        "chapterCount": 7,
+        "file": "bpm/3MA.json"
+      },
+      {
+        "id": "2ES",
+        "name": "2 Esdras",
+        "chapterCount": 16,
+        "file": "bpm/2ES.json"
+      },
+      {
+        "id": "4MA",
+        "name": "4 Macabeus",
+        "chapterCount": 18,
+        "file": "bpm/4MA.json"
+      },
+      {
+        "id": "DAG",
+        "name": "Daniel (grego)",
+        "chapterCount": 14,
+        "file": "bpm/DAG.json"
+      },
+      {
+        "id": "MAT",
+        "name": "Mateus",
+        "chapterCount": 28,
+        "file": "bpm/MAT.json"
+      },
+      {
+        "id": "MRK",
+        "name": "Marcos",
+        "chapterCount": 16,
+        "file": "bpm/MRK.json"
+      },
+      {
+        "id": "LUK",
+        "name": "Lucas",
+        "chapterCount": 24,
+        "file": "bpm/LUK.json"
+      },
+      {
+        "id": "JHN",
+        "name": "João",
+        "chapterCount": 21,
+        "file": "bpm/JHN.json"
+      },
+      {
+        "id": "ACT",
+        "name": "Atos",
+        "chapterCount": 28,
+        "file": "bpm/ACT.json"
+      },
+      {
+        "id": "ROM",
+        "name": "Romanos",
+        "chapterCount": 16,
+        "file": "bpm/ROM.json"
+      },
+      {
+        "id": "1CO",
+        "name": "1 Coríntios",
+        "chapterCount": 16,
+        "file": "bpm/1CO.json"
+      },
+      {
+        "id": "2CO",
+        "name": "2 Coríntios",
+        "chapterCount": 13,
+        "file": "bpm/2CO.json"
+      },
+      {
+        "id": "GAL",
+        "name": "Gálatas",
+        "chapterCount": 6,
+        "file": "bpm/GAL.json"
+      },
+      {
+        "id": "EPH",
+        "name": "Efésios",
+        "chapterCount": 6,
+        "file": "bpm/EPH.json"
+      },
+      {
+        "id": "PHP",
+        "name": "Filipenses",
+        "chapterCount": 4,
+        "file": "bpm/PHP.json"
+      },
+      {
+        "id": "COL",
+        "name": "Colossenses",
+        "chapterCount": 4,
+        "file": "bpm/COL.json"
+      },
+      {
+        "id": "1TH",
+        "name": "1 Tessalonicenses",
+        "chapterCount": 5,
+        "file": "bpm/1TH.json"
+      },
+      {
+        "id": "2TH",
+        "name": "2 Tessalonicenses",
+        "chapterCount": 3,
+        "file": "bpm/2TH.json"
+      },
+      {
+        "id": "1TI",
+        "name": "1 Timóteo",
+        "chapterCount": 6,
+        "file": "bpm/1TI.json"
+      },
+      {
+        "id": "2TI",
+        "name": "2 Timóteo",
+        "chapterCount": 4,
+        "file": "bpm/2TI.json"
+      },
+      {
+        "id": "TIT",
+        "name": "Tito",
+        "chapterCount": 3,
+        "file": "bpm/TIT.json"
+      },
+      {
+        "id": "PHM",
+        "name": "Filemom",
+        "chapterCount": 1,
+        "file": "bpm/PHM.json"
+      },
+      {
+        "id": "HEB",
+        "name": "Hebreus",
+        "chapterCount": 13,
+        "file": "bpm/HEB.json"
+      },
+      {
+        "id": "JAS",
+        "name": "Tiago",
+        "chapterCount": 5,
+        "file": "bpm/JAS.json"
+      },
+      {
+        "id": "1PE",
+        "name": "1 Pedro",
+        "chapterCount": 5,
+        "file": "bpm/1PE.json"
+      },
+      {
+        "id": "2PE",
+        "name": "2 Pedro",
+        "chapterCount": 3,
+        "file": "bpm/2PE.json"
+      },
+      {
+        "id": "1JN",
+        "name": "1 João",
+        "chapterCount": 5,
+        "file": "bpm/1JN.json"
+      },
+      {
+        "id": "2JN",
+        "name": "2 João",
+        "chapterCount": 1,
+        "file": "bpm/2JN.json"
+      },
+      {
+        "id": "3JN",
+        "name": "3 João",
+        "chapterCount": 1,
+        "file": "bpm/3JN.json"
+      },
+      {
+        "id": "JUD",
+        "name": "Judas",
+        "chapterCount": 1,
+        "file": "bpm/JUD.json"
+      },
+      {
+        "id": "REV",
+        "name": "Apocalipse",
+        "chapterCount": 22,
+        "file": "bpm/REV.json"
+      }
+    ]
+  },
+  {
+    "id": "blt",
+    "name": "Bíblia Livre Para Todos (Novo Testamento)",
+    "abbreviation": "BLT",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Bíblia Livre Para Todos (BLT). Copyright © 2022 Free Bible Ministry, Inc. https://www.freebibleministry.org/. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/. O pacote contém somente os 27 livros do Novo Testamento. 17 registros vazios da fonte foram omitidos, preservando lacunas na numeração. O texto e esta conversão de dados são distribuídos sob a mesma licença CC BY-SA 4.0. Conversão técnica do VPL XML publicado pelo eBible.org para JSON por livro; nomes de livros apresentados em português. A fonte VPL já omite notas, títulos editoriais, introduções e formatação. Espaços nas extremidades dos registros foram removidos; o texto dos versículos não foi reescrito. Esta conversão não implica endosso dos titulares ao LouvaShow.",
+    "sourceSha256": "dc3b4ee61f2d428703a9ad88b573b7c90e68ca86985ff0938f74d2c98b9a1773",
+    "language": "pt-BR",
+    "sourceUrl": "https://ebible.org/details.php?id=porblt",
+    "books": [
+      {
+        "id": "MAT",
+        "name": "Mateus",
+        "chapterCount": 28,
+        "file": "blt/MAT.json"
+      },
+      {
+        "id": "MRK",
+        "name": "Marcos",
+        "chapterCount": 16,
+        "file": "blt/MRK.json"
+      },
+      {
+        "id": "LUK",
+        "name": "Lucas",
+        "chapterCount": 24,
+        "file": "blt/LUK.json"
+      },
+      {
+        "id": "JHN",
+        "name": "João",
+        "chapterCount": 21,
+        "file": "blt/JHN.json"
+      },
+      {
+        "id": "ACT",
+        "name": "Atos",
+        "chapterCount": 28,
+        "file": "blt/ACT.json"
+      },
+      {
+        "id": "ROM",
+        "name": "Romanos",
+        "chapterCount": 16,
+        "file": "blt/ROM.json"
+      },
+      {
+        "id": "1CO",
+        "name": "1 Coríntios",
+        "chapterCount": 16,
+        "file": "blt/1CO.json"
+      },
+      {
+        "id": "2CO",
+        "name": "2 Coríntios",
+        "chapterCount": 13,
+        "file": "blt/2CO.json"
+      },
+      {
+        "id": "GAL",
+        "name": "Gálatas",
+        "chapterCount": 6,
+        "file": "blt/GAL.json"
+      },
+      {
+        "id": "EPH",
+        "name": "Efésios",
+        "chapterCount": 6,
+        "file": "blt/EPH.json"
+      },
+      {
+        "id": "PHP",
+        "name": "Filipenses",
+        "chapterCount": 4,
+        "file": "blt/PHP.json"
+      },
+      {
+        "id": "COL",
+        "name": "Colossenses",
+        "chapterCount": 4,
+        "file": "blt/COL.json"
+      },
+      {
+        "id": "1TH",
+        "name": "1 Tessalonicenses",
+        "chapterCount": 5,
+        "file": "blt/1TH.json"
+      },
+      {
+        "id": "2TH",
+        "name": "2 Tessalonicenses",
+        "chapterCount": 3,
+        "file": "blt/2TH.json"
+      },
+      {
+        "id": "1TI",
+        "name": "1 Timóteo",
+        "chapterCount": 6,
+        "file": "blt/1TI.json"
+      },
+      {
+        "id": "2TI",
+        "name": "2 Timóteo",
+        "chapterCount": 4,
+        "file": "blt/2TI.json"
+      },
+      {
+        "id": "TIT",
+        "name": "Tito",
+        "chapterCount": 3,
+        "file": "blt/TIT.json"
+      },
+      {
+        "id": "PHM",
+        "name": "Filemom",
+        "chapterCount": 1,
+        "file": "blt/PHM.json"
+      },
+      {
+        "id": "HEB",
+        "name": "Hebreus",
+        "chapterCount": 13,
+        "file": "blt/HEB.json"
+      },
+      {
+        "id": "JAS",
+        "name": "Tiago",
+        "chapterCount": 5,
+        "file": "blt/JAS.json"
+      },
+      {
+        "id": "1PE",
+        "name": "1 Pedro",
+        "chapterCount": 5,
+        "file": "blt/1PE.json"
+      },
+      {
+        "id": "2PE",
+        "name": "2 Pedro",
+        "chapterCount": 3,
+        "file": "blt/2PE.json"
+      },
+      {
+        "id": "1JN",
+        "name": "1 João",
+        "chapterCount": 5,
+        "file": "blt/1JN.json"
+      },
+      {
+        "id": "2JN",
+        "name": "2 João",
+        "chapterCount": 1,
+        "file": "blt/2JN.json"
+      },
+      {
+        "id": "3JN",
+        "name": "3 João",
+        "chapterCount": 1,
+        "file": "blt/3JN.json"
+      },
+      {
+        "id": "JUD",
+        "name": "Judas",
+        "chapterCount": 1,
+        "file": "blt/JUD.json"
+      },
+      {
+        "id": "REV",
+        "name": "Apocalipse",
+        "chapterCount": 22,
+        "file": "blt/REV.json"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1845 @@
+{
+  "id": "WIS",
+  "name": "Sabedoria",
+  "chapters": [
+    {
+      "number": 1,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Amem a justiça, vocês que julgam a terra. Pensem no Senhor com boa disposição. Busquem-no com sinceridade de coração,"
+        },
+        {
+          "number": "2",
+          "text": "pois ele se deixa encontrar pelos que não o põem à prova e se manifesta aos que confiam nele."
+        },
+        {
+          "number": "3",
+          "text": "Pois pensamentos perversos afastam de Deus. Seu poder, quando posto à prova, convence e desmascara os insensatos;"
+        },
+        {
+          "number": "4",
+          "text": "porque a sabedoria não entrará numa alma que planeja o mal, nem habitará num corpo escravizado pelo pecado."
+        },
+        {
+          "number": "5",
+          "text": "Pois o santo espírito de disciplina fugirá do engano, afastará-se de pensamentos sem entendimento e recuará quando a injustiça chegar."
+        },
+        {
+          "number": "6",
+          "text": "Pois a sabedoria é um espírito que ama a humanidade e não deixará impune o blasfemo por causa de seus lábios, porque Deus é testemunha de seu íntimo, verdadeiro observador de seu coração e ouvinte de sua língua."
+        },
+        {
+          "number": "7",
+          "text": "Porque o espírito do Senhor encheu o mundo, e aquele que mantém todas as coisas unidas sabe o que é dito."
+        },
+        {
+          "number": "8",
+          "text": "Portanto, ninguém que profere coisas injustas ficará oculto, nem a Justiça, ao condenar, passará por ele."
+        },
+        {
+          "number": "9",
+          "text": "Pois os planos do ímpio serão investigados, e o som de suas palavras chegará ao Senhor para que suas ações perversas sejam condenadas;"
+        },
+        {
+          "number": "10",
+          "text": "porque um ouvido zeloso escuta todas as coisas, e o ruído das murmurações não fica escondido."
+        },
+        {
+          "number": "11",
+          "text": "Portanto, guardem-se de murmurações inúteis e preservem a língua da calúnia, porque nenhuma palavra secreta será dita em vão, e a boca mentirosa destrói a alma."
+        },
+        {
+          "number": "12",
+          "text": "Não busquem a morte pelo erro de sua vida, nem atraiam a destruição sobre vocês pelas obras de suas mãos;"
+        },
+        {
+          "number": "13",
+          "text": "porque Deus não fez a morte, nem tem prazer na destruição dos vivos."
+        },
+        {
+          "number": "14",
+          "text": "Pois ele criou todas as coisas para que existissem. As forças geradoras do mundo são salutares, e nelas não há veneno de destruição, nem o Hades exerce domínio real sobre a terra;"
+        },
+        {
+          "number": "15",
+          "text": "pois a justiça é imortal."
+        },
+        {
+          "number": "16",
+          "text": "Mas os ímpios, por suas mãos e palavras, chamam a morte; considerando-a amiga, definharam por ela. Fizeram aliança com a morte, porque são dignos de pertencer a ela."
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Pois eles disseram consigo mesmos, raciocinando de forma errada: “Nossa vida é curta e cheia de tristeza. Não há remédio quando alguém chega ao fim, e nunca se soube de alguém que tenha sido libertado do Hades."
+        },
+        {
+          "number": "2",
+          "text": "Pois nascemos por mero acaso e depois seremos como se nunca tivéssemos existido, porque o sopro de nossas narinas é fumaça, e a razão é uma centelha acesa pelo pulsar do coração."
+        },
+        {
+          "number": "3",
+          "text": "Quando ela se apagar, o corpo se transformará em cinzas, e o espírito se dissipará como o ar leve."
+        },
+        {
+          "number": "4",
+          "text": "Com o tempo, nosso nome será esquecido. Ninguém se lembrará de nossas obras. Nossa vida passará como o rastro de uma nuvem e se dissipará como a neblina, quando é perseguida pelos raios do sol e vencida por seu calor."
+        },
+        {
+          "number": "5",
+          "text": "Pois o tempo que nos foi dado é a passagem de uma sombra, e nosso fim não pode ser adiado, porque está firmemente selado, e ninguém o faz voltar."
+        },
+        {
+          "number": "6",
+          "text": "“Venham, portanto, aproveitemos as coisas boas que existem. Desfrutemos intensamente da criação enquanto somos jovens."
+        },
+        {
+          "number": "7",
+          "text": "Vamos nos fartar de vinho caro e perfumes, e não deixemos passar nenhuma flor da primavera."
+        },
+        {
+          "number": "8",
+          "text": "Coroemo-nos com botões de rosas antes que murchem."
+        },
+        {
+          "number": "9",
+          "text": "Que nenhum de nós deixe de participar de nossa orgulhosa festa. Deixemos por toda parte sinais de nossa alegria, pois esta é a nossa porção e este é o nosso destino."
+        },
+        {
+          "number": "10",
+          "text": "Oprimamos o justo pobre. Não poupemos a viúva, nem respeitemos os cabelos brancos do idoso."
+        },
+        {
+          "number": "11",
+          "text": "Que nossa força seja a lei da justiça, pois aquilo que é fraco se mostra inútil."
+        },
+        {
+          "number": "12",
+          "text": "Preparemos uma emboscada para o justo, porque ele nos incomoda, se opõe às nossas obras, censura nossos pecados contra a lei e nos acusa de pecar contra a educação que recebemos."
+        },
+        {
+          "number": "13",
+          "text": "Ele afirma conhecer a Deus e chama a si mesmo de filho do Senhor."
+        },
+        {
+          "number": "14",
+          "text": "Ele se tornou para nós uma censura aos nossos pensamentos."
+        },
+        {
+          "number": "15",
+          "text": "Só de vê-lo já nos incomodamos, porque sua vida é diferente da dos outros e seus caminhos são estranhos."
+        },
+        {
+          "number": "16",
+          "text": "Ele nos considera algo sem valor e evita nossos caminhos como se fossem impuros. Declara feliz o fim dos justos e se gloria de que Deus é seu Pai."
+        },
+        {
+          "number": "17",
+          "text": "Vejamos se suas palavras são verdadeiras. Ponhamos à prova o que acontecerá no fim de sua vida."
+        },
+        {
+          "number": "18",
+          "text": "Pois, se o justo é filho de Deus, Deus o sustentará e o livrará das mãos de seus adversários."
+        },
+        {
+          "number": "19",
+          "text": "Vamos prová-lo com insultos e tortura, para descobrirmos sua mansidão e provarmos sua paciência."
+        },
+        {
+          "number": "20",
+          "text": "Condenemo-lo a uma morte vergonhosa, pois, segundo suas próprias palavras, ele será protegido.”"
+        },
+        {
+          "number": "21",
+          "text": "Assim raciocinaram e se enganaram, pois sua maldade os cegou."
+        },
+        {
+          "number": "22",
+          "text": "Eles não conheceram os mistérios de Deus, nem esperaram a recompensa da santidade, nem perceberam que existe prêmio para as almas irrepreensíveis."
+        },
+        {
+          "number": "23",
+          "text": "Pois Deus criou o ser humano para a incorruptibilidade e o fez imagem de sua própria eternidade;"
+        },
+        {
+          "number": "24",
+          "text": "mas, pela inveja do diabo, a morte entrou no mundo, e os que pertencem a ele a experimentam."
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "verses": [
+        {
+          "number": "1",
+          "text": "As almas dos justos, porém, estão nas mãos de Deus, e nenhum tormento as tocará."
+        },
+        {
+          "number": "2",
+          "text": "Aos olhos dos insensatos, parecia que haviam morrido. Sua partida foi considerada uma desgraça,"
+        },
+        {
+          "number": "3",
+          "text": "e sua ida para longe de nós, uma ruína; mas eles estão em paz."
+        },
+        {
+          "number": "4",
+          "text": "Pois, ainda que aos olhos dos homens pareçam ser castigados, sua esperança está cheia de imortalidade."
+        },
+        {
+          "number": "5",
+          "text": "Depois de suportarem uma pequena correção, receberão grande bem, porque Deus os provou e os achou dignos de si."
+        },
+        {
+          "number": "6",
+          "text": "Ele os provou como ouro na fornalha e os aceitou como holocausto."
+        },
+        {
+          "number": "7",
+          "text": "No tempo de sua visitação, eles brilharão e correrão de um lado para outro como faíscas entre a palha."
+        },
+        {
+          "number": "8",
+          "text": "Julgarão nações e dominarão povos, e o Senhor reinará sobre eles para sempre."
+        },
+        {
+          "number": "9",
+          "text": "Os que nele confiam compreenderão a verdade. Os fiéis permanecerão com ele em amor, porque graça e misericórdia estão com seus escolhidos."
+        },
+        {
+          "number": "10",
+          "text": "Mas os ímpios serão castigados conforme merecem seus próprios raciocínios, eles que desprezaram a justiça e se rebelaram contra o Senhor;"
+        },
+        {
+          "number": "11",
+          "text": "pois miserável é quem despreza a sabedoria e a disciplina. Sua esperança é vazia, seus esforços são inúteis, e suas obras não servem para nada."
+        },
+        {
+          "number": "12",
+          "text": "Suas mulheres são insensatas, e seus filhos, perversos."
+        },
+        {
+          "number": "13",
+          "text": "Sua descendência é maldita. Feliz, porém, é a mulher estéril que permanece sem mancha, aquela que não concebeu em transgressão. Ela dará fruto quando Deus examinar as almas."
+        },
+        {
+          "number": "14",
+          "text": "Assim também é o eunuco que não praticou nenhuma ação contrária à lei com suas mãos nem imaginou coisas perversas contra o Senhor; por sua fidelidade, receberá um dom precioso e uma herança agradável no santuário do Senhor."
+        },
+        {
+          "number": "15",
+          "text": "Pois os bons trabalhos produzem fruto de grande renome, e a raiz do entendimento não pode falhar."
+        },
+        {
+          "number": "16",
+          "text": "Mas os filhos dos adúlteros não chegarão à maturidade, e a descendência de uma união ilícita desaparecerá."
+        },
+        {
+          "number": "17",
+          "text": "Mesmo que vivam muito, não serão estimados, e, no fim, sua velhice não terá honra."
+        },
+        {
+          "number": "18",
+          "text": "Se morrerem jovens, não terão esperança nem consolação no dia do julgamento."
+        },
+        {
+          "number": "19",
+          "text": "Pois o fim de uma geração injusta é sempre doloroso."
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "verses": [
+        {
+          "number": "1",
+          "text": "É melhor não ter filhos e possuir virtude, pois há imortalidade na memória da virtude, porque ela é reconhecida tanto diante de Deus como diante dos homens."
+        },
+        {
+          "number": "2",
+          "text": "Quando está presente, as pessoas a imitam. Quando se vai, sentem saudade dela. Por toda a eternidade, ela marcha coroada em triunfo, vitoriosa na competição por prêmios incorruptíveis."
+        },
+        {
+          "number": "3",
+          "text": "Mas a numerosa descendência dos ímpios não terá proveito, e seus rebentos ilegítimos não criarão raízes profundas nem estabelecerão fundamento seguro."
+        },
+        {
+          "number": "4",
+          "text": "Ainda que seus ramos cresçam e floresçam por algum tempo, por não estarem firmemente plantados, serão sacudidos pelo vento e arrancados pela violência dos vendavais."
+        },
+        {
+          "number": "5",
+          "text": "Seus galhos serão quebrados antes de amadurecerem. Seu fruto será inútil, nunca amadurecerá para ser comido e não servirá para nada."
+        },
+        {
+          "number": "6",
+          "text": "Pois os filhos concebidos em união ilícita são testemunhas da perversidade contra seus pais quando estes forem julgados."
+        },
+        {
+          "number": "7",
+          "text": "Mas o justo, ainda que morra antes do tempo, encontrará descanso."
+        },
+        {
+          "number": "8",
+          "text": "Pois uma velhice honrosa não se mede pela duração da vida nem pelo número de anos;"
+        },
+        {
+          "number": "9",
+          "text": "mas, para os homens, o entendimento equivale aos cabelos brancos, e uma vida sem mancha é uma velhice madura."
+        },
+        {
+          "number": "10",
+          "text": "Alguém que agradou a Deus foi amado por ele. Enquanto vivia entre pecadores, foi levado para outro lugar."
+        },
+        {
+          "number": "11",
+          "text": "Foi arrebatado para que o mal não mudasse seu entendimento nem o engano seduzisse sua alma."
+        },
+        {
+          "number": "12",
+          "text": "Pois o fascínio da maldade obscurece o que é bom, e o turbilhão do desejo perverte uma mente inocente."
+        },
+        {
+          "number": "13",
+          "text": "Tendo sido aperfeiçoado em pouco tempo, completou uma longa vida,"
+        },
+        {
+          "number": "14",
+          "text": "porque sua alma agradava ao Senhor. Por isso ele se apressou em tirá-lo do meio da maldade."
+        },
+        {
+          "number": "15",
+          "text": "Os povos viram isso, mas não compreenderam, nem levaram em consideração que graça e misericórdia estão com seus escolhidos e que ele visita seus santos;"
+        },
+        {
+          "number": "16",
+          "text": "mas o justo que morreu condenará os ímpios que continuam vivos, e o jovem que rapidamente alcançou a perfeição condenará os muitos anos da velhice do injusto."
+        },
+        {
+          "number": "17",
+          "text": "Pois os ímpios verão o fim do sábio, mas não compreenderão o que o Senhor planejou para ele nem por que o guardou em segurança."
+        },
+        {
+          "number": "18",
+          "text": "Eles verão e desprezarão, mas o Senhor zombará deles. Depois disso, tornar-se-ão cadáveres sem honra e motivo de desprezo entre os mortos para sempre;"
+        },
+        {
+          "number": "19",
+          "text": "porque ele os lançará mudos ao chão e os abalará desde os fundamentos. Ficarão completamente devastados, sofrerão angústia, e sua memória desaparecerá."
+        },
+        {
+          "number": "20",
+          "text": "Virão cheios de medo covarde quando seus pecados forem contados, e suas ações contrárias à lei os acusarão face a face."
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Então o justo ficará de pé com grande confiança diante daqueles que o afligiram e desprezaram seus esforços."
+        },
+        {
+          "number": "2",
+          "text": "Quando o virem, ficarão perturbados por um medo terrível e maravilhados com o prodígio de sua salvação."
+        },
+        {
+          "number": "3",
+          "text": "Arrependidos, dirão uns aos outros e, angustiados no espírito, gemerão: “Este é aquele de quem costumávamos zombar e que fazíamos objeto de desprezo."
+        },
+        {
+          "number": "4",
+          "text": "Nós, insensatos, considerávamos sua vida uma loucura e seu fim, desonroso."
+        },
+        {
+          "number": "5",
+          "text": "Como ele foi contado entre os filhos de Deus? Como sua porção está entre os santos?"
+        },
+        {
+          "number": "6",
+          "text": "Realmente nos desviamos do caminho da verdade. A luz da justiça não brilhou para nós, e o sol não nasceu sobre nós."
+        },
+        {
+          "number": "7",
+          "text": "Nós nos fartamos dos caminhos da transgressão e da destruição. Percorremos desertos sem trilhas, mas não conhecemos o caminho do Senhor."
+        },
+        {
+          "number": "8",
+          "text": "De que nos serviu nossa arrogância? Que bem nos trouxeram a riqueza e a vanglória?"
+        },
+        {
+          "number": "9",
+          "text": "Todas essas coisas passaram como uma sombra, como um rumor que passa depressa,"
+        },
+        {
+          "number": "10",
+          "text": "como um navio que atravessa águas revoltas: depois que passa, não se encontra vestígio algum nem o rastro de sua quilha nas ondas."
+        },
+        {
+          "number": "11",
+          "text": "Ou como quando uma ave voa pelo ar: não se encontra sinal algum de sua passagem; o vento leve é golpeado pelo bater de suas penas e rasgado pelo forte impulso das asas em movimento; depois, nenhum sinal de sua passagem permanece."
+        },
+        {
+          "number": "12",
+          "text": "Ou como quando uma flecha é atirada contra um alvo: o ar que ela dividiu se fecha imediatamente, de modo que ninguém sabe por onde ela passou."
+        },
+        {
+          "number": "13",
+          "text": "Assim também nós, mal nascemos, deixamos de existir; não tivemos nenhum sinal de virtude para mostrar e fomos completamente consumidos em nossa maldade.”"
+        },
+        {
+          "number": "14",
+          "text": "Pois a esperança do ímpio é como a palha levada pelo vento e como espuma que desaparece diante da tempestade; dispersa-se como fumaça ao vento e passa como a lembrança de um hóspede que fica apenas um dia."
+        },
+        {
+          "number": "15",
+          "text": "Mas os justos vivem para sempre. Sua recompensa está no Senhor, e o Altíssimo cuida deles."
+        },
+        {
+          "number": "16",
+          "text": "Por isso receberão da mão do Senhor a coroa da dignidade real e o diadema da beleza, porque ele os protegerá com sua mão direita e os defenderá com seu braço."
+        },
+        {
+          "number": "17",
+          "text": "Ele tomará seu zelo como armadura completa e fará de toda a criação suas armas para castigar os inimigos."
+        },
+        {
+          "number": "18",
+          "text": "Vestirá a justiça como couraça e usará como capacete o julgamento imparcial."
+        },
+        {
+          "number": "19",
+          "text": "Tomará a santidade como escudo invencível."
+        },
+        {
+          "number": "20",
+          "text": "Afiará sua ira severa como espada, e o universo lutará com ele contra seus inimigos enlouquecidos."
+        },
+        {
+          "number": "21",
+          "text": "Raios voarão certeiros como flechas e saltarão das nuvens para o alvo, como de um arco bem retesado."
+        },
+        {
+          "number": "22",
+          "text": "Pedras de granizo cheias de ira serão lançadas como por uma catapulta. A água do mar se enfurecerá contra eles, e os rios os inundarão impetuosamente."
+        },
+        {
+          "number": "23",
+          "text": "Um vento poderoso se levantará contra eles e os espalhará como uma tempestade. Assim a transgressão devastará toda a terra, e a prática do mal derrubará os tronos dos governantes."
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Ouçam, portanto, ó reis, e entendam. Aprendam, vocês que julgam os confins da terra."
+        },
+        {
+          "number": "2",
+          "text": "Prestem atenção, governantes que dominam muitos povos e se orgulham de multidões de nações,"
+        },
+        {
+          "number": "3",
+          "text": "porque seu domínio lhes foi dado pelo Senhor e sua soberania vem do Altíssimo. Ele investigará suas obras e examinará seus planos,"
+        },
+        {
+          "number": "4",
+          "text": "porque, sendo administradores de seu reino, vocês não julgaram corretamente, nem guardaram a lei, nem andaram segundo a vontade de Deus."
+        },
+        {
+          "number": "5",
+          "text": "Ele virá contra vocês de modo terrível e repentino, porque um julgamento severo cai sobre os que ocupam posições elevadas."
+        },
+        {
+          "number": "6",
+          "text": "Pois o humilde pode ser perdoado por misericórdia, mas os poderosos serão examinados com rigor."
+        },
+        {
+          "number": "7",
+          "text": "O Senhor soberano de todos não se deixará impressionar por ninguém nem demonstrará deferência diante da grandeza, porque foi ele quem fez tanto o pequeno como o grande e cuida igualmente de todos;"
+        },
+        {
+          "number": "8",
+          "text": "mas sobre os poderosos virá uma investigação rigorosa."
+        },
+        {
+          "number": "9",
+          "text": "Portanto, minhas palavras se dirigem a vocês, ó príncipes, para que aprendam sabedoria e não caiam."
+        },
+        {
+          "number": "10",
+          "text": "Pois os que guardaram santamente as coisas santas serão santificados, e os que foram instruídos nelas saberão o que responder em sua defesa."
+        },
+        {
+          "number": "11",
+          "text": "Portanto, desejem minhas palavras. Anseiem por elas, e vocês, príncipes, serão instruídos."
+        },
+        {
+          "number": "12",
+          "text": "A sabedoria é radiante e não perde seu brilho. É facilmente vista pelos que a amam e encontrada pelos que a procuram."
+        },
+        {
+          "number": "13",
+          "text": "Ela se antecipa aos que a desejam, dando-se a conhecer."
+        },
+        {
+          "number": "14",
+          "text": "Quem se levanta cedo para procurá-la não terá dificuldade, pois a encontrará sentada à sua porta."
+        },
+        {
+          "number": "15",
+          "text": "Refletir sobre ela é perfeição do entendimento, e quem vigia por ela logo ficará livre de preocupações;"
+        },
+        {
+          "number": "16",
+          "text": "porque ela mesma percorre os caminhos procurando os que são dignos dela, aparece-lhes bondosamente em seus caminhos e vai ao encontro deles em cada propósito."
+        },
+        {
+          "number": "17",
+          "text": "Pois o verdadeiro princípio da sabedoria é o desejo de instrução, e o desejo de instrução é amor."
+        },
+        {
+          "number": "18",
+          "text": "O amor é a observância de suas leis, e dar atenção às suas leis garante a imortalidade."
+        },
+        {
+          "number": "19",
+          "text": "A imortalidade aproxima a pessoa de Deus."
+        },
+        {
+          "number": "20",
+          "text": "Portanto, o desejo da sabedoria conduz ao reino."
+        },
+        {
+          "number": "21",
+          "text": "Se vocês, príncipes dos povos, têm prazer em tronos e cetros, honrem a sabedoria, para que reinem para sempre."
+        },
+        {
+          "number": "22",
+          "text": "Agora declararei o que é a sabedoria e como ela veio a existir. Não esconderei de vocês seus mistérios, mas investigarei desde seu princípio, trarei à plena luz o conhecimento dela e não deixarei de lado a verdade."
+        },
+        {
+          "number": "23",
+          "text": "Não seguirei o caminho da inveja destruidora, porque a inveja não tem comunhão com a sabedoria."
+        },
+        {
+          "number": "24",
+          "text": "Uma multidão de sábios é salvação para o mundo, e um rei entendido traz estabilidade ao seu povo."
+        },
+        {
+          "number": "25",
+          "text": "Portanto, deixem-se instruir por minhas palavras, e vocês terão proveito."
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Eu mesmo também sou mortal como todos os outros e descendente daquele que primeiro foi formado da terra."
+        },
+        {
+          "number": "2",
+          "text": "No ventre de minha mãe, durante dez meses, fui moldado em carne, formado no sangue a partir da semente de um homem e do prazer do casamento."
+        },
+        {
+          "number": "3",
+          "text": "Quando nasci, também respirei o ar comum e caí sobre a terra, que é a mesma para todos, soltando, como todos, o mesmo primeiro choro."
+        },
+        {
+          "number": "4",
+          "text": "Fui criado com cuidado, envolto em faixas."
+        },
+        {
+          "number": "5",
+          "text": "Pois nenhum rei teve outro começo,"
+        },
+        {
+          "number": "6",
+          "text": "mas todos os seres humanos têm uma só entrada na vida e uma saída comum."
+        },
+        {
+          "number": "7",
+          "text": "Por isso orei, e o entendimento me foi dado. Supliquei, e veio a mim um espírito de sabedoria."
+        },
+        {
+          "number": "8",
+          "text": "Preferi-a a cetros e tronos e considerei a riqueza como nada em comparação com ela."
+        },
+        {
+          "number": "9",
+          "text": "Não comparei a ela nenhuma pedra preciosa, porque todo o ouro diante dela é apenas um pouco de areia, e a prata será considerada barro diante dela."
+        },
+        {
+          "number": "10",
+          "text": "Amei-a mais do que a saúde e a beleza e preferi possuí-la à própria luz, porque seu brilho jamais se apaga."
+        },
+        {
+          "number": "11",
+          "text": "Junto com ela vieram a mim todas as coisas boas, e em suas mãos há riquezas incontáveis."
+        },
+        {
+          "number": "12",
+          "text": "Alegrei-me com todas elas porque a sabedoria as conduz, embora eu não soubesse que ela era a mãe delas."
+        },
+        {
+          "number": "13",
+          "text": "Aprendi sem malícia e reparto sem inveja. Não escondo suas riquezas."
+        },
+        {
+          "number": "14",
+          "text": "Pois ela é para os homens um tesouro que não se esgota, e os que dele se servem obtêm amizade com Deus, recomendados pelos dons que apresentam por meio da disciplina."
+        },
+        {
+          "number": "15",
+          "text": "Que Deus me conceda falar segundo seu juízo e conceber pensamentos dignos daquilo que me foi dado, porque ele mesmo guia a sabedoria e dirige os sábios."
+        },
+        {
+          "number": "16",
+          "text": "Pois nós e nossas palavras estamos em suas mãos, juntamente com todo entendimento e habilidade em diferentes ofícios."
+        },
+        {
+          "number": "17",
+          "text": "Foi ele quem me deu conhecimento infalível das coisas que existem, para conhecer a estrutura do universo e o funcionamento dos elementos;"
+        },
+        {
+          "number": "18",
+          "text": "o princípio, o fim e o meio dos tempos; as alternâncias dos solstícios e as mudanças das estações;"
+        },
+        {
+          "number": "19",
+          "text": "os ciclos dos anos e as posições das estrelas;"
+        },
+        {
+          "number": "20",
+          "text": "a natureza dos seres vivos e a ferocidade dos animais selvagens; a força dos ventos e os pensamentos dos homens; a variedade das plantas e as propriedades das raízes."
+        },
+        {
+          "number": "21",
+          "text": "Aprendi todas as coisas, tanto as ocultas como as manifestas,"
+        },
+        {
+          "number": "22",
+          "text": "pois a sabedoria, artífice de todas as coisas, me ensinou. Pois nela há um espírito inteligente, santo, único, múltiplo, sutil, de livre movimento, claro em sua expressão, incontaminado, distinto, invulnerável, amante do bem, perspicaz, irresistível,"
+        },
+        {
+          "number": "23",
+          "text": "benéfico, amigo da humanidade, firme, seguro, livre de preocupação, todo-poderoso, que tudo observa, e que penetra todos os espíritos inteligentes, puros e extremamente sutis."
+        },
+        {
+          "number": "24",
+          "text": "Pois a sabedoria é mais ágil que qualquer movimento. Por sua pureza, atravessa e penetra todas as coisas."
+        },
+        {
+          "number": "25",
+          "text": "Ela é um sopro do poder de Deus e uma emanação pura da glória do Todo-Poderoso. Por isso nada contaminado pode entrar nela."
+        },
+        {
+          "number": "26",
+          "text": "Ela é reflexo da luz eterna, espelho sem mancha da atividade de Deus e imagem de sua bondade."
+        },
+        {
+          "number": "27",
+          "text": "Embora seja uma só, pode fazer todas as coisas. Permanecendo em si mesma, renova todas as coisas. Passando de geração em geração para almas santas, faz delas amigas de Deus e profetas."
+        },
+        {
+          "number": "28",
+          "text": "Pois Deus nada ama tanto como aquele que vive com a sabedoria."
+        },
+        {
+          "number": "29",
+          "text": "Ela é mais bela que o sol e superior a todas as constelações das estrelas. Comparada à luz, mostra-se superior,"
+        },
+        {
+          "number": "30",
+          "text": "pois a luz do dia cede lugar à noite, mas o mal não prevalece contra a sabedoria."
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Ela se estende vigorosamente de uma extremidade à outra e governa todas as coisas com excelência."
+        },
+        {
+          "number": "2",
+          "text": "Eu a amei e a procurei desde a juventude. Procurei tomá-la como noiva e me apaixonei por sua beleza."
+        },
+        {
+          "number": "3",
+          "text": "Ela manifesta sua nobre origem por viver com Deus, e o Senhor soberano de todos a ama."
+        },
+        {
+          "number": "4",
+          "text": "Pois ela conhece profundamente o conhecimento de Deus e escolhe suas obras."
+        },
+        {
+          "number": "5",
+          "text": "Se a riqueza é um bem desejável nesta vida, o que é mais rico do que a sabedoria, que produz todas as coisas?"
+        },
+        {
+          "number": "6",
+          "text": "E, se o entendimento realiza obras, quem, mais do que a sabedoria, é artífice das coisas que existem?"
+        },
+        {
+          "number": "7",
+          "text": "Se alguém ama a justiça, os frutos do trabalho da sabedoria são virtudes, pois ela ensina temperança, entendimento, justiça e coragem. Nada há na vida mais útil para os seres humanos do que essas coisas."
+        },
+        {
+          "number": "8",
+          "text": "Se alguém deseja vasta experiência, ela conhece as coisas do passado e deduz as que virão. Entende as sutilezas dos discursos e a interpretação de enigmas. Prevê sinais e prodígios e os acontecimentos das estações e dos tempos."
+        },
+        {
+          "number": "9",
+          "text": "Por isso decidi tomá-la para viver comigo, sabendo que ela me daria bons conselhos e me consolaria em preocupações e tristezas."
+        },
+        {
+          "number": "10",
+          "text": "Por causa dela terei glória entre as multidões e honra diante dos anciãos, embora eu seja jovem."
+        },
+        {
+          "number": "11",
+          "text": "Serei considerado perspicaz quando julgar e admirado na presença dos governantes."
+        },
+        {
+          "number": "12",
+          "text": "Quando eu me calar, eles esperarão por mim. Quando eu abrir os lábios, prestarão atenção ao que digo. Se eu prolongar meu discurso, levarão a mão à boca."
+        },
+        {
+          "number": "13",
+          "text": "Por causa dela terei imortalidade e deixarei memória eterna para os que vierem depois de mim."
+        },
+        {
+          "number": "14",
+          "text": "Governarei povos, e nações se submeterão a mim."
+        },
+        {
+          "number": "15",
+          "text": "Monarcas temidos terão medo quando ouvirem falar de mim. Entre o povo, mostrarei bondade, e na guerra, coragem."
+        },
+        {
+          "number": "16",
+          "text": "Quando entrar em minha casa, descansarei junto dela. Pois conversar com ela não traz amargura, e viver com ela não traz dor, mas alegria e contentamento."
+        },
+        {
+          "number": "17",
+          "text": "Quando considerei essas coisas comigo mesmo e refleti em meu coração que a comunhão com a sabedoria traz imortalidade,"
+        },
+        {
+          "number": "18",
+          "text": "que em sua amizade há prazer verdadeiro, nos trabalhos de suas mãos há riqueza inesgotável, em sua companhia há entendimento, e na comunhão com suas palavras há grande renome, comecei a procurar como poderia tomá-la para mim."
+        },
+        {
+          "number": "19",
+          "text": "Eu era uma criança de boa natureza e recebi uma alma boa."
+        },
+        {
+          "number": "20",
+          "text": "Ou melhor, sendo bom, vim para um corpo sem mancha."
+        },
+        {
+          "number": "21",
+          "text": "Mas, percebendo que eu não poderia possuir a sabedoria se Deus não a concedesse a mim — e reconhecer de quem vem esse dom já era sinal de entendimento — recorri ao Senhor, supliquei-lhe e disse de todo o coração:"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "verses": [
+        {
+          "number": "1",
+          "text": "“Ó Deus de meus antepassados e Senhor de misericórdia, que fizeste todas as coisas por tua palavra"
+        },
+        {
+          "number": "2",
+          "text": "e, por tua sabedoria, formaste o ser humano para que dominasse sobre as criaturas que fizeste,"
+        },
+        {
+          "number": "3",
+          "text": "governasse o mundo com santidade e justiça e exercesse o julgamento com retidão de alma,"
+        },
+        {
+          "number": "4",
+          "text": "dá-me a sabedoria, aquela que se assenta junto a ti em teus tronos. Não me rejeites dentre teus servos,"
+        },
+        {
+          "number": "5",
+          "text": "porque sou teu servo e filho de tua serva, um homem fraco e de vida breve, com pouca capacidade para compreender o julgamento e as leis."
+        },
+        {
+          "number": "6",
+          "text": "Ainda que alguém seja perfeito entre os filhos dos homens, se não tiver a sabedoria que vem de ti, será considerado como nada."
+        },
+        {
+          "number": "7",
+          "text": "Tu me escolheste para ser rei de teu povo e juiz de teus filhos e filhas."
+        },
+        {
+          "number": "8",
+          "text": "Ordenaste que eu construísse um santuário em teu santo monte e um altar na cidade onde habitas, cópia da santa tenda que preparaste desde o princípio."
+        },
+        {
+          "number": "9",
+          "text": "A sabedoria está contigo e conhece tuas obras. Ela estava presente quando fizeste o mundo e sabe o que é agradável aos teus olhos e o que é correto segundo teus mandamentos."
+        },
+        {
+          "number": "10",
+          "text": "Envia-a dos santos céus e manda-a vir do trono de tua glória, para que, presente comigo, ela trabalhe ao meu lado e eu aprenda o que te agrada."
+        },
+        {
+          "number": "11",
+          "text": "Pois ela conhece e entende todas as coisas, guiará prudentemente minhas ações e me guardará em sua glória."
+        },
+        {
+          "number": "12",
+          "text": "Assim minhas obras serão aceitáveis. Julgarei teu povo com justiça e serei digno do trono de meu pai."
+        },
+        {
+          "number": "13",
+          "text": "Pois que homem conhecerá o conselho de Deus? Quem compreenderá o que o Senhor deseja?"
+        },
+        {
+          "number": "14",
+          "text": "Os pensamentos dos mortais são instáveis, e nossos planos estão sujeitos ao fracasso."
+        },
+        {
+          "number": "15",
+          "text": "Pois o corpo corruptível pesa sobre a alma, e a tenda terrena sobrecarrega a mente cheia de preocupações."
+        },
+        {
+          "number": "16",
+          "text": "Mal conseguimos compreender as coisas que estão sobre a terra e descobrimos com esforço aquilo que está ao nosso alcance; mas quem investigou as coisas que estão nos céus?"
+        },
+        {
+          "number": "17",
+          "text": "Quem conheceu teu conselho, se não lhe deste sabedoria e não enviaste do alto teu santo espírito?"
+        },
+        {
+          "number": "18",
+          "text": "Foi assim que os caminhos dos que vivem sobre a terra foram corrigidos, os seres humanos aprenderam o que te agrada e foram salvos por meio da sabedoria.”"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "verses": [
+        {
+          "number": "1",
+          "text": "A sabedoria guardou até o fim o primeiro pai do mundo, que foi criado sozinho, e o livrou de sua própria transgressão;"
+        },
+        {
+          "number": "2",
+          "text": "e lhe deu força para dominar sobre todas as coisas."
+        },
+        {
+          "number": "3",
+          "text": "Mas, quando um homem injusto se afastou dela em sua ira, pereceu por causa da fúria com que matou seu irmão."
+        },
+        {
+          "number": "4",
+          "text": "Quando, por causa dele, a terra foi submersa pelo dilúvio, a sabedoria novamente a salvou, guiando o justo por meio de um simples pedaço de madeira."
+        },
+        {
+          "number": "5",
+          "text": "Além disso, quando as nações que haviam concordado em praticar a maldade foram confundidas, a sabedoria reconheceu o justo, preservou-o irrepreensível diante de Deus e o manteve firme quando seu coração se comoveu por causa de seu filho."
+        },
+        {
+          "number": "6",
+          "text": "Quando os ímpios pereciam, a sabedoria livrou um homem justo quando ele fugia do fogo que desceu do céu sobre as cinco cidades."
+        },
+        {
+          "number": "7",
+          "text": "Da perversidade deles ainda dão testemunho uma terra devastada e fumegante, plantas que produzem belos frutos, mas não amadurecem, e, como memorial de uma alma incrédula, uma coluna de sal que permanece de pé."
+        },
+        {
+          "number": "8",
+          "text": "Pois, ao desprezarem a sabedoria, não somente ficaram incapazes de reconhecer as coisas boas, mas também deixaram para a posteridade um monumento de sua insensatez, para que nem mesmo o lugar em que tropeçaram ficasse oculto."
+        },
+        {
+          "number": "9",
+          "text": "A sabedoria, porém, livrou das aflições os que a serviam."
+        },
+        {
+          "number": "10",
+          "text": "Quando um homem justo fugia da ira de seu irmão, a sabedoria o guiou por caminhos retos. Mostrou-lhe o reino de Deus e lhe deu conhecimento das coisas santas. Fez prosperar seus trabalhos e multiplicou os frutos de seus esforços."
+        },
+        {
+          "number": "11",
+          "text": "Quando homens, movidos pela ganância, o trataram com dureza, ela permaneceu ao seu lado e o tornou rico."
+        },
+        {
+          "number": "12",
+          "text": "Guardou-o dos inimigos e o protegeu daqueles que armavam emboscadas. Em sua luta severa, ela atuou como juíza, para que ele soubesse que a piedade é mais poderosa do que tudo."
+        },
+        {
+          "number": "13",
+          "text": "Quando um homem justo foi vendido, a sabedoria não o abandonou, mas o livrou do pecado. Desceu com ele ao calabouço"
+        },
+        {
+          "number": "14",
+          "text": "e não o deixou enquanto estava acorrentado, até lhe trazer o cetro de um reino e autoridade sobre os que o haviam tratado tiranicamente. Também demonstrou que eram mentirosos os que o haviam acusado com desprezo e lhe deu glória eterna."
+        },
+        {
+          "number": "15",
+          "text": "A sabedoria livrou um povo santo e uma descendência irrepreensível de uma nação de opressores."
+        },
+        {
+          "number": "16",
+          "text": "Entrou na alma de um servo do Senhor e enfrentou reis terríveis com prodígios e sinais."
+        },
+        {
+          "number": "17",
+          "text": "Deu aos santos a recompensa de seus trabalhos. Guiou-os por um caminho maravilhoso, tornou-se para eles cobertura durante o dia e chama estrelada durante a noite."
+        },
+        {
+          "number": "18",
+          "text": "Fez com que atravessassem o mar Vermelho e os conduziu através de muitas águas;"
+        },
+        {
+          "number": "19",
+          "text": "mas afogou seus inimigos e os lançou para fora das profundezas do abismo."
+        },
+        {
+          "number": "20",
+          "text": "Por isso os justos saquearam os ímpios, cantaram louvores ao teu santo nome, ó Senhor, e exaltaram em uníssono tua mão que lutou por eles,"
+        },
+        {
+          "number": "21",
+          "text": "porque a sabedoria abriu a boca dos mudos e fez a língua das crianças falar com clareza."
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "verses": [
+        {
+          "number": "1",
+          "text": "A sabedoria fez prosperar as obras deles por meio de um santo profeta."
+        },
+        {
+          "number": "2",
+          "text": "Eles atravessaram um deserto desabitado e armaram suas tendas em regiões sem caminhos."
+        },
+        {
+          "number": "3",
+          "text": "Resistiram aos inimigos e repeliram os adversários."
+        },
+        {
+          "number": "4",
+          "text": "Sentiram sede e clamaram a ti, e lhes foi dada água da rocha de pederneira, e da pedra dura veio alívio para sua sede."
+        },
+        {
+          "number": "5",
+          "text": "Pois pelas mesmas coisas com que seus inimigos foram castigados, eles, em sua necessidade, foram beneficiados."
+        },
+        {
+          "number": "6",
+          "text": "Quando os inimigos foram afligidos com sangue coagulado em lugar de uma fonte de água corrente,"
+        },
+        {
+          "number": "7",
+          "text": "como castigo pelo decreto que ordenava a morte dos bebês, tu lhes deste água em abundância, além de toda esperança,"
+        },
+        {
+          "number": "8",
+          "text": "mostrando, pela sede que haviam sofrido, como castigavas os adversários."
+        },
+        {
+          "number": "9",
+          "text": "Pois, quando foram provados, embora disciplinados com misericórdia, aprenderam como os ímpios eram atormentados ao serem julgados com ira."
+        },
+        {
+          "number": "10",
+          "text": "Tu os provaste como um pai que admoesta, mas examinaste os outros como um rei severo que condena."
+        },
+        {
+          "number": "11",
+          "text": "Estivessem longe ou perto, eram igualmente afligidos;"
+        },
+        {
+          "number": "12",
+          "text": "pois uma dupla tristeza os tomou, e gemiam ao se lembrarem do que havia acontecido."
+        },
+        {
+          "number": "13",
+          "text": "Quando ouviram que, por meio dos próprios castigos deles, os outros haviam sido beneficiados, reconheceram o Senhor."
+        },
+        {
+          "number": "14",
+          "text": "Aquele que muito tempo antes haviam rejeitado e exposto, deixaram de desprezá-lo. No fim, ficaram admirados com o que aconteceu, pois haviam sofrido sede de maneira diferente dos justos."
+        },
+        {
+          "number": "15",
+          "text": "Mas, em retribuição às imaginações insensatas de sua injustiça, pelas quais se desviaram para adorar répteis irracionais e animais desprezíveis, enviaste contra eles uma multidão de criaturas irracionais para castigá-los,"
+        },
+        {
+          "number": "16",
+          "text": "para que aprendessem que cada um é castigado por aquilo com que peca."
+        },
+        {
+          "number": "17",
+          "text": "Pois tua mão todo-poderosa, que criou o mundo a partir de matéria informe, não carecia de meios para enviar contra eles uma multidão de ursos ou leões ferozes,"
+        },
+        {
+          "number": "18",
+          "text": "ou feras recém-criadas e desconhecidas, cheias de fúria, que respirassem rajadas de fogo, ou expelissem fumaça, ou lançassem terríveis faíscas pelos olhos;"
+        },
+        {
+          "number": "19",
+          "text": "feras capazes não somente de destruí-los pela violência, mas de matá-los pelo próprio terror de sua aparência."
+        },
+        {
+          "number": "20",
+          "text": "E, mesmo sem essas coisas, eles poderiam ter caído com um só sopro, perseguidos pela Justiça e dispersos pelo sopro de teu poder; mas tu dispuseste todas as coisas com medida, número e peso."
+        },
+        {
+          "number": "21",
+          "text": "Pois ser sempre poderoso pertence a ti. Quem poderia resistir à força de teu braço?"
+        },
+        {
+          "number": "22",
+          "text": "Porque o mundo inteiro diante de ti é como um grão numa balança e como uma gota de orvalho que cai sobre a terra pela manhã."
+        },
+        {
+          "number": "23",
+          "text": "Mas tu tens misericórdia de todos, porque podes todas as coisas, e não levas em conta os pecados dos homens para que se arrependam."
+        },
+        {
+          "number": "24",
+          "text": "Pois amas todas as coisas que existem e não detestas nenhuma das coisas que fizeste; porque jamais terias formado algo se o odiasse."
+        },
+        {
+          "number": "25",
+          "text": "Como alguma coisa poderia subsistir se tu não a quisesses? Ou como poderia ser preservado aquilo que não tivesse sido chamado por ti?"
+        },
+        {
+          "number": "26",
+          "text": "Mas poupas todas as coisas porque são tuas, ó Senhor soberano, que amas os seres vivos."
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Pois teu espírito incorruptível está em todas as coisas."
+        },
+        {
+          "number": "2",
+          "text": "Por isso corriges pouco a pouco os que se desviam do caminho, e, lembrando-lhes as coisas em que pecam, os admoestas, para que abandonem sua maldade e creiam em ti, ó Senhor."
+        },
+        {
+          "number": "3",
+          "text": "Pois, de fato, os antigos habitantes de tua santa terra,"
+        },
+        {
+          "number": "4",
+          "text": "a quem odiaste porque praticavam obras detestáveis de feitiçaria e ritos profanos,"
+        },
+        {
+          "number": "5",
+          "text": "matanças impiedosas de crianças e banquetes sacrificiais de carne e sangue humanos,"
+        },
+        {
+          "number": "6",
+          "text": "participantes de uma comunhão ímpia e assassinos dos próprios bebês indefesos, decidiste destruí-los pelas mãos de nossos antepassados,"
+        },
+        {
+          "number": "7",
+          "text": "para que a terra, que aos teus olhos é a mais preciosa de todas, recebesse uma digna colônia de servos de Deus."
+        },
+        {
+          "number": "8",
+          "text": "Contudo, até mesmo a eles poupaste por serem humanos, e enviaste vespas como precursoras de teu exército, para destruí-los pouco a pouco."
+        },
+        {
+          "number": "9",
+          "text": "Não porque fosses incapaz de subjugar os ímpios em batalha pela mão dos justos, ou de exterminá-los de uma vez por meio de feras terríveis ou de uma palavra severa,"
+        },
+        {
+          "number": "10",
+          "text": "mas, julgando-os pouco a pouco, deste-lhes oportunidade de se arrepender, embora soubesses que sua natureza era má desde o nascimento, que sua maldade era inata e que sua maneira de pensar jamais mudaria."
+        },
+        {
+          "number": "11",
+          "text": "Pois eram uma descendência amaldiçoada desde o princípio. Não foi por medo de ninguém que deixaste seus pecados sem castigo."
+        },
+        {
+          "number": "12",
+          "text": "Pois quem dirá: “O que fizeste?” Ou: “Quem resistirá ao teu julgamento?” Quem te acusará pela destruição das nações que causaste? Ou quem se apresentará diante de ti como defensor de homens injustos?"
+        },
+        {
+          "number": "13",
+          "text": "Pois não há Deus além de ti, que cuidas de todos, para que tenhas de provar que não julgaste injustamente."
+        },
+        {
+          "number": "14",
+          "text": "Nenhum rei ou príncipe poderá confrontar-te por causa daqueles que castigaste."
+        },
+        {
+          "number": "15",
+          "text": "Mas, sendo justo, governas todas as coisas com justiça, considerando incompatível com teu poder condenar alguém que não merece castigo."
+        },
+        {
+          "number": "16",
+          "text": "Pois tua força é a fonte da justiça, e teu domínio sobre todos faz com que sejas paciente com todos."
+        },
+        {
+          "number": "17",
+          "text": "Quando os homens não creem que teu poder é perfeito, tu mostras tua força, e, ao tratares com os que pensam assim, confundes sua ousadia."
+        },
+        {
+          "number": "18",
+          "text": "Mas tu, soberano em poder, julgas com mansidão e nos governas com grande paciência, pois o poder está à tua disposição sempre que desejas."
+        },
+        {
+          "number": "19",
+          "text": "Por meio dessas obras ensinaste ao teu povo que o justo deve ser bondoso. Deste boa esperança aos teus filhos, porque concedes arrependimento depois que os homens pecam."
+        },
+        {
+          "number": "20",
+          "text": "Pois, se contra os inimigos de teus servos que mereciam a morte exerceste vingança com tanta consideração e tolerância, dando-lhes tempos e oportunidades para se afastarem da maldade,"
+        },
+        {
+          "number": "21",
+          "text": "com quanto maior cuidado julgaste teus filhos, a cujos pais deste juramentos e alianças de boas promessas!"
+        },
+        {
+          "number": "22",
+          "text": "Portanto, enquanto nos disciplinas, castigas nossos inimigos dez mil vezes mais, para que, quando julgamos, reflitamos sobre tua bondade e, quando somos julgados, esperemos misericórdia."
+        },
+        {
+          "number": "23",
+          "text": "Por isso também atormentaste, por meio das próprias abominações deles, os injustos que viviam numa vida de insensatez."
+        },
+        {
+          "number": "24",
+          "text": "Pois realmente se desviaram muito pelos caminhos do erro, tomando por deuses aqueles animais que até entre seus inimigos eram desprezados, enganados como crianças insensatas."
+        },
+        {
+          "number": "25",
+          "text": "Por isso, como a crianças sem entendimento, enviaste-lhes um julgamento que os ridicularizava."
+        },
+        {
+          "number": "26",
+          "text": "Mas os que não aceitaram a correção branda experimentarão o julgamento de Deus que merecem."
+        },
+        {
+          "number": "27",
+          "text": "Pois, por causa dos sofrimentos que os indignavam, ao serem castigados por meio das criaturas que julgavam ser deuses, viram e reconheceram como verdadeiro Deus aquele a quem antes se recusavam a conhecer. Por isso também lhes sobreveio a condenação extrema."
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Na verdade, todos os homens que não tinham percepção de Deus eram insensatos por natureza e não conseguiram, a partir das coisas boas que veem, conhecer aquele que existe. Não reconheceram o Artífice por meio de suas obras."
+        },
+        {
+          "number": "2",
+          "text": "Em vez disso, pensaram que o fogo, o vento, o ar veloz, as estrelas em movimento, a água impetuosa ou os luzeiros do céu fossem deuses que governam o mundo."
+        },
+        {
+          "number": "3",
+          "text": "Se foi por se encantarem com a beleza dessas coisas que as consideraram deuses, que reconheçam quanto o Senhor soberano delas é superior, pois o primeiro Autor da beleza as criou."
+        },
+        {
+          "number": "4",
+          "text": "E, se ficaram admirados com seu poder e sua força, compreendam, por meio delas, quanto mais poderoso é aquele que as formou."
+        },
+        {
+          "number": "5",
+          "text": "Pois, pela grandeza e beleza das coisas criadas, pode-se perceber, por comparação, o seu Criador."
+        },
+        {
+          "number": "6",
+          "text": "Contudo, esses homens merecem apenas pequena censura, pois talvez se desviem enquanto procuram a Deus e desejam encontrá-lo."
+        },
+        {
+          "number": "7",
+          "text": "Vivendo entre suas obras, investigam-nas diligentemente e se deixam convencer pelo que veem, porque as coisas contempladas são belas."
+        },
+        {
+          "number": "8",
+          "text": "Mesmo assim, nem eles têm desculpa."
+        },
+        {
+          "number": "9",
+          "text": "Pois, se conseguiram conhecer tanto a ponto de poderem investigar o mundo, como não encontraram antes o Senhor soberano?"
+        },
+        {
+          "number": "10",
+          "text": "Miseráveis, porém, são os que colocaram suas esperanças em coisas mortas e chamaram de deuses as obras das mãos humanas: ouro e prata trabalhados com habilidade, imagens de animais ou uma pedra inútil, obra de mão antiga."
+        },
+        {
+          "number": "11",
+          "text": "Assim também um lenhador pode serrar uma árvore fácil de trabalhar, retirar habilmente toda a casca e, moldando-a com destreza, fazer um utensílio útil às necessidades da vida."
+        },
+        {
+          "number": "12",
+          "text": "Com as sobras de seu trabalho, acende o fogo para preparar sua comida e come até se fartar."
+        },
+        {
+          "number": "13",
+          "text": "Depois pega um pedaço descartado que não serve para nada, uma madeira torta e cheia de nós, e, no tempo ocioso, começa a esculpi-la com cuidado, dando-lhe forma com a habilidade de suas horas de folga. Molda-a à imagem de um homem"
+        },
+        {
+          "number": "14",
+          "text": "ou a faz semelhante a algum animal desprezível, cobre-a com tinta vermelha, pinta-a de vermelho e cobre todas as suas manchas."
+        },
+        {
+          "number": "15",
+          "text": "Depois de preparar para ela um lugar digno, coloca-a numa parede e prende-a com ferro."
+        },
+        {
+          "number": "16",
+          "text": "Toma cuidado para que não caia, sabendo que ela não pode ajudar a si mesma, pois é apenas uma imagem e precisa de ajuda."
+        },
+        {
+          "number": "17",
+          "text": "Quando ora por seus bens, por seu casamento e por seus filhos, não se envergonha de falar com aquilo que não tem vida."
+        },
+        {
+          "number": "18",
+          "text": "Pela saúde, invoca aquilo que é fraco. Pela vida, suplica ao que está morto. Por auxílio, pede ajuda ao que não tem experiência. Por uma boa viagem, pede a quem não consegue dar nem um passo."
+        },
+        {
+          "number": "19",
+          "text": "E, para obter lucro nos negócios e sucesso no trabalho de suas mãos, pede habilidade àquilo cujas mãos são incapazes de fazer qualquer coisa."
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Outra pessoa, preparando-se para navegar e viajar sobre ondas furiosas, invoca um pedaço de madeira mais frágil que o barco que a transporta."
+        },
+        {
+          "number": "2",
+          "text": "Pois o desejo de lucro planejou o barco, e a sabedoria foi a artífice que o construiu."
+        },
+        {
+          "number": "3",
+          "text": "Tua providência, ó Pai, o conduz, porque até no mar abriste um caminho e, nas ondas, uma passagem segura,"
+        },
+        {
+          "number": "4",
+          "text": "mostrando que podes salvar de todo perigo, para que até alguém sem experiência possa navegar."
+        },
+        {
+          "number": "5",
+          "text": "É tua vontade que as obras de tua sabedoria não sejam inúteis. Por isso os homens confiam a vida a um pequeno pedaço de madeira e, atravessando as ondas numa embarcação, chegam em segurança à terra."
+        },
+        {
+          "number": "6",
+          "text": "Pois também antigamente, quando os gigantes orgulhosos pereciam, a esperança do mundo, refugiada numa embarcação, foi guiada por tua mão e preservou a semente das futuras gerações da humanidade."
+        },
+        {
+          "number": "7",
+          "text": "Bendita é a madeira por meio da qual vem a justiça;"
+        },
+        {
+          "number": "8",
+          "text": "mas maldito é o ídolo feito por mãos humanas, tanto ele como quem o fez: este, porque o produziu; aquele, porque, sendo corruptível, foi chamado de deus."
+        },
+        {
+          "number": "9",
+          "text": "Pois tanto o ímpio como sua impiedade são igualmente odiosos a Deus;"
+        },
+        {
+          "number": "10",
+          "text": "porque a obra será castigada juntamente com quem a praticou."
+        },
+        {
+          "number": "11",
+          "text": "Por isso também haverá julgamento sobre os ídolos das nações, porque, embora formados de coisas criadas por Deus, tornaram-se abominação, pedras de tropeço para as almas humanas e armadilha para os pés dos insensatos."
+        },
+        {
+          "number": "12",
+          "text": "Pois a invenção dos ídolos foi o princípio da prostituição, e sua descoberta, a corrupção da vida."
+        },
+        {
+          "number": "13",
+          "text": "Eles não existiam desde o princípio e não existirão para sempre."
+        },
+        {
+          "number": "14",
+          "text": "Entraram no mundo pela vaidade dos homens, e por isso foi determinado para eles um fim rápido."
+        },
+        {
+          "number": "15",
+          "text": "Um pai, consumido por uma dor prematura, fez uma imagem do filho que lhe fora tirado cedo demais. Aquele que pouco antes era apenas um ser humano morto passou a ser honrado como deus, e o pai transmitiu aos que estavam sob sua autoridade mistérios e ritos solenes."
+        },
+        {
+          "number": "16",
+          "text": "Depois, com o passar do tempo, o costume ímpio se fortaleceu e passou a ser observado como lei, e as imagens esculpidas começaram a ser adoradas por ordem dos governantes."
+        },
+        {
+          "number": "17",
+          "text": "Quando os homens não podiam honrá-los pessoalmente por morarem longe, imaginavam de longe sua aparência, faziam uma imagem visível do rei a quem honravam e, com seu zelo, bajulavam o ausente como se estivesse presente."
+        },
+        {
+          "number": "18",
+          "text": "Até mesmo os que não o conheciam foram levados a uma adoração ainda mais intensa, impulsionados pela ambição do artista;"
+        },
+        {
+          "number": "19",
+          "text": "pois ele, talvez desejando agradar ao governante, usava sua arte para tornar a imagem ainda mais bela."
+        },
+        {
+          "number": "20",
+          "text": "Então a multidão, atraída pela beleza do trabalho, passou a considerar objeto de adoração aquele que pouco antes era honrado apenas como homem."
+        },
+        {
+          "number": "21",
+          "text": "Isso se tornou uma armadilha, porque os homens, escravizados pela desgraça ou pela tirania, atribuíram a pedras e pedaços de madeira o Nome que não deve ser compartilhado."
+        },
+        {
+          "number": "22",
+          "text": "Depois, já não lhes bastava errar quanto ao conhecimento de Deus; vivendo numa grande guerra de ignorância, chamavam de paz a tantos males."
+        },
+        {
+          "number": "23",
+          "text": "Pois, sacrificando crianças em ritos solenes, celebrando mistérios secretos ou realizando festas frenéticas com costumes estranhos,"
+        },
+        {
+          "number": "24",
+          "text": "já não preservavam nem a vida nem a pureza do casamento, mas um matava o outro por traição ou lhe causava sofrimento por adultério."
+        },
+        {
+          "number": "25",
+          "text": "Tudo se encheu, em confusão, de sangue e assassinato, roubo e engano, corrupção, infidelidade, tumulto e perjúrio,"
+        },
+        {
+          "number": "26",
+          "text": "confusão sobre o que é bom, esquecimento dos favores recebidos, ingratidão pelos benefícios, corrupção das almas, desordem sexual, perturbação do casamento, adultério e libertinagem."
+        },
+        {
+          "number": "27",
+          "text": "Pois a adoração de ídolos que nem sequer devem ser nomeados é princípio, causa e fim de todo mal."
+        },
+        {
+          "number": "28",
+          "text": "Pois seus adoradores ou se entregam à alegria até a loucura, ou profetizam mentiras, ou vivem injustamente, ou juram falso com facilidade."
+        },
+        {
+          "number": "29",
+          "text": "Como depositam sua confiança em ídolos sem vida, quando fazem um juramento perverso, não esperam sofrer dano algum."
+        },
+        {
+          "number": "30",
+          "text": "Mas, por ambas as razões, o justo castigo os perseguirá: porque pensaram mal de Deus ao darem atenção aos ídolos e porque juraram injustamente e com engano, desprezando a santidade."
+        },
+        {
+          "number": "31",
+          "text": "Pois não é o poder das coisas pelas quais os homens juram, mas a justa punição dos que pecam que sempre visita a transgressão dos injustos."
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Mas tu, nosso Deus, és bondoso e verdadeiro, paciente e governas todas as coisas com misericórdia."
+        },
+        {
+          "number": "2",
+          "text": "Mesmo que pequemos, somos teus, pois conhecemos teu domínio; mas não pecaremos, porque sabemos que fomos contados como pertencentes a ti."
+        },
+        {
+          "number": "3",
+          "text": "Pois conhecer-te é justiça perfeita, e conhecer teu domínio é a raiz da imortalidade."
+        },
+        {
+          "number": "4",
+          "text": "Não fomos enganados por nenhum plano perverso dos homens, nem pelo trabalho inútil dos pintores, uma figura manchada de várias cores,"
+        },
+        {
+          "number": "5",
+          "text": "cuja visão leva os insensatos à cobiça. Eles desejam a forma sem vida de uma imagem morta."
+        },
+        {
+          "number": "6",
+          "text": "Amantes do mal e dignos de tais esperanças são os que fazem, desejam e adoram essas coisas."
+        },
+        {
+          "number": "7",
+          "text": "Pois o oleiro, amassando barro macio, molda com esforço cada objeto para nosso uso. Da mesma argila ele faz tanto os vasos destinados a usos puros como os destinados ao contrário, todos da mesma maneira. O próprio oleiro decide para que será usado cada tipo de vaso."
+        },
+        {
+          "number": "8",
+          "text": "E, trabalhando para um fim perverso, molda da mesma argila um deus inútil, ele que pouco antes foi feito da terra e, depois de pouco tempo, voltará à terra de onde foi tirado, quando lhe for exigido devolver a alma que lhe foi emprestada."
+        },
+        {
+          "number": "9",
+          "text": "Contudo, sua preocupação não é que suas forças venham a falhar nem que sua vida seja curta; ele compete com ourives e prateiros, imita os que trabalham com bronze e considera grande coisa fabricar deuses falsos."
+        },
+        {
+          "number": "10",
+          "text": "Seu coração é cinza. Sua esperança vale menos que a terra. Sua vida tem menos honra que o barro,"
+        },
+        {
+          "number": "11",
+          "text": "porque ignorou aquele que o moldou, aquele que soprou nele uma alma ativa e lhe inspirou um espírito vital."
+        },
+        {
+          "number": "12",
+          "text": "Mas ele considerou nossa vida um jogo e nosso tempo de vida uma festa para obter lucro; pois diz que se deve lucrar de qualquer maneira, mesmo por meios perversos."
+        },
+        {
+          "number": "13",
+          "text": "Esse homem, mais do que todos os outros, sabe que peca ao fabricar, de matéria terrena, vasos frágeis e imagens esculpidas."
+        },
+        {
+          "number": "14",
+          "text": "Mas os inimigos de teu povo, que o oprimiram, são os mais insensatos e mais miseráveis do que uma criança,"
+        },
+        {
+          "number": "15",
+          "text": "porque consideraram deuses todos os ídolos das nações, os quais não têm olhos capazes de ver, nem narinas para respirar, nem ouvidos para ouvir, nem dedos capazes de tocar, e cujos pés são incapazes de andar."
+        },
+        {
+          "number": "16",
+          "text": "Pois um homem os fez, e alguém que recebeu emprestado o próprio espírito os moldou; porque nenhum ser humano tem poder para moldar um deus semelhante a si mesmo."
+        },
+        {
+          "number": "17",
+          "text": "Sendo mortal, ele produz uma coisa morta com mãos que praticam o mal; ele é melhor do que os objetos que adora, pois ele ao menos viveu, mas eles nunca viveram."
+        },
+        {
+          "number": "18",
+          "text": "Eles adoram até as criaturas mais detestáveis, pois, comparadas quanto à falta de entendimento, são piores que todas as outras;"
+        },
+        {
+          "number": "19",
+          "text": "e nem sequer possuem, entre os outros animais, beleza que as torne desejáveis, mas ficaram excluídas tanto do louvor de Deus como de sua bênção."
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Por isso eles foram justamente castigados por meio de criaturas semelhantes às que adoravam e atormentados por uma multidão de animais desprezíveis."
+        },
+        {
+          "number": "2",
+          "text": "Em vez desse castigo, concedeste benefícios ao teu povo e preparaste codornizes para seu alimento, uma iguaria para satisfazer o desejo de seu apetite,"
+        },
+        {
+          "number": "3",
+          "text": "para que teus inimigos, desejando alimento, por causa da aparência repugnante das criaturas enviadas contra eles, perdessem até o apetite necessário; mas teu povo, depois de sofrer necessidade por pouco tempo, pudesse desfrutar até de iguarias."
+        },
+        {
+          "number": "4",
+          "text": "Pois era necessário que uma necessidade inevitável atingisse os opressores, enquanto ao teu povo apenas fosse mostrado como seus inimigos eram atormentados."
+        },
+        {
+          "number": "5",
+          "text": "Mesmo quando a terrível fúria de feras atingiu teu povo e eles estavam morrendo pelas mordidas de serpentes sinuosas, tua ira não permaneceu até o fim;"
+        },
+        {
+          "number": "6",
+          "text": "foram perturbados por pouco tempo, para sua correção, tendo um sinal de salvação que os fazia lembrar do mandamento de tua lei."
+        },
+        {
+          "number": "7",
+          "text": "Pois quem se voltava para aquele sinal não era salvo por aquilo que via, mas por ti, Salvador de todos."
+        },
+        {
+          "number": "8",
+          "text": "E, com isso, convenceste também nossos inimigos de que és tu quem livra de todo mal."
+        },
+        {
+          "number": "9",
+          "text": "Pois as mordidas de gafanhotos e moscas realmente os matavam, e não se encontrou cura para sua vida, porque mereciam ser castigados por tais coisas."
+        },
+        {
+          "number": "10",
+          "text": "Mas nem mesmo as presas de serpentes venenosas venceram teus filhos, pois tua misericórdia veio ao encontro deles e os curou."
+        },
+        {
+          "number": "11",
+          "text": "Eles eram mordidos para se lembrarem de teus oráculos e logo eram salvos, para que não caíssem em profundo esquecimento e se tornassem incapazes de responder à tua bondade."
+        },
+        {
+          "number": "12",
+          "text": "Pois não foi erva nem emplastro que os curou, mas tua palavra, ó Senhor, que cura a todos."
+        },
+        {
+          "number": "13",
+          "text": "Tu tens autoridade sobre a vida e a morte, fazes descer às portas do Hades e fazes subir novamente."
+        },
+        {
+          "number": "14",
+          "text": "O homem, porém, embora possa matar por sua maldade, não pode trazer de volta o espírito que partiu nem libertar a alma aprisionada."
+        },
+        {
+          "number": "15",
+          "text": "Mas é impossível escapar de tua mão;"
+        },
+        {
+          "number": "16",
+          "text": "pois os ímpios, recusando-se a conhecer-te, foram castigados pela força de teu braço, perseguidos por chuvas estranhas, granizo e tempestades implacáveis, e completamente consumidos pelo fogo."
+        },
+        {
+          "number": "17",
+          "text": "O que havia de mais extraordinário era que, na água que apaga todas as coisas, o fogo ardia com ainda mais força, pois o mundo combate em favor dos justos."
+        },
+        {
+          "number": "18",
+          "text": "Em certo momento, a chama diminuía para não queimar as criaturas enviadas contra os ímpios, a fim de que eles próprios, vendo isso, percebessem que eram perseguidos pelo julgamento de Deus."
+        },
+        {
+          "number": "19",
+          "text": "Em outro momento, até no meio da água, o fogo ardia com mais intensidade que o fogo comum, para destruir os produtos de uma terra injusta."
+        },
+        {
+          "number": "20",
+          "text": "Em vez dessas coisas, deste ao teu povo alimento de anjos e lhes forneceste do céu, sem trabalho, pão pronto para comer, capaz de proporcionar todo sabor agradável e adequado a todo paladar."
+        },
+        {
+          "number": "21",
+          "text": "Pois tua natureza mostrou tua doçura para com teus filhos, enquanto aquele pão, adaptando-se ao desejo de quem o comia, transformava-se de acordo com o gosto de cada um."
+        },
+        {
+          "number": "22",
+          "text": "Mas a neve e o gelo resistiam ao fogo e não derretiam, para que soubessem que o fogo destruía os frutos dos inimigos, ardendo no granizo e relampejando nas chuvas;"
+        },
+        {
+          "number": "23",
+          "text": "e que esse mesmo fogo, para que os justos fossem alimentados, até esquecia sua própria força."
+        },
+        {
+          "number": "24",
+          "text": "Pois a criação, servindo a ti, seu Criador, intensifica sua força contra os injustos para castigá-los e, por bondade, a suaviza em favor dos que confiam em ti."
+        },
+        {
+          "number": "25",
+          "text": "Por isso, também naquela ocasião, assumindo todas as formas, ela serviu à tua generosidade, que a todos alimenta, conforme a necessidade daqueles que precisavam,"
+        },
+        {
+          "number": "26",
+          "text": "para que teus filhos, a quem amaste, ó Senhor, aprendessem que não são os frutos da terra que alimentam o ser humano, mas tua palavra preserva os que confiam em ti."
+        },
+        {
+          "number": "27",
+          "text": "Pois aquilo que o fogo não destruía derretia-se simplesmente quando aquecido por um fraco raio de sol,"
+        },
+        {
+          "number": "28",
+          "text": "para que se soubesse que devemos levantar-nos antes do sol para dar-te graças e orar a ti ao nascer da luz;"
+        },
+        {
+          "number": "29",
+          "text": "pois a esperança do ingrato derreterá como a geada do inverno e escorrerá como água sem utilidade."
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Teus julgamentos são grandes e difíceis de interpretar; por isso almas sem disciplina se desviaram."
+        },
+        {
+          "number": "2",
+          "text": "Pois, quando homens perversos imaginaram ter sob seu poder uma nação santa, tornaram-se prisioneiros das trevas, presos pelos grilhões de uma longa noite, confinados debaixo de seus próprios tetos, exilados da providência eterna."
+        },
+        {
+          "number": "3",
+          "text": "Enquanto pensavam permanecer ocultos em seus pecados secretos, foram separados uns dos outros por uma escura cortina de esquecimento, atingidos por terrível espanto e muito perturbados por aparições."
+        },
+        {
+          "number": "4",
+          "text": "Nem os lugares escuros que os abrigavam os protegiam do medo; sons aterrorizantes ecoavam ao redor deles, e espectros sombrios apareciam com rostos sem alegria."
+        },
+        {
+          "number": "5",
+          "text": "Nenhuma força do fogo conseguia iluminar, nem as chamas mais brilhantes das estrelas eram capazes de clarear aquela noite sombria;"
+        },
+        {
+          "number": "6",
+          "text": "apenas lhes aparecia o brilho de um fogo que se acendia sozinho, cheio de terror. Assustados, consideravam as coisas que viam ainda piores do que aquilo cuja visão não conseguiam suportar."
+        },
+        {
+          "number": "7",
+          "text": "Os truques de suas artes mágicas agora eram inúteis, e sua tão alardeada sabedoria recebia vergonhosa repreensão."
+        },
+        {
+          "number": "8",
+          "text": "Pois aqueles que prometiam expulsar terrores e perturbações de uma alma doente estavam eles mesmos doentes de um medo ridículo."
+        },
+        {
+          "number": "9",
+          "text": "Ainda que nada realmente assustador os aterrorizasse, ficavam apavorados com o rastejar de animais e o silvo de serpentes;"
+        },
+        {
+          "number": "10",
+          "text": "tremiam de medo a ponto de quase morrer e se recusavam até a olhar para o ar, do qual não podiam escapar por nenhum lado."
+        },
+        {
+          "number": "11",
+          "text": "Pois a maldade, condenada por uma testemunha interior, é covarde e, pressionada pela consciência, sempre imagina o pior."
+        },
+        {
+          "number": "12",
+          "text": "O medo não é outra coisa senão abandonar a ajuda que a razão oferece;"
+        },
+        {
+          "number": "13",
+          "text": "e, quando é menor a expectativa que vem de dentro, prefere-se ignorar a causa que produz o tormento."
+        },
+        {
+          "number": "14",
+          "text": "Mas eles, durante toda aquela noite realmente impotente, que lhes viera das profundezas do impotente Hades, dormindo todos o mesmo sono,"
+        },
+        {
+          "number": "15",
+          "text": "ora eram perseguidos por aparições monstruosas, ora ficavam paralisados quando sua alma se entregava ao medo, pois um terror repentino e inesperado caía sobre eles."
+        },
+        {
+          "number": "16",
+          "text": "Assim, quem quer que caísse naquele lugar ficava preso, encerrado naquela prisão que não tinha barras de ferro;"
+        },
+        {
+          "number": "17",
+          "text": "fosse agricultor, pastor ou trabalhador que labutava no deserto, era surpreendido e suportava aquela sentença inevitável, pois todos estavam presos por uma única corrente de trevas."
+        },
+        {
+          "number": "18",
+          "text": "Fosse o assobio do vento, o canto melodioso dos pássaros entre os galhos espalhados, ou o som ritmado da água correndo com força,"
+        },
+        {
+          "number": "19",
+          "text": "ou o estrondo áspero de pedras que despencavam, ou a corrida veloz de animais saltando sem serem vistos, ou a voz de feras rugindo violentamente, ou um eco ressoando pelas cavidades das montanhas, todas essas coisas os paralisavam de terror."
+        },
+        {
+          "number": "20",
+          "text": "O mundo inteiro estava iluminado por uma luz clara e seguia livremente em suas atividades,"
+        },
+        {
+          "number": "21",
+          "text": "enquanto somente sobre eles se estendia uma noite pesada, imagem das trevas que depois os receberiam; mas eles eram para si mesmos mais pesados do que as próprias trevas."
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Para teus santos, porém, havia grande luz. Seus inimigos ouviam-lhes a voz, mas não viam sua forma, e consideravam uma felicidade o fato de eles também terem sofrido;"
+        },
+        {
+          "number": "2",
+          "text": "e, porque os santos não lhes faziam mal, embora antes tivessem sido maltratados por eles, davam-lhes graças, e pediam perdão por terem sido seus inimigos."
+        },
+        {
+          "number": "3",
+          "text": "Por isso lhes deste uma coluna de fogo ardente, para servir de guia numa viagem desconhecida e de sol inofensivo em sua gloriosa peregrinação."
+        },
+        {
+          "number": "4",
+          "text": "Os egípcios realmente mereciam ser privados da luz e aprisionados pelas trevas, pois haviam mantido presos teus filhos, por meio dos quais seria dada à humanidade a luz incorruptível da lei."
+        },
+        {
+          "number": "5",
+          "text": "Depois que decidiram matar os bebês dos santos, e uma única criança foi abandonada e salva para denunciá-los, tiraste deles a multidão de seus filhos e destruíste todo o seu exército de uma só vez numa poderosa inundação."
+        },
+        {
+          "number": "6",
+          "text": "Nossos antepassados foram avisados de antemão a respeito daquela noite, para que, conhecendo com certeza, se alegrassem nas promessas em que haviam confiado."
+        },
+        {
+          "number": "7",
+          "text": "Teu povo esperava a salvação dos justos e a destruição dos inimigos."
+        },
+        {
+          "number": "8",
+          "text": "Pois, pelo mesmo meio com que castigaste os adversários, chamando-nos para ti, tu nos glorificaste."
+        },
+        {
+          "number": "9",
+          "text": "Os santos filhos de homens bons ofereciam sacrifícios em segredo e, de comum acordo, estabeleceram a aliança da lei divina: participariam igualmente das mesmas coisas boas e dos mesmos perigos, enquanto os pais já entoavam os cânticos sagrados de louvor."
+        },
+        {
+          "number": "10",
+          "text": "Mas, do lado dos inimigos, ecoou um clamor dissonante e espalhou-se uma voz lamentável chorando pelos filhos."
+        },
+        {
+          "number": "11",
+          "text": "Servo e senhor foram castigados pela mesma sentença justa, e o homem comum sofreu o mesmo que o rei;"
+        },
+        {
+          "number": "12",
+          "text": "todos juntos, sob uma única forma de morte, tinham cadáveres sem número. Os vivos nem sequer eram suficientes para sepultá-los, pois, num só instante, sua descendência mais preciosa foi destruída."
+        },
+        {
+          "number": "13",
+          "text": "Embora antes não acreditassem em coisa alguma por causa das feitiçarias, quando seus primogênitos foram destruídos confessaram que aquele povo era composto de filhos de Deus."
+        },
+        {
+          "number": "14",
+          "text": "Enquanto um silêncio tranquilo envolvia todas as coisas e a noite, em seu curso veloz, chegava à metade,"
+        },
+        {
+          "number": "15",
+          "text": "tua palavra todo-poderosa saltou do céu, do trono real, como guerreiro severo, para o meio da terra condenada,"
+        },
+        {
+          "number": "16",
+          "text": "trazendo como espada afiada teu mandamento irrevogável. Ficou de pé e encheu todas as coisas de morte; tocava o céu e, ao mesmo tempo, estava sobre a terra."
+        },
+        {
+          "number": "17",
+          "text": "Então, de repente, aparições em sonhos os perturbaram terrivelmente, e medos inesperados caíram sobre eles."
+        },
+        {
+          "number": "18",
+          "text": "Um caía aqui meio morto, outro ali, revelando a razão pela qual estava morrendo;"
+        },
+        {
+          "number": "19",
+          "text": "pois os sonhos que os perturbavam os haviam avisado de antemão, para que não morressem sem saber por que eram afligidos."
+        },
+        {
+          "number": "20",
+          "text": "A experiência da morte também atingiu os justos, e uma multidão deles foi destruída no deserto, mas a ira não durou muito tempo."
+        },
+        {
+          "number": "21",
+          "text": "Pois um homem irrepreensível se apressou em defendê-los, levando as armas próprias de seu ministério: a oração e o sacrifício expiatório do incenso. Ele enfrentou a indignação e pôs fim à calamidade, mostrando que era teu servo."
+        },
+        {
+          "number": "22",
+          "text": "Ele venceu a ira não pela força do corpo, nem pelo poder das armas, mas por sua palavra subjugou o destruidor, lembrando os juramentos e as alianças feitas com os antepassados."
+        },
+        {
+          "number": "23",
+          "text": "Quando os mortos já caíam amontoados uns sobre os outros, ele se colocou no meio e deteve a ira, interrompendo seu caminho até os vivos."
+        },
+        {
+          "number": "24",
+          "text": "Pois o mundo inteiro estava representado em sua longa veste, e as glórias dos antepassados estavam gravadas nas quatro fileiras de pedras preciosas, e tua majestade estava sobre o diadema de sua cabeça."
+        },
+        {
+          "number": "25",
+          "text": "Diante dessas coisas, o destruidor recuou e sentiu medo; bastou apenas experimentar a ira."
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "verses": [
+        {
+          "number": "1",
+          "text": "Mas sobre os ímpios caiu até o fim uma indignação sem misericórdia, pois Deus também conhecia de antemão o que fariam:"
+        },
+        {
+          "number": "2",
+          "text": "depois de mudarem de ideia e deixarem teu povo partir, e até apressarem sua saída, mudariam novamente de ideia e os perseguiriam."
+        },
+        {
+          "number": "3",
+          "text": "Enquanto ainda estavam no meio do luto e lamentavam junto aos túmulos dos mortos, tomaram outra decisão insensata e perseguiram como fugitivos aqueles a quem haviam suplicado que partissem e expulsado."
+        },
+        {
+          "number": "4",
+          "text": "Pois o destino que mereciam os atraía para esse fim e os fazia esquecer das coisas que lhes haviam acontecido, para que completassem o castigo que ainda faltava aos seus tormentos,"
+        },
+        {
+          "number": "5",
+          "text": "e teu povo seguisse por um caminho maravilhoso, enquanto eles encontrariam uma morte extraordinária."
+        },
+        {
+          "number": "6",
+          "text": "Toda a criação, em cada uma de suas espécies, foi novamente transformada, obedecendo aos teus mandamentos, para que teus servos fossem preservados sem dano."
+        },
+        {
+          "number": "7",
+          "text": "Então se viu a nuvem que cobria o acampamento, e terra seca surgindo onde antes havia água; do mar Vermelho, uma estrada sem obstáculos, e das ondas violentas, uma planície verdejante,"
+        },
+        {
+          "number": "8",
+          "text": "pela qual passou todo o povo, protegido por tua mão, depois de contemplar prodígios extraordinários."
+        },
+        {
+          "number": "9",
+          "text": "Eles corriam livres como cavalos e saltavam como cordeiros, louvando-te, ó Senhor, que os havias libertado."
+        },
+        {
+          "number": "10",
+          "text": "Pois ainda se lembravam das coisas que haviam acontecido durante sua permanência no Egito: como a terra, em vez de produzir gado, produziu piolhos, e como o rio, em vez de peixes, vomitou uma multidão de rãs."
+        },
+        {
+          "number": "11",
+          "text": "Depois viram também uma nova espécie de aves, quando, levados pelo desejo, pediram comidas requintadas;"
+        },
+        {
+          "number": "12",
+          "text": "pois, para seu consolo, codornizes vieram do mar."
+        },
+        {
+          "number": "13",
+          "text": "Sobre os pecadores vieram castigos, não sem os sinais previamente dados pela violência dos trovões, pois sofreram justamente por suas próprias maldades, porque haviam demonstrado um ódio especialmente cruel para com estrangeiros."
+        },
+        {
+          "number": "14",
+          "text": "Enquanto outros não receberam os desconhecidos que chegaram até eles, os egípcios escravizaram hóspedes que lhes haviam feito o bem."
+        },
+        {
+          "number": "15",
+          "text": "E não somente isso: algum castigo virá sobre os primeiros, porque receberam estrangeiros como inimigos;"
+        },
+        {
+          "number": "16",
+          "text": "mas estes primeiro acolheram com festas e depois afligiram com trabalhos terríveis aqueles que já haviam compartilhado com eles os mesmos direitos."
+        },
+        {
+          "number": "17",
+          "text": "Além disso, foram feridos com cegueira, assim como aqueles outros à porta do homem justo, quando, cercados por densas trevas, cada um procurava a passagem pela própria porta."
+        },
+        {
+          "number": "18",
+          "text": "Assim como as notas de uma harpa mudam o caráter do ritmo, também os elementos, trocando de função uns com os outros, continuavam sempre mantendo seu próprio som, como se pode perceber claramente pelos acontecimentos."
+        },
+        {
+          "number": "19",
+          "text": "Criaturas terrestres foram transformadas em criaturas aquáticas, e criaturas que nadam passaram a mover-se sobre a terra."
+        },
+        {
+          "number": "20",
+          "text": "O fogo conservou seu poder dentro da água, e a água esqueceu sua capacidade de apagar o fogo."
+        },
+        {
+          "number": "21",
+          "text": "Por outro lado, as chamas não consumiam a carne das criaturas perecíveis que caminhavam entre elas, nem derretiam os grãos cristalinos daquele alimento divino, embora fossem facilmente derretidos."
+        },
+        {
+          "number": "22",
+          "text": "Pois em todas as coisas, ó Senhor, engrandeceste teu povo, glorificaste-o e não o desprezaste, permanecendo ao lado dele em todo tempo e lugar."
+        }
+      ]
+    }
+  ]
+}

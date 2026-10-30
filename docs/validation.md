@@ -157,3 +157,29 @@ Aplicativo e DMG receberam **Accepted** na notarização da Apple. Os tickets fo
 Uma consulta ao Keychain falhou temporariamente após o envio do aplicativo. A consulta seguinte confirmou Accepted; o empacotamento retomou essa submissão, sem reenviar o aplicativo. O hinário opcional permanece no build local, fora do código público.
 
 Os ensaios de interface desta versão usaram o aplicativo debug com dados isolados. A instalação e execução do pacote release, o uso em projetor físico e os testes nativos em Windows e Linux permanecem pendentes.
+
+## Bíblia offline — v0.5.0
+
+O catálogo contém quatro edições em português, com 240 arquivos de livros. A BLT contém somente o Novo Testamento; a BPM é identificada como rascunho. Foram conferidos 108.178 textos contra os arquivos VPL XML fixados por SHA-256. As licenças, omissões de registros vazios e candidatas não incorporadas estão em [Fontes bíblicas](bible-sources.md). Essa conferência preserva a fonte recebida; não constitui revisão editorial ou teológica das traduções.
+
+Passaram 33 testes Rust sem o hinário privado, 35 com ele, Clippy, formatação Rust, build TypeScript/Vite e 31 testes frontend. A cobertura inclui todos os livros e capítulos incorporados, identificadores e limites inválidos, intervalos de versículos, paginação sem perda de bytes, navegação limitada à sequência apresentada, troca música/Bíblia, falha atômica, serialização, snapshots fora de ordem e descarte de respostas antigas da consulta.
+
+A revisão independente conferiu os comandos restritos ao operador, o manifesto de recursos sem travessia de caminhos ou links simbólicos, o cache por livro e a ausência de acesso ao catálogo pela projeção. Os créditos completos permanecem no operador; o slide mostra referência e sigla. A distribuição inclui os avisos legais como recurso próprio.
+
+No aplicativo nativo de teste com dados isolados, em 1360 × 860, o filtro `joao` encontrou João sem exigir acento. Escolher João 3 e preparar o versículo 16 manteve a saída fechada. Abrir a projeção iniciou a saída apagada; o comando explícito apresentou João 3:16, com texto, referência e sigla conferidos na prévia. Próximo avançou para 3:17 e a seta esquerda retornou a 3:16. Consultar João 4 preservou 3:16 na sessão. Apagar e restaurar pelo botão/atalho preservou a passagem.
+
+O seletor nativo mostrou as quatro edições, incluindo os rótulos de rascunho e Novo Testamento. A tentativa de acioná-lo por automação de acessibilidade teve timeout, e a sessão foi reiniciada; não foi registrada uma troca de versão concluída por esse ensaio. A verificação dos dados de todas as versões foi automatizada. A janela de teste também recebeu interações externas durante a continuação, portanto essas mudanças não foram contabilizadas como resultados do roteiro.
+
+No ensaio isolado em 760 × 600, foi selecionado Ester 8:9. O texto extenso foi dividido em duas páginas; Próximo levou da parte 1/2 à parte 2/2. A janela real de projeção mostrou a segunda parte, a referência e a sigla BLIVRE. Fechar a projeção informou “Desconectada”, preservando a página 11/21 da sessão; reabrir recuperou essa mesma parte. A rolagem central e os painéis recolhíveis mantiveram os controles acessíveis. O ensaio usou duas janelas no mesmo monitor.
+
+Em uma tentativa posterior, a troca de BLIVRE para ONBV foi concluída por teclado no seletor nativo, e a lista de 66 livros e os créditos de ONBV foram atualizados. Interações externas subsequentes na janela não foram contabilizadas como passos do ensaio.
+
+## Prévia de edição, aparência e marca — v0.5.0
+
+A revalidação passou com 37 testes Rust públicos, 39 com o hinário local, Clippy, formatação Rust e 42 testes frontend. O bundle macOS debug isolado compilou com as logos coloridas, os novos selects e os dois modos de aparência. A revisão independente conferiu limites da caixa, fonte mínima, rascunho separado, erros recuperáveis, persistência retrocompatível e isolamento da aparência do operador.
+
+No ensaio nativo, a demonstração foi projetada no bloco Abertura. Alterar a fonte de 64 para 90 atualizou imediatamente a prévia de edição, mantendo a prévia ao vivo original. Clicar na caixa revelou oito alças; duas operações Shift+seta esquerda na borda direita mudaram a largura de 86% para 76%. Arrastar a mesma borda reduziu-a para 61,89%, com atualização da prévia e sem avançar a sessão. Os selects de classificação, repertório, monitor e fonte foram conferidos visualmente com altura e seta próprias do tema escuro.
+
+Interações externas posteriores mudaram a janela para o modo claro e abriram os créditos. Uma captura confirmou logo colorida, diálogo claro e controles legíveis; a sequência de alternância, aplicação do tema e reinício não foi contabilizada como ensaio controlado. Cancelamento de arraste nativo, persistência da aparência após reinício e teste manual de aplicação com falha permanecem pendentes; os comportamentos correspondentes têm validação de código e testes de domínio.
+
+O ícone oficial foi convertido pela CLI do Tauri para ICNS, ICO e PNG. Os PNGs de marca preservam os dados de pixels originais; metadados não necessários foram excluídos. O aplicativo debug observado ainda antecede a troca final do ícone do bundle.
