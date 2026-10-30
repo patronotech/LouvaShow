@@ -28,3 +28,7 @@ O workflow de distribuição prepara `LouvaShow-windows-x64-setup.exe` com NSIS 
 Referência: [pré-requisitos oficiais do Tauri para Windows](https://v2.tauri.app/start/prerequisites/#windows).
 
 Não há ensaio de instalação ou operação nativa desta versão em Windows 10 ou 11 registrado. Compilação em runner e inspeção do NSIS não substituem esse teste. Verifique também permissão do microfone, cofre de credenciais e acesso pela LAN em um ambiente de ensaio. O servidor começa desligado; eventuais regras de firewall precisam ser limitadas à rede privada escolhida.
+
+## Manifesto dos executáveis e testes
+
+O build MSVC incorpora `windows-app-manifest.xml` pelo linker, tanto no aplicativo quanto nos executáveis de teste. A dependência Common Controls v6 permite resolver `TaskDialogIndirect`, utilizado pelos diálogos nativos. O manifesto padrão como recurso do aplicativo não alcançava o harness de testes: na CI 0.6.0, o processo encerrava antes de executar qualquer teste com `0xc0000139` (`STATUS_ENTRYPOINT_NOT_FOUND`), em Windows 2022 e windows-latest. A correção segue o [exemplo oficial do Tauri](https://github.com/tauri-apps/tauri/blob/dev/examples/api/src-tauri/build.rs); sua revalidação no Windows é registrada separadamente. Ela não remove testes nem troca o runner para ocultar a falha.

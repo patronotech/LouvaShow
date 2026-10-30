@@ -29,7 +29,7 @@ Os botões apontam para os arquivos da última release pública. Confira as nota
 
 O LouvaShow tem como objetivo ser gratuito e open source. **A licença do código ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição. As licenças dos textos bíblicos são preservadas separadamente.
 
-## O que você encontra na versão 0.6.0
+## O que você encontra na versão 0.6.1
 
 - Biblioteca com cadastro, busca, classificações e importação/exportação de músicas.
 - Repertórios por evento, com reordenação por arraste, teclado ou botões.

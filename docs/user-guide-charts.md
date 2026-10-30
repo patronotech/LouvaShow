@@ -47,7 +47,7 @@ Excluir uma cifra retira-a da lista; revisões já fixadas em repertórios são 
 
 **Abrir** mostra o visualizador. Cada painel possui seleção de cifra, fonte, tamanho, cores, tom e capo independentes. **Dois painéis** permite consultar duas cifras ao mesmo tempo. Em telas estreitas, os painéis ficam um sobre o outro.
 
-Os controles do visualizador alteram somente a leitura atual. Não editam a versão salva nem a projeção. A revisão exibida aparece no cabeçalho. Preferências de fonte e cores são lembradas neste navegador/dispositivo; notas de dispositivo ficam vinculadas à cifra, sem aparecer em outras músicas.
+Os controles do visualizador alteram somente a leitura atual. Não editam a versão salva nem a projeção. A revisão exibida aparece no cabeçalho. Preferências de fonte e cores são lembradas por pessoa neste navegador/dispositivo; notas ficam vinculadas à pessoa e à cifra, sem aparecer em outras músicas ou perfis.
 
 **Modo palco** recolhe os controles. **Controles** os exibe novamente. Cada painel tem sua própria rolagem.
 
@@ -57,7 +57,7 @@ Os controles do visualizador alteram somente a leitura atual. Não editam a vers
 2. Cadastre cada pessoa com nome e e-mail. As funções, como vocal, guitarra e pastor, são rótulos de organização. Elas não concedem acesso administrativo.
 3. A permissão **Pode publicar cifras da igreja** é separada das funções. Sem ela, a pessoa trabalha com versões pessoais e consulta as cifras compartilhadas.
 4. Escolha a interface de rede e uma porta disponível. Confirme que está em uma rede local confiável e clique em **Ligar acesso local**.
-5. Abra o endereço exibido em um aparelho na mesma rede. Informe o e-mail cadastrado e um nome para o dispositivo.
+5. Abra o endereço exibido, ou escaneie o QR Code, em um aparelho na mesma rede. Use a interface Wi-Fi/Ethernet da igreja; 127.0.0.1 é acesso somente neste computador. Informe o e-mail cadastrado e um nome para o dispositivo.
 6. Confira presencialmente o código apresentado no aparelho e no desktop. Clique em **Atualizar dispositivos**, depois em **Aprovar** no pedido correto.
 
 A aprovação do dispositivo permanece no servidor até sair ou revogar. O cookie persistente é renovado por até 400 dias ao consultar a sessão; o navegador pode limitá-lo ou removê-lo antes, exigindo novo pareamento. Pedidos ainda não aprovados expiram em dez minutos. **Revogar** retira seu acesso; **Sair** remove a sessão naquele navegador. **Desligar acesso** encerra o servidor local. O computador que executa o LouvaShow precisa permanecer ligado e acessível.

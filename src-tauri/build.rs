@@ -1,7 +1,24 @@
 fn main() {
     embed_bibles();
-    tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
-        tauri_build::AppManifest::new().commands(&[
+    let mut attributes = tauri_build::Attributes::new();
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows")
+        && std::env::var("CARGO_CFG_TARGET_ENV").as_deref() == Ok("msvc")
+    {
+        // The resource manifest alone does not reach Cargo's library test harness.
+        // Native dialogs import TaskDialogIndirect, which requires Common Controls v6.
+        // Embed the same manifest through the linker for both application and tests.
+        attributes = attributes
+            .windows_attributes(tauri_build::WindowsAttributes::new_without_app_manifest());
+        let manifest = std::path::PathBuf::from(
+            std::env::var_os("CARGO_MANIFEST_DIR").expect("Diretório Cargo ausente"),
+        )
+        .join("windows-app-manifest.xml");
+        println!("cargo:rerun-if-changed={}", manifest.display());
+        println!("cargo:rustc-link-arg=/MANIFEST:EMBED");
+        println!("cargo:rustc-link-arg=/MANIFESTINPUT:{}", manifest.display());
+    }
+    tauri_build::try_build(
+        attributes.app_manifest(tauri_build::AppManifest::new().commands(&[
             "list_charts",
             "get_chart",
             "create_chart_document",
@@ -72,8 +89,8 @@ fn main() {
             "add_setlist_item",
             "remove_setlist_item",
             "reorder_setlist",
-        ]),
-    ))
+        ])),
+    )
     .expect("Falha ao configurar permissões");
 }
 
