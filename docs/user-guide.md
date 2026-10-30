@@ -10,7 +10,7 @@ Na Bíblia, escolha edição, livro, capítulo e versículo. O modo inicial **Pr
 
 ## Música e repertório
 
-No cadastro, informe um título e cole a letra com uma linha em branco entre os blocos. Use **Revisar blocos**, confira os textos e salve. Salvar ou excluir a música de origem não altera inesperadamente o trecho que já está projetado.
+No cadastro, os metadados ficam na faixa superior e a letra ocupa a área maior. A−/A+ altera somente a leitura do editor, sem definir a fonte da projeção. O botão + ao lado de Classificação permite criar e selecionar uma categoria sem sair da música; cancelar esse diálogo preserva o rascunho. Clique fora do modal não fecha o cadastro. Informe um título e cole a letra com uma linha em branco entre os blocos. Use **Revisar blocos**, confira os textos e salve. Salvar ou excluir a música de origem não altera inesperadamente o trecho que já está projetado.
 
 Cada repertório tem seu próprio nome e ordem. A mesma música pode aparecer mais de uma vez. Trocar, criar ou renomear repertórios preserva a preparação e a saída. Excluir um repertório remove apenas sua lista; as músicas continuam na biblioteca. A confirmação de exclusão de músicas informa quantas ocorrências serão removidas dos repertórios.
 

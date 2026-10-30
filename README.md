@@ -29,7 +29,7 @@ Os botões apontam para os arquivos da última release pública. Confira as nota
 
 O LouvaShow tem como objetivo ser gratuito e open source. **A licença do código ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição. As licenças dos textos bíblicos são preservadas separadamente.
 
-## O que você encontra na versão 0.7.2
+## O que você encontra na versão 0.7.3
 
 - Biblioteca com cadastro, busca, classificações e importação/exportação de músicas.
 - Repertórios por evento, com reordenação por arraste, teclado ou botões.
@@ -90,7 +90,7 @@ Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem f
 
 ## Cifras, equipe e assistente opcional
 
-Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.2 não busca páginas por URL.
+Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.3 não busca páginas por URL.
 
 O TXT baixado pelo Cifra Club também pode ser importado **offline, sem IA nem custo de API**. O importador reconhece o cabeçalho de artista/título, preserva seções e colunas e separa os diagramas de acordes do rodapé em notas. Linhas em branco dentro de partes nomeadas mantêm a mesma parte; antes do primeiro cabeçalho, separam os blocos. Metadados explícitos de tom e capotraste são revisáveis; um tom ambíguo não é tratado como detecção definitiva. Confira a prévia antes de aplicar e use somente conteúdo autorizado.
 

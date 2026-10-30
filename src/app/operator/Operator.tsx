@@ -254,7 +254,7 @@ export function Operator({ onStartupReady, onStartupError }: { onStartupReady?: 
     }} />}
     {managerOpen && <LibraryManager songs={songs} categories={categories} onRefresh={refreshLibrary} onClose={() => setManagerOpen(false)} />}
     {importOpen && <ImportDialog categories={categories} onRefresh={refreshLibrary} onClose={() => setImportOpen(false)} />}
-    {editor && <SongEditor song={editor.song} categories={categories} onSave={saveSong} onClose={() => setEditor(null)} />}
+    {editor && <SongEditor song={editor.song} categories={categories} onCategoryCreated={category=>setCategories(current=>[...current.filter(item=>item.id!==category.id),category].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')))} onSave={saveSong} onClose={() => setEditor(null)} />}
     {deletion && <DeleteConfirm song={deletion.song} usage={deletion.usage} busy={libraryBusy} error={error} onConfirm={() => void deleteSong()} onCancel={() => setDeletion(null)} />}
   </div>;
 }
