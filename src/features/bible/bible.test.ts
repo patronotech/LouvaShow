@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { BibleChapter, Snapshot } from '../../shared/contracts';
 import { LatestRequest } from './latestRequest';
 import { isBibleVerseInSession } from './BiblePanels';
-import { initialSelection, passageAvailability, selectLocation, shouldProjectVerse } from './selection';
+import { initialSelection, initialBibleInteractionMode, bibleKeyboardGesture, passageAvailability, selectLocation, shouldProjectVerse } from './selection';
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -54,15 +54,38 @@ describe('troca de tradução preserva a passagem preparada', () => {
   });
 });
 
-describe('modo de clique do versículo', () => {
-  it('preparar nunca envia à projeção, mesmo com a saída aberta', () => {
-    expect(shouldProjectVerse(false, true, false)).toBe(false);
-    expect(shouldProjectVerse(false, false, false)).toBe(false);
+describe('modos fixos de interação bíblica', () => {
+  it('inicia em preparar e clicks nunca publicam nesse modo', () => {
+    expect(initialBibleInteractionMode).toBe('prepare');
+    for(const gesture of ['click','doubleClick','shiftEnter'] as const)expect(shouldProjectVerse('prepare',gesture,true,false)).toBe(false);
+    expect(shouldProjectVerse('prepare','explicit',true,false)).toBe(true);
   });
-  it('projetar ao clicar requer saída aberta e disponível', () => {
-    expect(shouldProjectVerse(true, true, false)).toBe(true);
-    expect(shouldProjectVerse(true, false, false)).toBe(false);
-    expect(shouldProjectVerse(true, true, true)).toBe(false);
+  it('clique simples publica somente no modo projetar ao clicar',()=>{
+    expect(shouldProjectVerse('single','click',true,false)).toBe(true);
+    expect(shouldProjectVerse('double','click',true,false)).toBe(false);
+    expect(shouldProjectVerse('single','doubleClick',true,false)).toBe(false);
+  });
+  it('dois clicks preparam antes do evento duplo publicar uma única vez',()=>{
+    const actions=(['click','click','doubleClick'] as const).map(gesture=>shouldProjectVerse('double',gesture,true,false));
+    expect(actions).toEqual([false,false,true]);
+  });
+  it('Shift+Enter é equivalente ao duplo, sem repetir ao segurar a tecla',()=>{
+    expect(bibleKeyboardGesture('Enter',true,false)).toBe('shiftEnter');
+    expect(bibleKeyboardGesture('Enter',true,true)).toBeNull();
+    expect(bibleKeyboardGesture('Enter',false,false)).toBeNull();
+    expect(bibleKeyboardGesture(' ',true,false)).toBeNull();
+    expect(shouldProjectVerse('double','shiftEnter',true,false)).toBe(true);
+    expect(shouldProjectVerse('prepare','shiftEnter',true,false)).toBe(false);
+  });
+  it('saída fechada ou ocupada bloqueia todas as formas de projeção',()=>{
+    for(const mode of ['prepare','single','double'] as const)for(const gesture of ['click','doubleClick','shiftEnter','explicit'] as const){expect(shouldProjectVerse(mode,gesture,false,false)).toBe(false);expect(shouldProjectVerse(mode,gesture,true,true)).toBe(false);}
+  });
+  it('projetar explicitamente não arma cliques subsequentes nem muda modo',()=>{
+    for(const mode of ['prepare','single','double'] as const){
+      expect(shouldProjectVerse(mode,'explicit',true,false)).toBe(true);
+      expect(shouldProjectVerse(mode,'click',true,false)).toBe(mode==='single');
+      expect(shouldProjectVerse(mode,'doubleClick',true,false)).toBe(mode==='double');
+    }
   });
 });
 

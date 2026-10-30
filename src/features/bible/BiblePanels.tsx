@@ -1,7 +1,7 @@
 import type { BibleChapter, Snapshot } from '../../shared/contracts';
 import { searchKey } from '../songs/lyrics';
 import type { BibleBrowser } from './useBibleBrowser';
-import { shouldProjectVerse } from './selection';
+import { bibleKeyboardGesture, shouldProjectVerse, type BibleVerseGesture } from './selection';
 import './bible.css';
 
 export function isBibleVerseInSession(snapshot: Snapshot | null, chapter: BibleChapter, verse: string): boolean {
@@ -30,9 +30,11 @@ interface ContentProps { browser: BibleBrowser; snapshot: Snapshot | null; outpu
 
 export function BibleContent({ browser, snapshot, outputOpen, outputBusy, onPresent }: ContentProps) {
   const { book, chapter, verse, version } = browser;
-  function chooseVerse(number: string) {
+  const selectedInSession = Boolean(chapter && verse && isBibleVerseInSession(snapshot, chapter, verse.number));
+  const selectedOnAir = selectedInSession && outputOpen && !snapshot?.blanked;
+  function chooseVerse(number: string, gesture:BibleVerseGesture='click') {
     browser.selectVerse(number);
-    if (shouldProjectVerse(browser.projectOnClick, outputOpen, outputBusy)) onPresent(number);
+    if (shouldProjectVerse(browser.interactionMode, gesture, outputOpen, outputBusy)) onPresent(number);
   }
   return <section className="bible-workspace panel" aria-labelledby="bible-content-title">
     <div className="bible-version-strip" role="group" aria-label="Tradução da Bíblia" data-no-shortcuts>
@@ -40,9 +42,10 @@ export function BibleContent({ browser, snapshot, outputOpen, outputBusy, onPres
       {browser.loadingVersions && <span role="status">Carregando versões…</span>}
     </div>
     <div className="bible-click-controls" data-no-shortcuts>
-      <div className="bible-click-mode" role="group" aria-label="Ação ao clicar em um versículo">
-        <button type="button" aria-pressed={!browser.projectOnClick} disabled={outputBusy} onClick={() => browser.setProjectOnClick(false)}>Preparar</button>
-        <button type="button" aria-pressed={browser.projectOnClick} disabled={outputBusy} onClick={() => browser.setProjectOnClick(true)}>Projetar ao clicar</button>
+      <div className="bible-click-mode" style={{flexWrap:'wrap'}} role="group" aria-label="Ação ao clicar em um versículo">
+        <button type="button" aria-pressed={browser.interactionMode==='prepare'} disabled={outputBusy} onClick={() => browser.setInteractionMode('prepare')}>Preparar</button>
+        <button type="button" aria-pressed={browser.interactionMode==='single'} disabled={outputBusy} onClick={() => browser.setInteractionMode('single')}>Projetar ao clicar</button>
+        <button type="button" aria-pressed={browser.interactionMode==='double'} disabled={outputBusy} onClick={() => browser.setInteractionMode('double')} title="Clique duplo ou Shift+Enter para projetar">Clique duplo</button>
       </div>
       {!outputOpen && <span className="muted" role="status">Saída fechada</span>}
     </div>
@@ -56,14 +59,14 @@ export function BibleContent({ browser, snapshot, outputOpen, outputBusy, onPres
       {chapter && <section className="bible-number-section" aria-labelledby="bible-verses-title" data-no-shortcuts><h3 id="bible-verses-title">Versículos</h3><div className="bible-number-grid verse-grid">{chapter.verses.map(item => {
         const inSession = isBibleVerseInSession(snapshot, chapter, item.number);
         const onAir = inSession && outputOpen && !snapshot?.blanked;
-        return <button key={item.number} className={onAir ? 'on-air' : inSession ? 'in-session' : ''} aria-label={`${shouldProjectVerse(browser.projectOnClick, outputOpen, outputBusy) ? 'Projetar' : 'Preparar'} ${chapter.bookName} ${chapter.chapter}:${item.number}${inSession ? onAir ? ', ao vivo' : ', na sessão' : ''}`} aria-pressed={browser.verseNumber === item.number} onClick={() => chooseVerse(item.number)}>{item.number}</button>;
+        return <button key={item.number} className={onAir ? 'on-air' : inSession ? 'in-session' : ''} aria-label={`${shouldProjectVerse(browser.interactionMode, 'click', outputOpen, outputBusy) ? 'Projetar' : 'Preparar'} ${chapter.bookName} ${chapter.chapter}:${item.number}${inSession ? onAir ? ', ao vivo' : ', na sessão' : ''}`} aria-pressed={browser.verseNumber === item.number} aria-keyshortcuts={browser.interactionMode==='double'?'Shift+Enter':undefined} title={browser.interactionMode==='double'?'Clique duplo ou Shift+Enter para projetar':undefined} onClick={() => chooseVerse(item.number)} onDoubleClick={browser.interactionMode==='double'?()=>chooseVerse(item.number,'doubleClick'):undefined} onKeyDown={event=>{if(browser.interactionMode!=='double')return;const gesture=bibleKeyboardGesture(event.key,event.shiftKey,event.repeat);if(event.key==='Enter'&&event.shiftKey){event.preventDefault();event.stopPropagation();if(gesture)chooseVerse(item.number,gesture);}}}>{item.number}</button>;
       })}</div>{!chapter.verses.length && <p className="empty">Sem versículos disponíveis.</p>}</section>}
-      {chapter && verse && <article className="bible-prepared" aria-labelledby="bible-prepared-title"><div className="section-heading"><h3 id="bible-prepared-title">{chapter.bookName} {chapter.chapter}:{verse.number} <span>{version?.abbreviation}</span></h3>{(isBibleVerseInSession(snapshot, chapter, verse.number) || !browser.projectOnClick) && <span className="status-badge">{isBibleVerseInSession(snapshot, chapter, verse.number) ? outputOpen && !snapshot?.blanked ? '● Ao vivo' : '■ Na sessão' : 'Preparado'}</span>}</div><p className="bible-verse-text">{verse.text}</p><div className="bible-prepared-actions"><button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button></div></article>}
+      {chapter && verse && <article className="bible-prepared" aria-labelledby="bible-prepared-title"><div className="section-heading"><h3 id="bible-prepared-title">{chapter.bookName} {chapter.chapter}:{verse.number} <span>{version?.abbreviation}</span></h3>{(selectedInSession || browser.interactionMode!=='single') && <span className={`status-badge ${selectedOnAir ? 'on-air' : ''}`} role="status">{selectedInSession ? selectedOnAir ? '● Ao vivo' : '■ Na sessão' : 'Preparado'}</span>}</div><p className="bible-verse-text">{verse.text}</p></article>}
     </>}
   </section>;
 }
 
 export function BiblePreparationSummary({ browser, outputOpen, outputBusy, onPresent }: Omit<ContentProps, 'snapshot'>) {
   const { chapter, verse, version } = browser;
-  return <section className="context-selection bible-preparation-summary"><h3>{chapter && verse ? `${chapter.bookName} ${chapter.chapter}:${verse.number}` : browser.book?.name ?? browser.bookName ?? 'Bíblia'}</h3>{version && <p>{version.abbreviation}</p>}{chapter && verse && <button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button>}</section>;
+  return <section className="context-selection bible-preparation-summary"><h3>{chapter && verse ? `${chapter.bookName} ${chapter.chapter}:${verse.number}` : browser.book?.name ?? browser.bookName ?? 'Bíblia'}</h3>{version && <p>{version.abbreviation}</p>}{chapter && verse && <button className="primary" disabled={!outputOpen || outputBusy} onClick={() => {if(shouldProjectVerse(browser.interactionMode,'explicit',outputOpen,outputBusy))onPresent(verse.number);}}>↗ Projetar versículo</button>}</section>;
 }

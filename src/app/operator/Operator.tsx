@@ -195,9 +195,7 @@ export function Operator({ onStartupReady, onStartupError }: { onStartupReady?: 
   async function presentBibleVerse(verse: string) {
     const chapter = bibleBrowser.chapter;
     if (!status.open || outputBusy || !chapter || !chapter.verses.some(item => item.number === verse)) return;
-    if (await act({ type: 'presentBible', versionId: chapter.versionId, bookId: chapter.bookId, chapter: chapter.chapter, verse })) {
-      bibleBrowser.setProjectOnClick(true);
-    }
+    await act({ type: 'presentBible', versionId: chapter.versionId, bookId: chapter.bookId, chapter: chapter.chapter, verse });
   }
   function addSelectedToSetlist() {
     if (selected && setlist) requestSetlist(() => api.addSetlistItem(setlist.id, selected.id));

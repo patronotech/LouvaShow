@@ -8,4 +8,7 @@
 .chord-instrumental-line{display:flex;align-items:center;flex-wrap:wrap;gap:.5em 1.15em;min-height:2.4em;color:var(--chord-color);font-size:var(--reading-chord-size,.85em);line-height:1.25;font-weight:var(--reading-chord-weight,700)}
 .chord-instrumental-line>strong{font-weight:inherit}
 .chord-sheet .chord-section{scroll-margin-top:12px}
+.chord-sheet:not(.editable)>.chord-section{font-family:var(--reading-section-font,system-ui);font-size:var(--reading-section-size,16px);font-weight:700;line-height:1.3;color:var(--reading-section-color,currentColor);margin:var(--reading-section-gap,24px) 0 var(--reading-title-gap,8px)}
+.chord-sheet:not(.editable)>.chord-section:first-child{margin-top:0}
+.chord-sheet:not(.editable)>:is(.chord-read-line,.chord-instrumental-line)+:is(.chord-read-line,.chord-instrumental-line){margin-top:var(--reading-line-gap,0px)}
 @media(max-width:760px){.chart-part-navigation{padding-inline:16px}}

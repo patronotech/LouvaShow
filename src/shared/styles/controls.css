@@ -1,0 +1,74 @@
+/* Metrics only: palettes remain owned by the active interface theme. */
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell){
+  --control-height:38px;
+  --control-height-dense:32px;
+  --control-radius:6px;
+  --control-border-width:1px;
+  --control-padding-inline:10px;
+  --control-font-size:13px;
+  --control-focus-width:1px;
+}
+
+/* These are control rows, not cards, canvases, musical glyphs or geometry handles. */
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(
+  .chart-fields,.chart-toolbar,.chart-paste-header,.chart-document-options,.chart-paste-footer,
+  .chart-anchor-editor,.line-chord-inspector,.line-chord-tools,.line-chord-part>header,
+  .song-metadata-row,.song-category-dialog form,.dialog-actions,
+  .manager-filters,.bulk-actions,.category-settings form,.export-actions,.pagination,
+  .output-controls,.transport,.context-actions,.theme-editor-fields,.theme-box-fields,.theme-actions,
+  .block-style-fields,.block-style-dialog>footer,.document-import-preferences,.document-provider-grid form,
+  .update-settings-row,.update-dialog .dialog-actions,.playlist-actions
+) :is(button,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]),select:not([multiple]):not([size]),select[size="1"]){
+  box-sizing:border-box;
+  height:var(--row-control-height,var(--control-height));
+  min-height:var(--row-control-height,var(--control-height));
+  border-width:var(--control-border-width);
+  border-style:solid;
+  border-radius:var(--control-radius);
+  padding-block:0;
+  padding-inline:var(--control-padding-inline);
+  line-height:1.25;
+  font-size:var(--control-font-size);
+  letter-spacing:normal;
+  vertical-align:middle;
+  transition:border-color .12s,background-color .12s;
+}
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(
+  .chart-fields,.chart-toolbar,.chart-paste-header,.chart-document-options,.chart-anchor-editor,
+  .line-chord-inspector,.song-metadata-row,.manager-filters,.bulk-actions,.category-settings form,
+  .output-controls,.context-actions,.theme-editor-fields,.block-style-fields,.document-import-preferences
+) select:not([multiple]):not([size]){padding-right:32px}
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(
+  .chart-fields,.chart-toolbar,.chart-paste-header,.chart-document-options,.chart-paste-footer,
+  .chart-anchor-editor,.line-chord-inspector,.line-chord-tools,.line-chord-part>header,
+  .song-metadata-row,.song-category-dialog form,.dialog-actions,
+  .manager-filters,.bulk-actions,.category-settings form,.export-actions,.pagination,
+  .output-controls,.transport,.context-actions,.theme-editor-fields,.theme-box-fields,.theme-actions,
+  .block-style-fields,.block-style-dialog>footer,.document-import-preferences,.document-provider-grid form,
+  .update-settings-row,.playlist-actions
+) :is(button,input,select):focus-visible{outline:var(--control-focus-width) solid var(--focus,var(--accent,#b994f7));outline-offset:1px;box-shadow:none}
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(
+  .chart-fields,.chart-toolbar,.chart-paste-header,.chart-document-options,.chart-paste-footer,
+  .chart-anchor-editor,.line-chord-inspector,.line-chord-tools,.line-chord-part>header,
+  .song-metadata-row,.song-category-dialog form,.dialog-actions,.manager-filters,.bulk-actions,
+  .category-settings form,.export-actions,.output-controls,.transport,.context-actions,
+  .theme-editor-fields,.theme-box-fields,.theme-actions,.block-style-fields,.block-style-dialog>footer,
+  .document-import-preferences,.document-provider-grid form,.update-settings-row,.playlist-actions
+) :is(button,input,select):disabled{opacity:.5;cursor:not-allowed}
+
+/* Secondary rows use one smaller scale for every control in that row. */
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(.chart-toolbar.compact,.line-chord-tools,.line-chord-part>header,.playlist-actions,.pagination){--row-control-height:var(--control-height-dense)}
+:is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(.chart-fields,.bulk-actions,.chart-document-options,.chart-anchor-editor,.line-chord-inspector,.document-import-preferences){align-items:end}
+
+/* Keep native file selection and filename text; only its visible button shares the scale. */
+.operator-shell .import-file-input input[type=file]{box-sizing:border-box;min-height:var(--control-height);padding:2px;border-radius:var(--control-radius);font-size:var(--control-font-size)}
+.operator-shell .import-file-input input[type=file]::file-selector-button{box-sizing:border-box;height:calc(var(--control-height) - 6px);border:1px solid var(--border-strong);border-radius:var(--control-radius);padding:0 10px;margin-right:10px;background:var(--raised);color:var(--text);font:inherit;cursor:pointer}
+.operator-shell .import-file-input input[type=file]::file-selector-button:hover{background:var(--hover)}
+.operator-shell .import-file-input input[type=file]:disabled::file-selector-button{opacity:.5;cursor:not-allowed}
+
+@media(pointer:coarse){
+  :is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell){--control-height:44px;--control-height-dense:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  :is(.operator-shell,.chart-editor,.charts-workspace,.musician-shell) :is(.chart-fields,.chart-toolbar,.output-controls,.transport,.song-metadata-row) :is(button,input,select){transition:none}
+}

@@ -6,7 +6,7 @@ Escolha uma música na biblioteca ou no repertório para preparar seus blocos. S
 
 Com somente uma tela, use a saída em janela e mantenha os controles acessíveis. A prévia do operador mostra a sessão efetivamente enviada à saída. Apagar deixa a saída preta; restaurar recupera o conteúdo dessa sessão.
 
-Na Bíblia, escolha edição, livro, capítulo e versículo. O modo inicial **Preparar** mantém a consulta separada da sessão: selecione o versículo e use **Projetar** quando estiver pronto. Após a primeira projeção bem-sucedida pelo botão **Projetar versículo**, o modo muda automaticamente para **Projetar ao clicar**: os próximos números clicados entram direto na saída. Para consultar sem transmitir, volte a **Preparar**. Também é possível ativar **Projetar ao clicar** diretamente. Abrir a saída não projeta automaticamente a seleção. Trocar de edição preserva a localização quando disponível e não troca o conteúdo ao vivo. Anterior e próximo percorrem as páginas do capítulo que está na sessão.
+Na Bíblia, escolha edição, livro, capítulo e versículo. **Preparar** seleciona sem transmitir; use **Projetar versículo** na lateral. **Projetar ao clicar** envia com um clique. **Clique duplo** prepara no primeiro clique e projeta no segundo; pelo teclado, Shift+Enter projeta. O modo só muda quando você escolhe outro: usar o botão lateral não altera sua preferência. Abrir a saída não projeta automaticamente a seleção. Trocar de edição preserva a localização quando disponível e mantém a sessão ao vivo. Anterior e próximo percorrem as páginas do capítulo que está na sessão.
 
 ## Música e repertório
 

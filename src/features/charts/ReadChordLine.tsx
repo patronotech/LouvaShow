@@ -38,7 +38,7 @@ export function ReadChordLine({ line, layoutKey, fontSize = 19, chordFontSize = 
   const hasChords = line.tokens.some(token => token.chord);
   const metrics = readingLineMetrics(fontSize, chordFontSize, chordGap, hasChords ? layout.maximum : 0);
   let chordIndex = 0;
-  return <div ref={root} className="chord-read-line" style={{ lineHeight: `${metrics.lineHeight}px`, paddingTop: `${metrics.paddingTop}px`, '--reading-chord-height': `${metrics.chordHeight}px` } as CSSProperties}>
+  return <div ref={root} className="chord-read-line" style={{ lineHeight: `${metrics.lineHeight}px`, paddingTop: `${metrics.paddingTop}px`, paddingBottom: `${metrics.paddingBottom}px`, '--reading-chord-height': `${metrics.chordHeight}px` } as CSSProperties}>
     {line.tokens.map((token, index) => {
       const position = token.chord ? chordIndex++ : -1;
       return <span className="chord-read-run" key={index}>

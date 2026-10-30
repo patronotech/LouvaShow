@@ -1,0 +1,11 @@
+/* Native selection/caret remain inside the lyric row, beneath the chord grid. */
+.line-chord-editor .line-inline-phrase{min-height:30px;padding:2px 0;display:flex;align-items:center}
+.line-chord-editor input.line-inline-input{display:block;box-sizing:border-box;flex:none;height:1.35em;min-height:0;max-width:none;margin-block:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--text,#202934);font:18px/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-kerning:none;letter-spacing:calc(var(--line-cell) - 1ch);white-space:pre;outline:none;box-shadow:none;appearance:none;-webkit-appearance:none}
+.line-chord-editor input.line-inline-input:focus,.line-chord-editor input.line-inline-input:focus-visible{border:0;background:transparent;outline:none;box-shadow:none}
+:root[data-color-mode] .operator-shell .line-chord-editor input.line-inline-input{background:transparent;border:0;outline:0;box-shadow:none;padding:0}
+.line-chord-editor .line-inline-actions,.line-chord-editor .line-chord-menu{position:sticky;left:0;display:flex;align-items:center;gap:5px;flex-wrap:wrap;width:fit-content;max-width:100%;padding:7px 0 3px;font:12px/1.3 system-ui,sans-serif}
+.line-chord-editor .line-inline-actions button,.line-chord-editor .line-chord-menu button{height:var(--control-height-dense,32px);min-height:var(--control-height-dense,32px);padding:0 8px;border:1px solid var(--border-strong,#7e8b9a);border-radius:var(--control-radius,6px);font:12px/1.2 system-ui,sans-serif;white-space:nowrap}
+.line-inline-actions>small{color:var(--muted,#566b7f);font-size:11px}
+.line-chord-menu>strong{margin-right:3px;color:var(--chord-ink,var(--text,#202934));font-size:14px}
+.line-chord-editor .line-chord-row.editing-lyrics{background:color-mix(in srgb,var(--focus,#365e87) 5%,var(--panel,#fff));outline:1px solid var(--focus,#365e87);outline-offset:-1px}
+@media(max-width:760px){.line-inline-actions>small{flex-basis:100%}}

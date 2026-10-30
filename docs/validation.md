@@ -2,9 +2,9 @@
 
 Este arquivo define os ensaios necessários. Uma caixa vazia significa que não há resultado registrado aqui; não significa aprovação. Registre sistema, versão, hardware, comando e resultado ao executar. Testes automatizados e build não substituem a observação da saída real.
 
-## Versão 0.7.3 — 30/10/2026
+## Versão 0.7.4 — 30/10/2026
 
-No macOS Apple Silicon, a suíte frontend passou com 148 testes e o TypeScript estrito/Vite compilou. A suíte Rust pública passou com 101 testes; Clippy sem avisos e formatação passaram. Seis testes do finalizador de atualização passaram, incluindo assinatura temporária, adulteração, vínculo da versão, tar sanitizado e leitura PE. Nenhuma chave real aparece nas fixtures.
+No macOS Apple Silicon, a suíte frontend passou com 174 testes e o TypeScript estrito/Vite compilou. A suíte Rust pública passou com 101 testes; Clippy sem avisos e formatação passaram. Seis testes do finalizador de atualização passaram, incluindo assinatura temporária, adulteração, vínculo da versão, tar sanitizado e leitura PE. Nenhuma chave real aparece nas fixtures.
 
 Na instância desktop isolada, foram conferidos os três temas, colagem/revisão e cadastro de cifra, persistência após reiniciar, deslocamento de acorde entre linhas, criação de parte, navegação por partes e confirmação de descarte mantendo o rascunho. A prévia ao vivo permaneceu separada da edição. Os testes utilizaram janelas no mesmo monitor.
 
@@ -12,15 +12,21 @@ Componentes reais foram conferidos também em uma página temporária isolada de
 
 O TXT real fornecido pelo mantenedor passou por uma prova Rust temporária somente de leitura, fora das fixtures públicas: quatro partes nomeadas, 28 linhas, 57 acordes e seis diagramas separados em notas. Letras, colunas, ordem e metadados sobreviveram à exportação/reimportação ChordPro. O arquivo original permaneceu intacto; o teste temporário foi removido e a restauração do fonte foi confirmada por hash.
 
-Não foram executadas chamadas pagas de OCR/IA nem uma atualização instalada de ponta a ponta. Windows 10/11, Mac Intel, Linux/Wayland e projetor físico não foram operados nesta sessão. A versão 0.7.3 introduz o atualizador na distribuição pública; versões anteriores precisam de uma instalação manual inicial.
+Não foram executadas chamadas pagas de OCR/IA nem uma atualização instalada de ponta a ponta. Windows 10/11, Mac Intel, Linux/Wayland e projetor físico não foram operados nesta sessão. A versão 0.7.4 introduz o atualizador na distribuição pública; versões anteriores precisam de uma instalação manual inicial.
 
 O ajuste individual de bloco foi conferido em outra instância desktop isolada: abrir pela prévia, alterar fonte de 64 para 48, mover com teclado, redimensionar por arraste, salvar sem alterar a saída e aplicar explicitamente. O cartão passou a indicar personalização; o segundo bloco continuou com fonte 64 e padrão global. A validação visual encontrou e corrigiu o escopo CSS das alças no modal. Nove novos testes Rust cobrem migração 5, reabertura, limpeza do estilo, IDs estáveis, rollback e concorrência entre edição da letra e estilo. Clippy também passou no Rust 1.99.0, usado pelos runners atuais. A tag 0.7.0 não foi publicada: seu CI detectou um lint novo do toolchain, corrigido nesta versão.
 
-A ação **Projetar versículo** agora ativa **Projetar ao clicar** somente após sucesso do comando nativo. Os seletores de modo ficam bloqueados durante o envio, evitando sobrescrever uma mudança de modo no meio da requisição. A instância isolada 0.7.2 foi aberta; interação concomitante do usuário mostrou números com ação Projetar e uma passagem ao vivo, mas interrompeu a sequência automatizada, portanto não foi registrada como ensaio controlado completo desse fluxo. TypeScript/Vite e os 148 testes frontend passaram novamente.
+Os protótipos 0.7.2/0.7.3 ativavam **Projetar ao clicar** após uma projeção bem-sucedida; esse comportamento foi substituído pelos três modos fixos na versão 0.7.4. Os seletores de modo ficam bloqueados durante o envio, evitando sobrescrever uma mudança de modo no meio da requisição. A instância isolada 0.7.2 foi aberta; interação concomitante do usuário mostrou números com ação Projetar e uma passagem ao vivo, mas interrompeu a sequência automatizada, portanto não foi registrada como ensaio controlado completo desse fluxo. TypeScript/Vite e os 148 testes frontend passaram novamente.
 
 Na instância nativa isolada 0.7.3, o cadastro ampliado exibiu os quatro metadados na mesma linha. Foram conferidos A+ de 18 para 20, título e letra mantidos após criação da classificação “Encontro”, seleção automática, clique no backdrop sem fechar, abertura/cancelamento do modal filho, revisão em dois blocos e salvamento da música sintética. Nenhum banco de uso pessoal foi utilizado.
 
 O fluxo da Bíblia foi então ensaiado de forma controlada na instância nativa 0.7.3: selecionar Levítico 2:14 manteve a saída apagada; Projetar versículo colocou 14 ao vivo e ativou Projetar ao clicar; um clique no número 3 trocou imediatamente a saída para 2:3. Ao voltar a Preparar e selecionar 2:5, a saída permaneceu em 2:3. Ensaio em janela no mesmo monitor.
+
+Na instância nativa 0.7.4, digitar na própria frase e clicar diretamente em Salvar cifra, sem Concluir, persistiu o texto e permitiu reabri-lo. Outra edição simultânea do usuário foi preservada. A conferência complementar usou componentes reais ChartEditor/LineChordEditor/ChordPicker em uma página temporária isolada, sem banco ou comandos nativos: dividir e Desfazer recompôs texto, acorde e foco; o acorde personalizado C7M(9)/E foi salvo, reaberto e aplicado mantendo ID e offset. A leitura DOM confirmou borda/padding/outline 0 e fundo transparente na linha, depois de corrigir uma regra de tema mais específica. Campos e botões da faixa de tom mediram 38 px, borda 1 px e raio 6 px; o modal da galeria foi conferido em 1360×860. Esses resultados de navegador não comprovam integração nativa completa da galeria ou de todos os novos controles.
+
+Os três modos fixos da Bíblia foram conferidos em componentes reais numa página temporária, com API simulada e texto sintético: Preparar manteve a seleção sem publicar; o botão lateral publicou sem alterar o modo; Clique duplo publicou uma vez e Shift+Enter também; Projetar ao clicar publicou com um clique. Havia somente um botão Projetar versículo. Esse ensaio verifica a interface, sem comprovar janela de projeção nativa.
+
+O leitor foi conferido na mesma página isolada: acorde claro #c25300 (contraste 4,63:1 no branco), título #15191f e controles próprios de título/espaçamento. Alterar acorde–letra de 4 para −12 px deslocou o acorde 16 px em direção à letra; Cancelar restaurou a geometria. Com letra 14 px, acorde 10 px, distância −24 px e três fileiras de acordes em colisão horizontal, todos os retângulos dos acordes permaneceram dentro da linha. Salvar definição e reabrir manteve −24 px. A página temporária foi removida antes do build final.
 
 ## Registro da primeira sessão — 29/10/2026
 

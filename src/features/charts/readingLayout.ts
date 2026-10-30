@@ -5,15 +5,18 @@ export function readingLineMetrics(fontSize: number, chordFontSize: number, gap:
   const chordHeight = chordFontSize * 1.25;
   const rowStep = chordHeight + 2;
   const count = Math.max(0, Math.ceil(rows));
-  const stack = count ? chordHeight + (count - 1) * rowStep + gap : 0;
+  const above = count ? Math.max(0,chordHeight + (count - 1) * rowStep + gap) : 0;
+  const below = count ? Math.max(0,-gap-fontSize*1.5) : 0;
+  const stack = above + below;
   return {
     chordHeight,
     rowStep,
     stack,
-    // Half of the extra leading sits above each lyric line; the first line also
-    // needs half a stack of padding so its highest chord remains inside the box.
+    // Reserve the union of lyric and chord boxes. Negative gap permits overlap,
+    // but never negative padding or an outer chord crossing adjacent metadata.
     lineHeight: fontSize * 1.5 + stack,
-    paddingTop: stack / 2,
+    paddingTop: above / 2,
+    paddingBottom: below / 2,
     chordTop: (row: number) => -(chordHeight + gap + row * rowStep),
   };
 }

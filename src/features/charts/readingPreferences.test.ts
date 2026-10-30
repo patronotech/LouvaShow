@@ -12,14 +12,15 @@ function contrastRatio(foreground: string, background: string): number {
 }
 
 describe('preferências de leitura', () => {
-  it('começa em claro com letra grafite e acorde laranja escuro somente quando não há preferência', () => {
+  it('começa em claro com letra grafite e acorde laranja vivo somente quando não há preferência', () => {
     expect(activeReadingPreset(parseReadingSettings(null))).toBe('light');
-    expect(readingDefaults).toMatchObject({textColor:'#29313b',chordColor:'#a94a17',backgroundColor:'#ffffff'});
+    expect(readingDefaults).toMatchObject({textColor:'#29313b',chordColor:'#c25300',backgroundColor:'#ffffff'});
   });
   it('mantém contraste de texto normal para letra e acordes nas três paletas', () => {
     for (const preset of readingPresets) {
       expect(contrastRatio(preset.textColor,preset.backgroundColor), `${preset.id}: letra`).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(preset.chordColor,preset.backgroundColor), `${preset.id}: acordes`).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(preset.sectionColor,preset.backgroundColor), `${preset.id}: títulos`).toBeGreaterThanOrEqual(4.5);
     }
   });
   it('preserva inclusive as paletas antigas e personalizadas já salvas', () => {
@@ -41,4 +42,11 @@ describe('gravação atômica das preferências',()=>{
  it('grava tema ativo e personalizado com uma única escrita',()=>{const calls:string[]=[];const custom={...readingDefaults,textColor:'#abcdef'};persistReadingPreferences({setItem:(_key,value)=>{calls.push(value);}},'pane',readingDefaults,custom);expect(calls).toHaveLength(1);expect(parseReadingPreferences(calls[0]).custom).toEqual(custom);expect(parseReadingSettings(calls[0])).toEqual(readingDefaults);});
  it('preserva toda a configuração anterior quando armazenamento rejeita escrita',()=>{let stored=JSON.stringify({version:1,settings:readingDefaults,custom:null});const before=stored;const storage={setItem:(_key:string,_value:string)=>{throw new Error('quota');}};expect(()=>persistReadingPreferences(storage,'pane',{...readingDefaults,fontSize:40},readingDefaults)).toThrow('quota');expect(stored).toBe(before);expect(parseReadingPreferences(stored).settings.fontSize).toBe(22);});
  it('migra dados planos e a definição antiga, sem reviver chave antiga após envelope novo',()=>{const custom={...readingDefaults,textColor:'#abcdef'};expect(parseReadingPreferences(JSON.stringify(readingDefaults),JSON.stringify(custom)).custom).toEqual(custom);const envelope=JSON.stringify({version:1,settings:readingDefaults,custom:null});expect(parseReadingPreferences(envelope,JSON.stringify(custom)).custom).toBeNull();});
+});
+
+describe('títulos e espaços independentes',()=>{
+ it('preenche títulos legíveis em preferências antigas claras, escuras e contraste',()=>{for(const backgroundColor of ['#ffffff','#191d28','#000000']){const settings=parseReadingSettings(JSON.stringify({fontSize:30,fontFamily:'Georgia, serif',chordGap:12,backgroundColor}));expect(settings.fontSize).toBe(30);expect(settings.chordGap).toBe(12);expect(settings.sectionFontFamily).toBe('Georgia, serif');expect(settings.sectionFontSize).toBe(16);expect(contrastRatio(settings.sectionColor,backgroundColor)).toBeGreaterThanOrEqual(4.5);}});
+ it('limita espaçamentos e permite negativo no acorde sem tocar tamanho da letra',()=>{const settings=parseReadingSettings(JSON.stringify({fontSize:24,chordGap:-99,sectionFontSize:100,sectionTitleGap:-2,sectionGap:999,lineGap:999}));expect(settings).toMatchObject({fontSize:24,chordGap:-24,sectionFontSize:36,sectionTitleGap:0,sectionGap:96,lineGap:64});expect(parseReadingSettings(JSON.stringify({...settings,chordGap:-7})).chordGap).toBe(-7);});
+ it('salva todos os novos campos atomicamente e preserva personalizado ao trocar paleta',()=>{const custom={...readingDefaults,sectionFontFamily:'monospace',sectionFontSize:21,sectionColor:'#654321',sectionTitleGap:3,sectionGap:17,lineGap:9,chordGap:-12};const next=applyReadingPreset(custom,readingPresets[0]);expect(next).toMatchObject({sectionFontFamily:'monospace',sectionFontSize:21,sectionColor:readingPresets[0].sectionColor,sectionTitleGap:3,sectionGap:17,lineGap:9,chordGap:-12});const stored:string[]=[];persistReadingPreferences({setItem:(_key,value)=>stored.push(value)},'pane',next,custom);expect(parseReadingPreferences(stored[0])).toEqual({version:1,settings:next,custom});expect(custom.sectionColor).toBe('#654321');});
+ it('atualiza Claro antigo somente quando envelope comprova ausência de personalizado',()=>{const old={fontSize:30,chordGap:12,textColor:'#29313b',chordColor:'#a94a17',backgroundColor:'#ffffff'};const migrated=parseReadingPreferences(JSON.stringify({version:1,settings:old,custom:null}));expect(migrated.settings).toMatchObject({fontSize:30,chordGap:12,chordColor:'#c25300',sectionColor:'#15191f'});const preserved=parseReadingPreferences(JSON.stringify({version:1,settings:old,custom:old}));expect(preserved.settings.chordColor).toBe('#a94a17');expect(preserved.custom!.chordColor).toBe('#a94a17');expect(parseReadingPreferences(JSON.stringify(old)).settings.chordColor).toBe('#a94a17');});
 });

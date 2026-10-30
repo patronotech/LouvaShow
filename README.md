@@ -29,7 +29,7 @@ Os botões apontam para os arquivos da última release pública. Confira as nota
 
 O LouvaShow tem como objetivo ser gratuito e open source. **A licença do código ainda precisa ser escolhida pelo mantenedor.** A disponibilização do código não concede, por si só, uma licença de distribuição. As licenças dos textos bíblicos são preservadas separadamente.
 
-## O que você encontra na versão 0.7.3
+## O que você encontra na versão 0.7.4
 
 - Biblioteca com cadastro, busca, classificações e importação/exportação de músicas.
 - Repertórios por evento, com reordenação por arraste, teclado ou botões.
@@ -38,7 +38,7 @@ O LouvaShow tem como objetivo ser gratuito e open source. **A licença do códig
 - Fonte, cores, alinhamento e caixa de texto ajustáveis em uma prévia de edição independente.
 - Três temas de interface — Clássico, Claro e Escuro —, painéis redimensionáveis e preferências locais.
 - Janela de abertura com animação silenciosa, indicação do carregamento e recuperação de falhas.
-- Cifras com faixas de acordes alinhadas à letra, arraste entre colunas, edição de linhas e partes, revisões, transposição e capotraste.
+- Cifras com faixas de acordes alinhadas à letra, arraste, edição da letra na própria linha, galeria de acordes comuns/personalizados, partes, revisões, transposição e capotraste.
 - Colagem de cifras, intercâmbio ChordPro e leitura em dois painéis com navegação pelas partes.
 - Leitor com três presets de cores, definição personalizada, tamanho/peso independentes para letra e acordes e notas pessoais móveis.
 - Importação local de TXT/DOCX e interpretação opcional de documentos com OpenAI ou Gemini, sempre com revisão antes de aplicar.
@@ -90,7 +90,7 @@ Repertórios podem ser criados, renomeados e excluídos. A seleção e a ordem f
 
 ## Cifras, equipe e assistente opcional
 
-Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.3 não busca páginas por URL.
+Consulte o [guia de cifras e equipe](docs/user-guide-charts.md) para edição, revisões, leitura no palco e repertórios pessoais. Em **Colar cifra**, cole texto autorizado, inclusive copiado do Cifra Club, preservando os espaços entre acordes. Revise a prévia, escolha **Usar esta cifra** e depois **Salvar cifra**. A versão 0.7.4 não busca páginas por URL.
 
 O TXT baixado pelo Cifra Club também pode ser importado **offline, sem IA nem custo de API**. O importador reconhece o cabeçalho de artista/título, preserva seções e colunas e separa os diagramas de acordes do rodapé em notas. Linhas em branco dentro de partes nomeadas mantêm a mesma parte; antes do primeiro cabeçalho, separam os blocos. Metadados explícitos de tom e capotraste são revisáveis; um tom ambíguo não é tratado como detecção definitiva. Confira a prévia antes de aplicar e use somente conteúdo autorizado.
 
@@ -120,7 +120,7 @@ Blocos de músicas podem guardar sua própria área de texto, fonte, tamanho, co
 
 ## Consulta bíblica offline
 
-Em **Bíblia**, escolha a tradução, filtre o nome do livro e clique no capítulo. A grade mostra os versículos disponíveis naquela edição, preservando sua numeração original. O modo inicial **Preparar** permite selecionar um versículo sem alterar a saída; use **Projetar** quando estiver pronto. Ative explicitamente **Projetar ao clicar** para enviar o versículo ao clicar, com a saída aberta. Abrir a projeção não envia automaticamente a seleção.
+Em **Bíblia**, escolha a tradução, filtre o nome do livro e clique no capítulo. A grade mostra os versículos disponíveis naquela edição, preservando sua numeração original. O modo inicial **Preparar** permite selecionar um versículo sem alterar a saída; use **Projetar** quando estiver pronto. Escolha **Projetar ao clicar** para enviar com um clique, ou **Clique duplo** para preparar no primeiro e projetar no segundo (Shift+Enter pelo teclado). Projetar pela lateral não troca o modo escolhido. Abrir a projeção não envia automaticamente a seleção.
 
 Trocar de tradução preserva o livro, o capítulo e o versículo em consulta. Se a passagem não existir na edição escolhida, a interface informa sua indisponibilidade, sem selecionar outro texto automaticamente. A troca de tradução não altera a sessão ao vivo.
 
@@ -169,7 +169,7 @@ O build local não constitui teste em Windows, Linux ou projetor físico. Consul
 
 O frontend usa React e TypeScript estrito. O Rust coordena a apresentação e acessa o SQLite. A janela de projeção recebe apenas o snapshot necessário à renderização. Não há SQL arbitrário vindo da interface.
 
-Veja [as decisões de arquitetura](docs/architecture.md), [o guia de contribuição](CONTRIBUTING.md) e [o roadmap](docs/roadmap.md).
+Veja [as decisões de arquitetura](docs/architecture.md), [o design system](docs/design-system.md), [o guia de contribuição](CONTRIBUTING.md) e [o roadmap](docs/roadmap.md).
 
 O processo de assinatura, notarização e inspeção dos pacotes está em [Build e distribuição](docs/build-release.md). Credenciais de assinatura pertencem ao ambiente privado do mantenedor.
 

@@ -8,8 +8,15 @@ export interface BibleSelection {
 }
 export const initialSelection: BibleSelection = { versionId: '', bookId: '', chapterNumber: null, verseNumber: null };
 
-export function shouldProjectVerse(projectOnClick: boolean, outputOpen: boolean, outputBusy: boolean): boolean {
-  return projectOnClick && outputOpen && !outputBusy;
+export type BibleInteractionMode = 'prepare'|'single'|'double';
+export type BibleVerseGesture = 'click'|'doubleClick'|'shiftEnter'|'explicit';
+export const initialBibleInteractionMode: BibleInteractionMode = 'prepare';
+export function shouldProjectVerse(mode:BibleInteractionMode,gesture:BibleVerseGesture,outputOpen:boolean,outputBusy:boolean):boolean {
+  if(!outputOpen||outputBusy)return false;
+  return gesture==='explicit'||(mode==='single'&&gesture==='click')||(mode==='double'&&(gesture==='doubleClick'||gesture==='shiftEnter'));
+}
+export function bibleKeyboardGesture(key:string,shiftKey:boolean,repeat:boolean):BibleVerseGesture|null {
+  return key==='Enter'&&shiftKey&&!repeat?'shiftEnter':null;
 }
 export type SelectionAction =
   | { type: 'version'; id: string }

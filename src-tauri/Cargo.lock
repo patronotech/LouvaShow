@@ -2492,7 +2492,7 @@ dependencies = [
 
 [[package]]
 name = "louvashow"
-version = "0.7.3"
+version = "0.7.4"
 dependencies = [
  "axum",
  "base64 0.23.1",

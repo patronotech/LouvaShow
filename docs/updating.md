@@ -47,7 +47,7 @@ Com a variável `TAURI_SIGNING_PRIVATE_KEY_PATH` já apontando para o arquivo pr
 python3 scripts/prepare-updater.py finalize \
   --input /caminho/artefatos-publicos \
   --output /caminho/release-final-nova \
-  --version 0.7.3
+  --version 0.7.4
 ```
 
 O script recusa um diretório final existente. Ele passa o caminho da chave ao CLI por ambiente e não lê nem imprime os bytes privados. Não use `set -x` nem imprima o ambiente. Se precisar gerar uma chave nova, a opção `tauri signer generate --write-keys` grava em arquivo; sem essa opção, o comando imprime a chave privada. Não gere novamente a chave de uma distribuição existente. [CLI oficial](https://v2.tauri.app/reference/cli/)

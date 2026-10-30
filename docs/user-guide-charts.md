@@ -1,23 +1,31 @@
 # Cifras e equipe
 
-Guia da versão 0.7.0.
+Guia da versão 0.7.4.
 
 ## Criar uma cifra
 
 1. Abra **Cifras** e selecione uma música na biblioteca.
 2. Clique em **Nova versão**. A letra é copiada para o editor; a música original e a projeção não são alteradas.
 3. Dê um nome à versão. Use visibilidade **Pessoal** para seu rascunho ou **Igreja** quando tiver permissão para publicar.
-4. Clique na coluna da faixa acima da letra ou em **＋ Acorde**. Digite, por exemplo, `C`, `Am7` ou `D/F#`, ajuste **Coluna da faixa** e confirme em **Aplicar acorde**.
-5. Clique em um acorde para editar. Arraste-o para outra coluna ou linha. Pelo teclado, foque o acorde e use esquerda/direita; Shift + seta move cinco colunas, Enter abre a edição e Delete/Backspace remove. Escape cancela o arraste.
+4. Clique na coluna da faixa acima da letra ou em **＋ Acorde** para escolher um símbolo na galeria ou digitá-lo livremente. Confirme em **Usar acorde**.
+5. Clique em um acorde e escolha **Editar** para abrir a galeria, ou **Remover** para retirá-lo. Arraste-o para outra coluna ou linha. Pelo teclado, foque o acorde e use esquerda/direita; Shift + seta move cinco colunas, Enter abre as opções e Delete/Backspace remove. Escape cancela o arraste.
 6. Clique em **Salvar cifra**. As alterações são explícitas; cancelar permite descartar o rascunho.
 
 Há oito posições antes da primeira palavra e oito após a frase, para acordes de preparação e passagem. Esses acordes são preservados ao salvar e exportar.
 
 A edição usa faixas monoespaçadas: acordes acima, letra abaixo. A coluna conta caracteres visíveis, incluindo acentos combinados e emojis. Linhas instrumentais também mantêm posições para os acordes. Confira a faixa ao deslocar um acorde; aumentar o tamanho da fonte não altera sua coluna no documento.
 
+## Galeria de acordes
+
+**Maiores** e **Menores** oferecem raízes, sustenido/bemol e variações comuns. Selecione um símbolo e confirme em **Usar acorde**. A mudança preserva a identidade e a posição do acorde existente.
+
+O campo **Símbolo livre** conserva sua escrita, inclusive maiúsculas/minúsculas: `m7` e `7M` não são equivalentes. A galeria distingue sétima dominante, sétima maior, nona adicionada e diminutos. Referência de nomenclatura: [padrão de cifragem do Cifra Club](https://suporte.cifraclub.com.br/pt-BR/support/solutions/articles/64000308284-conheca-o-padr%C3%A3o-de-cifragem-de-acordes-do-cifra-club). O LouvaShow não converte automaticamente símbolos entre convenções.
+
+**Salvar nos personalizados** guarda o símbolo na aba **Personalizados**, neste dispositivo/navegador. Ele fica disponível em outras cifras sem precisar redigitar; remover da galeria não remove acordes já inseridos. Essa galeria local não é sincronizada entre aparelhos. A confirmação de salvamento só aparece depois da escrita bem-sucedida. O campo aceita símbolos livres dentro do limite de 80 bytes UTF-8, sem colchetes ou quebras de linha usados pelo intercâmbio ChordPro.
+
 ## Linhas e partes
 
-- Use o lápis **Editar letra** para alterar uma linha. Enter ou **Dividir no cursor** cria a próxima linha a partir daquele ponto. **Unir à próxima** junta as linhas; **Concluir letra** fecha o campo.
+- Use o lápis **Editar letra** para digitar diretamente no lugar da frase, com cursor e seleção nativos. Enter ou **Concluir** encerra a edição; Escape também sai, mantendo a escrita. **Desfazer** reverte as alterações. Shift+Enter ou **Dividir no cursor** separa a linha naquele ponto; **Unir à próxima** junta as linhas. O texto já faz parte do rascunho ao digitar, inclusive ao usar **Salvar cifra** sem clicar em Concluir.
 - **＋ Linha** insere uma linha; o botão de remoção retira a linha com seus acordes. Confira as âncoras após alterar o texto.
 - **＋ Parte** cria uma seção. Edite seu nome, como Verso, Refrão ou Ponte. Para separar um trecho existente, marque linhas consecutivas da mesma parte, informe o nome e clique em **Criar parte**.
 - **Remover parte** retira a seção e suas ocorrências na sequência. Use **Desfazer** se necessário, antes de encerrar o editor.
@@ -81,9 +89,9 @@ A barra de partes leva diretamente a Verso, Refrão, Ponte e demais trechos. Ela
 
 ### Cores e tipografia
 
-O padrão de leitura é **Claro**, com letra grafite e acordes laranja escuro. Escolha **Escuro**, **Claro** ou **Contraste** na barra do leitor. O escuro usa acordes em laranja claro; o alto contraste mantém fundo preto e acordes amarelos. Esses três presets mudam as cores de letra, acordes e fundo, preservando os ajustes de tipografia. São independentes do tema da interface do operador.
+O padrão de leitura é **Claro**, com letra grafite, acordes laranja e títulos das partes quase pretos. Escolha **Escuro**, **Claro** ou **Contraste** na barra do leitor. O escuro usa acordes em laranja claro; o alto contraste mantém fundo preto e acordes amarelos. Esses três presets mudam as cores de letra, acordes, títulos das partes e fundo, preservando os ajustes de tipografia. São independentes do tema da interface do operador.
 
-Na engrenagem **Personalizar leitura**, ajuste a fonte, o tamanho e o peso da letra, o tamanho e o peso dos acordes, suas cores, o fundo e a **Distância acorde–letra**. A leitura acompanha as mudanças imediatamente. **Salvar definição** guarda o conjunto personalizado; **Cancelar** ou Escape descarta os ajustes dessa janela.
+Na engrenagem **Personalizar leitura**, ajuste a fonte, o tamanho e o peso da letra, o tamanho e o peso dos acordes, suas cores e o fundo. O título da parte tem fonte, tamanho e cor próprios. Em **Espaçamento**, ajuste **Acorde–letra** (−24 a 32 px, incluindo sobreposição), **Título–primeira linha**, **Entre partes** e **Entre linhas**. Os controles de espaçamento têm slider e campo numérico em pixels. A leitura acompanha as mudanças imediatamente. **Salvar definição** guarda o conjunto personalizado; **Cancelar** ou Escape descarta os ajustes dessa janela.
 
 Depois de salvar, **Minha** restaura a última definição personalizada, mesmo após usar outro preset. As preferências ficam separadas por pessoa e painel neste navegador/dispositivo; não são transferidas para outro aparelho.
 

@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, useState } from 'react';
 import type { BibleBook, BibleChapter, BibleVersion } from '../../shared/contracts';
 import { api } from '../../shared/contracts/api';
 import { LatestRequest } from './latestRequest';
-import { initialSelection, passageAvailability, selectLocation } from './selection';
+import { initialSelection, initialBibleInteractionMode, passageAvailability, selectLocation, type BibleInteractionMode } from './selection';
 
 /** Owned by Operator so context changes preserve the reader without affecting the live snapshot. */
 export function useBibleBrowser(enabled: boolean) {
@@ -15,7 +15,7 @@ export function useBibleBrowser(enabled: boolean) {
   const [bookNames, setBookNames] = useState<ReadonlyMap<string, string>>(() => new Map());
   const [chapter, setChapter] = useState<BibleChapter | null>(null);
   const [query, setQuery] = useState('');
-  const [projectOnClick, setProjectOnClick] = useState(false);
+  const [interactionMode, setInteractionMode] = useState<BibleInteractionMode>(initialBibleInteractionMode);
   const [loadingVersions, setLoadingVersions] = useState(false);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [loadingChapter, setLoadingChapter] = useState(false);
@@ -88,7 +88,7 @@ export function useBibleBrowser(enabled: boolean) {
     dispatch({ type: 'chapter', number }); setChapter(null); setChapterError('');
   }
   return {
-    versions, versionId, books, bookId, chapterNumber, chapter, verseNumber, query, projectOnClick, setProjectOnClick,
+    versions, versionId, books, bookId, chapterNumber, chapter, verseNumber, query, interactionMode, setInteractionMode,
     version: versions.find(version => version.id === versionId) ?? null,
     book: books.find(book => book.id === bookId) ?? null,
     bookName: bookNames.get(bookId) ?? null,
