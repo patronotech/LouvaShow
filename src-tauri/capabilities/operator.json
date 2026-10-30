@@ -20,6 +20,7 @@
     "allow-projection-status",
     "allow-list-songs",
     "allow-save-song",
+    "allow-save-block-style",
     "allow-delete-song",
     "allow-song-usage",
     "allow-get-setlist",

@@ -2,9 +2,9 @@
 
 Este arquivo define os ensaios necessários. Uma caixa vazia significa que não há resultado registrado aqui; não significa aprovação. Registre sistema, versão, hardware, comando e resultado ao executar. Testes automatizados e build não substituem a observação da saída real.
 
-## Versão 0.7.0 — 30/10/2026
+## Versão 0.7.1 — 30/10/2026
 
-No macOS Apple Silicon, a suíte frontend passou com 141 testes e o TypeScript estrito/Vite compilou. A suíte Rust pública passou com 92 testes; Clippy sem avisos e formatação passaram. Seis testes do finalizador de atualização passaram, incluindo assinatura temporária, adulteração, vínculo da versão, tar sanitizado e leitura PE. Nenhuma chave real aparece nas fixtures.
+No macOS Apple Silicon, a suíte frontend passou com 148 testes e o TypeScript estrito/Vite compilou. A suíte Rust pública passou com 101 testes; Clippy sem avisos e formatação passaram. Seis testes do finalizador de atualização passaram, incluindo assinatura temporária, adulteração, vínculo da versão, tar sanitizado e leitura PE. Nenhuma chave real aparece nas fixtures.
 
 Na instância desktop isolada, foram conferidos os três temas, colagem/revisão e cadastro de cifra, persistência após reiniciar, deslocamento de acorde entre linhas, criação de parte, navegação por partes e confirmação de descarte mantendo o rascunho. A prévia ao vivo permaneceu separada da edição. Os testes utilizaram janelas no mesmo monitor.
 
@@ -12,7 +12,9 @@ Componentes reais foram conferidos também em uma página temporária isolada de
 
 O TXT real fornecido pelo mantenedor passou por uma prova Rust temporária somente de leitura, fora das fixtures públicas: quatro partes nomeadas, 28 linhas, 57 acordes e seis diagramas separados em notas. Letras, colunas, ordem e metadados sobreviveram à exportação/reimportação ChordPro. O arquivo original permaneceu intacto; o teste temporário foi removido e a restauração do fonte foi confirmada por hash.
 
-Não foram executadas chamadas pagas de OCR/IA nem uma atualização instalada de ponta a ponta. Windows 10/11, Mac Intel, Linux/Wayland e projetor físico não foram operados nesta sessão. A versão 0.7.0 introduz o atualizador; versões anteriores precisam de uma instalação manual inicial.
+Não foram executadas chamadas pagas de OCR/IA nem uma atualização instalada de ponta a ponta. Windows 10/11, Mac Intel, Linux/Wayland e projetor físico não foram operados nesta sessão. A versão 0.7.1 introduz o atualizador na distribuição pública; versões anteriores precisam de uma instalação manual inicial.
+
+O ajuste individual de bloco foi conferido em outra instância desktop isolada: abrir pela prévia, alterar fonte de 64 para 48, mover com teclado, redimensionar por arraste, salvar sem alterar a saída e aplicar explicitamente. O cartão passou a indicar personalização; o segundo bloco continuou com fonte 64 e padrão global. A validação visual encontrou e corrigiu o escopo CSS das alças no modal. Nove novos testes Rust cobrem migração 5, reabertura, limpeza do estilo, IDs estáveis, rollback e concorrência entre edição da letra e estilo. Clippy também passou no Rust 1.99.0, usado pelos runners atuais. A tag 0.7.0 não foi publicada: seu CI detectou um lint novo do toolchain, corrigido nesta versão.
 
 ## Registro da primeira sessão — 29/10/2026
 

@@ -87,6 +87,7 @@ fn main() {
             "projection_status",
             "list_songs",
             "save_song",
+            "save_block_style",
             "delete_song",
             "song_usage",
             "get_setlist",

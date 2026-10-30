@@ -1,4 +1,4 @@
-export interface SongBlock { id: string; songId: string; label: string | null; text: string; position: number }
+export interface SongBlock { id: string; songId: string; label: string | null; text: string; position: number; styleOverride?: BlockStyleOverride | null }
 export interface Song { id: string; categoryId: string; copyright: string | null; title: string; artist: string | null; createdAt: string; updatedAt: string; blocks: SongBlock[] }
 export interface SaveSongInput { id: string | null; categoryId: string; copyright: string | null; title: string; artist: string | null; blocks: {id: string | null; label: string | null; text: string}[] }
 export interface SetlistItem { id: string; setlistId: string; songId: string; position: number }
@@ -6,7 +6,9 @@ export interface SetlistSummary { id: string; name: string; itemCount: number }
 export interface Setlist { id: string; name: string; createdAt: string; updatedAt: string; items: SetlistItem[] }
 export interface TextBox { x: number; y: number; width: number; height: number }
 export interface Theme { id: string; name: string; fontFamily: string; fontSize: number; textColor: string; backgroundColor: string; textAlign: 'left'|'center'|'right'; verticalAlign: 'start'|'center'|'end'; backgroundMediaId: string|null; overlayOpacity: number; transitionType: 'none'|'fade'; transitionDurationMs: number; textBox: TextBox }
-export interface PresentationBlock { id: string; label: string | null; text: string; position: number }
+export interface BlockStyleOverride { version: 1; textBox?: TextBox | null; fontSize?: number | null; fontFamily?: string | null; textColor?: string | null; textAlign?: Theme['textAlign'] | null; verticalAlign?: Theme['verticalAlign'] | null }
+export interface SaveBlockStyleResult { song: Song; snapshot: Snapshot; appliedToLive: boolean }
+export interface PresentationBlock { id: string; label: string | null; text: string; position: number; styleOverride?: BlockStyleOverride | null }
 export interface BiblePresentation { versionId: string; bookId: string; chapter: number; versionAbbreviation: string; attribution: string }
 export interface Snapshot { revision: number; blanked: boolean; songId: string|null; bible: BiblePresentation|null; title: string; blocks: PresentationBlock[]; blockIndex: number; theme: Theme }
 export type PresentationAction = {type:'present'; songId:string; blockId:string} | {type:'presentBible'; versionId:string; bookId:string; chapter:number; verse:string} | {type:'next'|'previous'|'toggleBlank'} | {type:'theme'; theme:Theme};

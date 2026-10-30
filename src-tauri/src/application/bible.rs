@@ -87,6 +87,7 @@ pub fn prepare_chapter(
                 label: Some(label),
                 text,
                 position: blocks.len(),
+                style_override: None,
             });
         }
     }

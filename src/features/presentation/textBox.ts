@@ -73,7 +73,7 @@ export function validateThemeDraft(theme: Theme): string | null {
 /** Editing previews reuse content, never mutate or send the live snapshot. */
 export function createDraftSnapshot(snapshot: Snapshot | null, draft: Theme): Snapshot {
   const hasContent = Boolean(snapshot?.blocks[snapshot.blockIndex]?.text.trim());
-  if (snapshot && hasContent) return { ...snapshot, blanked: false, theme: copyTheme(draft) };
+  if (snapshot && hasContent) return { ...snapshot, blanked: false, blocks: snapshot.blocks.map(block=>({...block,styleOverride:null})), theme: copyTheme(draft) };
   return {
     revision: snapshot?.revision ?? 0, blanked: false, songId: null, bible: null,
     title: 'Texto de demonstração da edição', blockIndex: 0,

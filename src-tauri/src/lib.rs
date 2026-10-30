@@ -106,6 +106,7 @@ pub fn run() {
             commands::displays::projection_status,
             commands::library::list_songs,
             commands::library::save_song,
+            commands::library::save_block_style,
             commands::library::delete_song,
             commands::library::song_usage,
             commands::library::get_setlist,

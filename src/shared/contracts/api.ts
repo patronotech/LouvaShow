@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { BibleVersion, BibleBook, BibleChapter, Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, SetlistSummary, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
+import type { BlockStyleOverride, SaveBlockStyleResult, BibleVersion, BibleBook, BibleChapter, Category, ImportFile, ImportSong, ImportPreview, ImportResult, Song, SaveSongInput, Setlist, SetlistSummary, Snapshot, PresentationAction, Display, ProjectionStatus } from './index';
 export const api = {
  listBibleVersions: () => invoke<BibleVersion[]>('list_bible_versions'),
  listBibleBooks: (versionId:string) => invoke<BibleBook[]>('list_bible_books',{versionId}),
@@ -22,6 +22,7 @@ export const api = {
  openProjection: (monitorId:string|null) => invoke<ProjectionStatus>('open_projection',{monitorId}),
  fullscreen: (enabled:boolean) => invoke<ProjectionStatus>('projection_fullscreen',{enabled}),
  projectionStatus: () => invoke<ProjectionStatus>('projection_status'),
+ saveBlockStyle: (songId:string,blockId:string,styleOverride:BlockStyleOverride|null,applyToLive:boolean) => invoke<SaveBlockStyleResult>('save_block_style',{songId,blockId,styleOverride,applyToLive}),
  listSongs: () => invoke<Song[]>('list_songs'),
  saveSong: (input:SaveSongInput) => invoke<Song>('save_song',{input}),
  deleteSong: (id:string) => invoke<void>('delete_song',{id}),

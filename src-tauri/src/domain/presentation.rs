@@ -102,6 +102,44 @@ impl Theme {
         Ok(())
     }
 }
+
+/// Only typography and text geometry can override the shared presentation theme.
+/// Missing/null fields inherit it; `None` on the block removes the whole override.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct BlockStyleOverride {
+    pub version: u8,
+    pub text_box: Option<TextBox>,
+    pub font_size: Option<f64>,
+    pub font_family: Option<String>,
+    pub text_color: Option<String>,
+    pub text_align: Option<String>,
+    pub vertical_align: Option<String>,
+}
+
+impl BlockStyleOverride {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.version != 1 {
+            return Err("Versão de estilo de bloco não suportada. Atualize o LouvaShow.".into());
+        }
+        // Reuse exactly the global-theme limits, without accepting backgrounds,
+        // animation, media or arbitrary CSS in the per-block contract.
+        let theme = Theme {
+            text_box: self.text_box.unwrap_or_default(),
+            font_size: self.font_size.unwrap_or(64.),
+            font_family: self.font_family.clone().unwrap_or_else(|| "Arial".into()),
+            text_color: self.text_color.clone().unwrap_or_else(|| "#ffffff".into()),
+            text_align: self.text_align.clone().unwrap_or_else(|| "center".into()),
+            vertical_align: self
+                .vertical_align
+                .clone()
+                .unwrap_or_else(|| "center".into()),
+            ..Theme::default()
+        };
+        theme.validate()
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PresentationBlock {
@@ -109,6 +147,8 @@ pub struct PresentationBlock {
     pub label: Option<String>,
     pub text: String,
     pub position: usize,
+    #[serde(default)]
+    pub style_override: Option<BlockStyleOverride>,
 }
 impl From<SongBlock> for PresentationBlock {
     fn from(block: SongBlock) -> Self {
@@ -117,6 +157,7 @@ impl From<SongBlock> for PresentationBlock {
             label: block.label,
             text: block.text,
             position: block.position,
+            style_override: block.style_override,
         }
     }
 }
@@ -149,6 +190,31 @@ impl Default for Snapshot {
     }
 }
 impl Snapshot {
+    /// The source can change while an editor is open. Apply only to the exact
+    /// currently projected block, preserving the session's owned text and theme.
+    pub fn apply_block_style(
+        &mut self,
+        song_id: &str,
+        block_id: &str,
+        style_override: Option<BlockStyleOverride>,
+    ) -> Result<bool, String> {
+        if let Some(style) = &style_override {
+            style.validate()?;
+        }
+        if self.bible.is_some() || self.song_id.as_deref() != Some(song_id) {
+            return Ok(false);
+        }
+        let Some(block) = self
+            .blocks
+            .get_mut(self.block_index)
+            .filter(|b| b.id == block_id)
+        else {
+            return Ok(false);
+        };
+        block.style_override = style_override;
+        self.revision += 1;
+        Ok(true)
+    }
     pub fn present(&mut self, song: Song, block_id: &str) -> Result<(), String> {
         let index = song
             .blocks
@@ -263,6 +329,72 @@ mod tests {
         assert!(s.present(source, "missing").is_err());
         assert_eq!(r, s.revision);
         assert_eq!(s.blocks[0].text, "Um");
+    }
+
+    #[test]
+    fn block_style_contract_rejects_backgrounds_versions_and_invalid_theme_fields() {
+        let valid: BlockStyleOverride = serde_json::from_value(serde_json::json!({"version":1,"fontSize":80,"textColor":"#a94a17","textBox":{"x":10,"y":20,"width":80,"height":60}})).unwrap();
+        valid.validate().unwrap();
+        for invalid in [
+            serde_json::json!({"version":2}),
+            serde_json::json!({"version":1,"fontSize":31}),
+            serde_json::json!({"version":1,"fontSize":101}),
+            serde_json::json!({"version":1,"fontFamily":"url(unknown)"}),
+            serde_json::json!({"version":1,"textColor":"red"}),
+            serde_json::json!({"version":1,"textAlign":"justify"}),
+            serde_json::json!({"version":1,"verticalAlign":"top"}),
+            serde_json::json!({"version":1,"textBox":{"x":95,"y":0,"width":10,"height":20}}),
+        ] {
+            assert!(serde_json::from_value::<BlockStyleOverride>(invalid)
+                .unwrap()
+                .validate()
+                .is_err());
+        }
+        for forbidden in [
+            "backgroundColor",
+            "backgroundMediaId",
+            "transitionType",
+            "overlayOpacity",
+        ] {
+            let mut value = serde_json::json!({"version":1});
+            value[forbidden] = serde_json::json!("forbidden");
+            assert!(serde_json::from_value::<BlockStyleOverride>(value).is_err());
+        }
+        let mut non_finite = valid;
+        non_finite.font_size = Some(f64::NAN);
+        assert!(non_finite.validate().is_err());
+        let inherit: BlockStyleOverride =
+            serde_json::from_value(serde_json::json!({"version":1,"fontSize":null})).unwrap();
+        inherit.validate().unwrap();
+        assert!(song().blocks[0].style_override.is_none());
+    }
+
+    #[test]
+    fn applying_block_style_changes_only_current_override_and_revision_even_when_blanked() {
+        let mut state = Snapshot::default();
+        state.present(song(), "a").unwrap();
+        state.toggle_blank();
+        let mut expected = serde_json::to_value(&state).unwrap();
+        let style: BlockStyleOverride =
+            serde_json::from_value(serde_json::json!({"version":1,"fontSize":90})).unwrap();
+        expected["revision"] = serde_json::json!(state.revision + 1);
+        expected["blocks"][0]["styleOverride"] = serde_json::to_value(&style).unwrap();
+        assert!(state.apply_block_style("s", "a", Some(style)).unwrap());
+        assert_eq!(serde_json::to_value(&state).unwrap(), expected);
+        let unchanged = serde_json::to_value(&state).unwrap();
+        assert!(!state.apply_block_style("other", "a", None).unwrap());
+        assert!(!state.apply_block_style("s", "b", None).unwrap());
+        assert_eq!(serde_json::to_value(&state).unwrap(), unchanged);
+        assert!(state.apply_block_style("s", "a", None).unwrap());
+        assert!(state.blocks[0].style_override.is_none());
+        assert!(state.blanked);
+        let (version, chapter) = bible_fixture();
+        state
+            .present_bible(prepare_chapter(&version, chapter, "1").unwrap())
+            .unwrap();
+        let unchanged = serde_json::to_value(&state).unwrap();
+        assert!(!state.apply_block_style("s", "a", None).unwrap());
+        assert_eq!(serde_json::to_value(&state).unwrap(), unchanged);
     }
 
     #[test]

@@ -61,3 +61,13 @@ Referências: [comandos Rust](https://v2.tauri.app/develop/calling-rust/), [even
 O formulário mantém um rascunho independente do tema aplicado. Alterações de campos e geometria renderizam uma cópia de prévia, sem comandos nativos; somente Aplicar à saída envia o tema ao coordenador. O snapshot real continua alimentando a prévia ao vivo e a projeção. Erros de aplicação preservam o rascunho para nova tentativa.
 
 `Theme.textBox` representa x, y, largura e altura em percentuais do canvas, com mínimo de 10% por dimensão e limites finitos dentro de 0–100. Temas anteriores recebem o padrão 7/7/86/86 na desserialização, sem apagar preferências existentes. Para Bíblia, o renderer e o editor compartilham a geometria efetiva que reserva os 19% inferiores à referência. As alças pertencem somente ao operador; a saída mantém renderização enxuta.
+
+## Estilo por bloco de música
+
+A migração 5 acrescenta `song_blocks.style_override_json`, opcional e versionado. O objeto de versão 1 aceita somente caixa de texto, família e tamanho da fonte, cor do texto, alinhamento horizontal e posição vertical. Campos ausentes ou nulos herdam o tema global; fundo e transição continuam globais. A aplicação do estilo é a combinação do tema base com esses campos, compartilhada pela prévia e pela saída.
+
+O comando `save_block_style` recebe os identificadores da música e do bloco, o estilo opcional e `applyToLive`. Salvar persiste o estilo no SQLite sem substituir o tema global. Remover o estilo devolve o bloco à herança global. A edição da letra preserva o estilo dos blocos cujo ID permanece; blocos novos começam sem estilo próprio e a remoção de um bloco elimina apenas sua configuração.
+
+Ao apresentar uma música, cada `PresentationBlock` recebe uma cópia do estilo salvo. A navegação usa essa cópia, sem buscar o banco. Salvar um estilo com `applyToLive: false` não altera a sessão. Com aplicação explícita, o coordenador atualiza somente o estilo do bloco que ainda é o atual e pertence à mesma música; preserva o texto copiado, a saída apagada, o tema global e os outros blocos. Se o operador já navegou, o estilo fica salvo para a próxima apresentação e não afeta o novo bloco ao vivo.
+
+Essa personalização existe somente para blocos de músicas. Passagens bíblicas continuam usando o tema global e a área reservada da referência. A importação e a exportação atuais de músicas não transportam estilos por bloco; não equivalem a um backup dessas configurações.

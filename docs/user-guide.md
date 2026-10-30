@@ -26,6 +26,21 @@ Largura e altura mínimas são 10%. A Bíblia reserva o rodapé para referência
 
 A aparência clara ou escura é uma preferência do operador e não muda as cores da projeção.
 
+## Ajustar somente um bloco
+
+Use o ícone de paleta do bloco, em **Operação ao vivo** ou **Músicas**, para abrir **Ajustar bloco**. A prévia ao vivo também oferece esse botão para o bloco musical atual, enquanto ele ainda existir na biblioteca. Abrir o ajuste não projeta o bloco.
+
+Mude a fonte, o tamanho, a cor, o alinhamento ou a área do texto. A prévia acompanha as alterações imediatamente. Arraste a caixa e suas alças ou use o teclado conforme os controles do editor de tema. Esses ajustes pertencem àquele bloco; fundo e transição continuam seguindo o tema global.
+
+- **Salvar bloco** guarda o ajuste para as próximas apresentações, mantendo a sessão atual intacta.
+- **Salvar e aplicar ao vivo** aparece quando esse é o bloco atual da sessão. Salva e atualiza somente seu estilo na saída, preservando a letra já enviada e o estado apagado/restaurado. Se a sessão tiver mudado durante a operação, salva o ajuste sem alterar o novo bloco e informa o ocorrido.
+- **Usar padrão global** remove a personalização da prévia. Confirme com **Salvar bloco** ou **Salvar e aplicar ao vivo**, conforme a intenção.
+- **Fechar** descarta mudanças ainda não salvas.
+
+Campos sem personalização acompanham o padrão global. Um bloco com fonte ou caixa própria conserva esses ajustes quando o tema global muda. Salvar novamente a letra mantém a configuração dos blocos que conservam sua identidade; novos blocos começam no padrão global.
+
+A sessão mantém uma cópia dos blocos apresentados. Depois de apenas salvar um ajuste, clique novamente no bloco para apresentar a versão salva; as setas da sessão continuam usando a cópia anterior. A personalização por bloco ainda não está disponível para passagens bíblicas e não acompanha a exportação JSON/OpenLyrics de músicas.
+
 ## Biblioteca e arquivos
 
 Em **Gerenciar músicas**, filtros limitam a lista e **Selecionar todas** abrange todas as páginas do filtro atual. Mudar o filtro limpa a seleção. Classificações podem ser criadas ou renomeadas nessa tela.

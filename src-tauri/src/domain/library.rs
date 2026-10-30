@@ -22,6 +22,8 @@ pub struct SongBlock {
     pub label: Option<String>,
     pub text: String,
     pub position: usize,
+    #[serde(default)]
+    pub style_override: Option<super::presentation::BlockStyleOverride>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

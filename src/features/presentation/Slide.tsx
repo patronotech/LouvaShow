@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import type { Snapshot } from '../../shared/contracts';
 import { effectiveTextBox, fitFontSize } from './textBox';
 import './slide.css';
+import { resolveBlockTheme } from './blockStyle';
 
 export interface SlideFit { requestedFontSize: number; actualFontSize: number; overflow: boolean }
 interface Props {
@@ -19,7 +20,7 @@ export function Slide({ snapshot, preview = false, previewLabel = 'Prévia da sa
   const [size, setSize] = useState({ width: 1280, height: 720 });
   const [font, setFont] = useState(64);
   const block = snapshot?.blocks[snapshot.blockIndex];
-  const theme = snapshot?.theme;
+  const theme = snapshot ? resolveBlockTheme(snapshot.theme, block?.styleOverride) : undefined;
   const bible = snapshot?.bible;
   const box = effectiveTextBox(theme?.textBox, Boolean(bible));
   const requestedFont = theme?.fontSize ?? 64;

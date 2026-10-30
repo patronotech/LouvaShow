@@ -98,45 +98,31 @@ pub async fn presentation_action(
     {
         return Err("Abra a projeção antes de apresentar um trecho.".into());
     }
-    let song = if let Action::Present { song_id, .. } = &action {
+    if let Action::Present { song_id, .. } = &action {
         let cached = state
             .song_cache
             .lock()
             .map_err(|_| "Cache indisponível")?
-            .get(song_id)
-            .cloned();
-        if let Some(song) = cached {
-            Some(song)
-        } else {
+            .contains_key(song_id);
+        if !cached {
             let db = state.db.clone();
             let cache = state.song_cache.clone();
             let id = song_id.clone();
-            let song = tauri::async_runtime::spawn_blocking(move || {
+            tauri::async_runtime::spawn_blocking(move || {
                 let database = db.lock().map_err(|_| "Banco indisponível")?;
                 // Recheck after acquiring DB: another reader/save may already
                 // have populated the cache while this worker was waiting.
-                if let Some(song) = cache
-                    .lock()
-                    .map_err(|_| "Cache indisponível")?
-                    .get(&id)
-                    .cloned()
-                {
-                    return Ok::<_, String>(song);
+                let mut cache = cache.lock().map_err(|_| "Cache indisponível")?;
+                if !cache.contains_key(&id) {
+                    let song = database.get_song(&id)?;
+                    cache.insert(song.id.clone(), song);
                 }
-                let song = database.get_song(&id)?;
-                cache
-                    .lock()
-                    .map_err(|_| "Cache indisponível")?
-                    .insert(song.id.clone(), song.clone());
-                Ok(song)
+                Ok::<_, String>(())
             })
             .await
             .map_err(|_| "Falha ao preparar música")??;
-            Some(song)
         }
-    } else {
-        None
-    };
+    }
     let prepared_bible = if let Action::PresentBible {
         version_id,
         book_id,
@@ -168,6 +154,25 @@ pub async fn presentation_action(
         .await
         .map_err(|_| "Não foi possível salvar o tema")??;
     }
+    // Re-read the cache while holding it through snapshot creation. A concurrent
+    // block-style/lyric save cannot publish a newer cache and then be overwritten
+    // by an older song clone that this request prepared earlier.
+    let cached_songs = if matches!(&action, Action::Present { .. }) {
+        Some(state.song_cache.lock().map_err(|_| "Cache indisponível")?)
+    } else {
+        None
+    };
+    let song = if let Action::Present { song_id, .. } = &action {
+        Some(
+            cached_songs
+                .as_ref()
+                .and_then(|cache| cache.get(song_id))
+                .cloned()
+                .ok_or("A música foi alterada ou excluída. Selecione o trecho novamente.")?,
+        )
+    } else {
+        None
+    };
     let mut s = state
         .presentation
         .lock()
@@ -186,6 +191,7 @@ pub async fn presentation_action(
     }
     let snapshot = s.clone();
     drop(s);
+    drop(cached_songs);
     // Receivers discard older revisions, so native dispatch never holds the coordinator lock.
     app.emit("presentation:snapshot", &snapshot)
         .map_err(|_| "Estado salvo, mas a comunicação falhou. Reabra a projeção.".to_string())?;

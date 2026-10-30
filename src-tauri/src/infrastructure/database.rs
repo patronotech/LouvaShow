@@ -4,15 +4,20 @@ use crate::domain::{
         Category, ImportResult, SaveSongInput, Setlist, SetlistItem, SetlistSummary, Song,
         SongBlock,
     },
+    presentation::BlockStyleOverride,
 };
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use sha2::{Digest, Sha256};
-use std::{collections::HashSet, path::Path, time::Duration};
+use std::{
+    collections::{HashMap, HashSet},
+    path::Path,
+    time::Duration,
+};
 use uuid::Uuid;
 
 const SETLIST_ID: &str = "default-setlist";
-const SCHEMA_VERSION: i64 = 4;
+const SCHEMA_VERSION: i64 = 5;
 const MIGRATION_1: &str = r#"
 CREATE TABLE songs (
     id TEXT PRIMARY KEY NOT NULL,
@@ -59,6 +64,26 @@ fn db_error(context: &str, error: rusqlite::Error) -> String {
 
 fn clean_optional(value: Option<String>) -> Option<String> {
     value.map(|v| v.trim().to_owned()).filter(|v| !v.is_empty())
+}
+
+fn read_block_style(json: Option<String>) -> rusqlite::Result<Option<BlockStyleOverride>> {
+    let Some(json) = json else { return Ok(None) };
+    let decode = || -> Result<BlockStyleOverride, String> {
+        if json.len() > 4096 {
+            return Err("Estilo do bloco excede o tamanho permitido.".into());
+        }
+        let style: BlockStyleOverride = serde_json::from_str(&json)
+            .map_err(|_| "O estilo salvo de um bloco está inválido; os dados foram preservados.")?;
+        style.validate()?;
+        Ok(style)
+    };
+    decode().map(Some).map_err(|error| {
+        rusqlite::Error::FromSqlConversionFailure(
+            5,
+            rusqlite::types::Type::Text,
+            Box::new(std::io::Error::new(std::io::ErrorKind::InvalidData, error)),
+        )
+    })
 }
 
 impl Database {
@@ -151,6 +176,17 @@ impl Database {
                 .map_err(|e| db_error("registrar migração das cifras", e))?;
             tx.commit()
                 .map_err(|e| db_error("concluir migração das cifras", e))?;
+        }
+        if version < 5 {
+            let tx = connection
+                .transaction()
+                .map_err(|e| db_error("iniciar migração dos estilos de bloco", e))?;
+            tx.execute_batch("ALTER TABLE song_blocks ADD COLUMN style_override_json TEXT;")
+                .map_err(|e| db_error("migrar os estilos de bloco", e))?;
+            tx.pragma_update(None, "user_version", 5)
+                .map_err(|e| db_error("registrar migração dos estilos de bloco", e))?;
+            tx.commit()
+                .map_err(|e| db_error("concluir migração dos estilos de bloco", e))?;
         }
         Ok(Self { connection })
     }
@@ -590,7 +626,7 @@ impl Database {
             .optional()
             .map_err(|e| db_error("abrir a música", e))?;
         let mut song = song.ok_or("A música não foi encontrada. Atualize a biblioteca.")?;
-        let mut statement = self.connection.prepare("SELECT id,song_id,label,text,position FROM song_blocks WHERE song_id=?1 ORDER BY position")
+        let mut statement = self.connection.prepare("SELECT id,song_id,label,text,position,style_override_json FROM song_blocks WHERE song_id=?1 ORDER BY position")
             .map_err(|e| db_error("abrir os blocos", e))?;
         song.blocks = statement
             .query_map([id], |row| {
@@ -600,6 +636,7 @@ impl Database {
                     label: row.get(2)?,
                     text: row.get(3)?,
                     position: row.get::<_, u32>(4)? as usize,
+                    style_override: read_block_style(row.get(5)?)?,
                 })
             })
             .map_err(|e| db_error("abrir os blocos", e))?
@@ -638,6 +675,24 @@ impl Database {
             .as_ref()
             .map(|song| song.blocks.iter().map(|b| b.id.clone()).collect())
             .unwrap_or_default();
+        let existing_styles: HashMap<String, Option<String>> = existing
+            .as_ref()
+            .map(|song| {
+                song.blocks
+                    .iter()
+                    .map(|block| {
+                        let json = block
+                            .style_override
+                            .as_ref()
+                            .map(serde_json::to_string)
+                            .transpose()
+                            .map_err(|_| "Não foi possível preservar o estilo dos blocos.")?;
+                        Ok((block.id.clone(), json))
+                    })
+                    .collect::<Result<_, String>>()
+            })
+            .transpose()?
+            .unwrap_or_default();
         let mut provided_ids = HashSet::new();
         for block in &blocks {
             if let Some(id) = &block.id {
@@ -675,13 +730,14 @@ impl Database {
             let block_id = block.id.unwrap_or_else(|| Uuid::new_v4().to_string());
             let text = block.text.replace("\r\n", "\n").replace('\r', "\n");
             tx.execute(
-                "INSERT INTO song_blocks(id,song_id,label,text,position) VALUES(?1,?2,?3,?4,?5)",
+                "INSERT INTO song_blocks(id,song_id,label,text,position,style_override_json) VALUES(?1,?2,?3,?4,?5,?6)",
                 params![
                     block_id,
                     id,
                     clean_optional(block.label),
                     text.trim(),
-                    position as i64
+                    position as i64,
+                    existing_styles.get(&block_id).and_then(|v| v.as_deref()),
                 ],
             )
             .map_err(|e| db_error("salvar os blocos", e))?;
@@ -689,6 +745,45 @@ impl Database {
         tx.commit()
             .map_err(|e| db_error("concluir o salvamento", e))?;
         self.get_song(&id)
+    }
+
+    pub fn save_block_style(
+        &mut self,
+        song_id: &str,
+        block_id: &str,
+        style_override: Option<&BlockStyleOverride>,
+    ) -> Result<Song, String> {
+        if let Some(style) = style_override {
+            style.validate()?;
+        }
+        let json = style_override
+            .map(serde_json::to_string)
+            .transpose()
+            .map_err(|_| "Não foi possível preparar o estilo do bloco.")?;
+        let tx = self
+            .connection
+            .transaction()
+            .map_err(|e| db_error("iniciar o salvamento do estilo", e))?;
+        let changed = tx
+            .execute(
+                "UPDATE song_blocks SET style_override_json=?1 WHERE id=?2 AND song_id=?3",
+                params![json, block_id, song_id],
+            )
+            .map_err(|e| db_error("salvar o estilo do bloco", e))?;
+        if changed != 1 {
+            return Err(
+                "O bloco não existe mais nesta música. Atualize a biblioteca antes de salvar."
+                    .into(),
+            );
+        }
+        tx.execute(
+            "UPDATE songs SET updated_at=?1 WHERE id=?2",
+            params![Utc::now().to_rfc3339(), song_id],
+        )
+        .map_err(|e| db_error("atualizar a data da música", e))?;
+        tx.commit()
+            .map_err(|e| db_error("concluir o salvamento do estilo", e))?;
+        self.get_song(song_id)
     }
 
     pub fn song_usage(&self, id: &str) -> Result<usize, String> {
@@ -1521,6 +1616,127 @@ mod tests {
         assert_eq!(saved.id, one.id);
         assert_eq!(saved.created_at, one.created_at);
         assert_eq!(saved.blocks[0].id, one.blocks[0].id);
+    }
+
+    fn style() -> BlockStyleOverride {
+        serde_json::from_value(serde_json::json!({"version":1,"fontSize":88,"fontFamily":"Verdana","textColor":"#abcdef","textBox":{"x":10,"y":10,"width":80,"height":80}})).unwrap()
+    }
+
+    #[test]
+    fn v4_migration_adds_nullable_style_and_reopen_preserves_song_references_and_settings() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("v4.sqlite3");
+        let song;
+        {
+            let mut db = Database::open(&path).unwrap();
+            song = db.save_song(input("Música v4 com acentos")).unwrap();
+            db.add_setlist_item(SETLIST_ID, &song.id).unwrap();
+            db.set_setting("test.setting", "preservado").unwrap();
+            db.connection.execute_batch("ALTER TABLE song_blocks DROP COLUMN style_override_json; PRAGMA user_version=4;").unwrap();
+        }
+        {
+            let mut db = Database::open(&path).unwrap();
+            assert_eq!(
+                serde_json::to_value(db.get_song(&song.id).unwrap()).unwrap(),
+                serde_json::to_value(&song).unwrap()
+            );
+            assert_eq!(db.get_setlist().unwrap().items[0].song_id, song.id);
+            assert_eq!(
+                db.get_setting("test.setting").unwrap().as_deref(),
+                Some("preservado")
+            );
+            db.save_block_style(&song.id, &song.blocks[0].id, Some(&style()))
+                .unwrap();
+        }
+        {
+            let mut db = Database::open(&path).unwrap();
+            let loaded = db.get_song(&song.id).unwrap();
+            assert_eq!(loaded.blocks[0].style_override, Some(style()));
+            assert_eq!(loaded.blocks[0].text, song.blocks[0].text);
+            db.save_block_style(&song.id, &song.blocks[0].id, None)
+                .unwrap();
+        }
+        assert!(Database::open(path)
+            .unwrap()
+            .get_song(&song.id)
+            .unwrap()
+            .blocks[0]
+            .style_override
+            .is_none());
+    }
+
+    #[test]
+    fn lyric_saves_keep_styles_by_stable_id_and_removed_blocks_do_not_transfer_them() {
+        let mut db = Database::open(":memory:").unwrap();
+        let song = db.save_song(input("Teste")).unwrap();
+        db.save_block_style(&song.id, &song.blocks[0].id, Some(&style()))
+            .unwrap();
+        let mut edit = input("Texto editado");
+        edit.id = Some(song.id.clone());
+        edit.blocks[0].id = Some(song.blocks[0].id.clone());
+        edit.blocks[0].text = "Nova letra explícita".into();
+        edit.blocks.insert(
+            0,
+            SaveBlockInput {
+                id: None,
+                label: None,
+                text: "Novo bloco".into(),
+            },
+        );
+        let edited = db.save_song(edit).unwrap();
+        assert!(edited.blocks[0].style_override.is_none());
+        assert_eq!(edited.blocks[1].id, song.blocks[0].id);
+        assert_eq!(edited.blocks[1].style_override, Some(style()));
+        let mut live = crate::domain::presentation::Snapshot::default();
+        live.present(edited.clone(), &song.blocks[0].id).unwrap();
+        let owned = serde_json::to_value(&live).unwrap();
+        let mut remove_old = input("Mesmo louvor");
+        remove_old.id = Some(song.id.clone());
+        remove_old.blocks[0].id = Some(edited.blocks[0].id.clone());
+        let remaining = db.save_song(remove_old).unwrap();
+        assert!(remaining.blocks[0].style_override.is_none());
+        assert!(db
+            .save_block_style(&song.id, &song.blocks[0].id, None)
+            .is_err());
+        assert_eq!(serde_json::to_value(&live).unwrap(), owned);
+        db.delete_song(&song.id).unwrap();
+        assert_eq!(serde_json::to_value(&live).unwrap(), owned);
+    }
+
+    #[test]
+    fn invalid_style_or_cross_song_block_rolls_back_without_changing_text_or_dates() {
+        let mut db = Database::open(":memory:").unwrap();
+        let one = db.save_song(input("Um")).unwrap();
+        let two = db.save_song(input("Dois")).unwrap();
+        let original = serde_json::to_value(db.list_songs().unwrap()).unwrap();
+        assert!(db
+            .save_block_style(&one.id, &two.blocks[0].id, Some(&style()))
+            .is_err());
+        let mut invalid = style();
+        invalid.font_size = Some(1.);
+        assert!(db
+            .save_block_style(&one.id, &one.blocks[0].id, Some(&invalid))
+            .is_err());
+        assert_eq!(
+            serde_json::to_value(db.list_songs().unwrap()).unwrap(),
+            original
+        );
+        db.connection
+            .execute(
+                "UPDATE song_blocks SET style_override_json=?1 WHERE id=?2",
+                params!["{broken", one.blocks[0].id],
+            )
+            .unwrap();
+        assert!(db.get_song(&one.id).is_err());
+        let stored: String = db
+            .connection
+            .query_row(
+                "SELECT style_override_json FROM song_blocks WHERE id=?1",
+                [&one.blocks[0].id],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(stored, "{broken");
     }
 
     #[test]

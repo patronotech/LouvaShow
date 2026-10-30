@@ -3,7 +3,7 @@ use crate::{
     infrastructure::database::Database,
     AppState,
 };
-use tauri::State;
+use tauri::{Emitter, Manager, State};
 async fn run<T: Send + 'static>(
     state: &State<'_, AppState>,
     op: impl FnOnce(&mut Database) -> Result<T, String> + Send + 'static,
@@ -17,6 +17,40 @@ async fn run<T: Send + 'static>(
     })
     .await
     .map_err(|_| "Não foi possível concluir a operação no banco.".to_string())?
+}
+
+#[tauri::command]
+pub async fn save_block_style(
+    window: tauri::WebviewWindow,
+    app: tauri::AppHandle,
+    song_id: String,
+    block_id: String,
+    style_override: Option<crate::domain::presentation::BlockStyleOverride>,
+    apply_to_live: bool,
+) -> Result<crate::application::block_styles::SavedBlockStyle, String> {
+    super::operator(&window)?;
+    let worker_app = app.clone();
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let state = worker_app.state::<AppState>();
+        crate::application::block_styles::save_block_style(
+            &state.db,
+            &state.song_cache,
+            &state.presentation,
+            &song_id,
+            &block_id,
+            style_override,
+            apply_to_live,
+        )
+    })
+    .await
+    .map_err(|_| "Não foi possível concluir o salvamento do estilo do bloco.")??;
+    if result.applied_to_live {
+        // Native event delivery never holds DB/cache/coordinator locks; receivers
+        // discard snapshots older than their current monotonically increasing revision.
+        app.emit("presentation:snapshot", &result.snapshot)
+            .map_err(|_| "Estilo salvo, mas a comunicação falhou. Reabra a projeção.")?;
+    }
+    Ok(result)
 }
 #[tauri::command]
 pub async fn list_songs(

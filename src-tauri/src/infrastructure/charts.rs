@@ -398,7 +398,7 @@ mod tests {
             db.connection
                 .pragma_query_value(None, "user_version", |r| r.get::<_, i64>(0))
                 .unwrap(),
-            4
+            5
         );
         drop(db);
         let db = Database::open(path).unwrap();
@@ -423,7 +423,7 @@ mod tests {
                 }],
             })
             .unwrap();
-        db.connection.execute_batch("DROP TRIGGER chart_revision_immutable_update; DROP TRIGGER chart_revision_immutable_delete; DROP TABLE chart_revisions; DROP TABLE charts; PRAGMA user_version=3;").unwrap();
+        db.connection.execute_batch("DROP TRIGGER chart_revision_immutable_update; DROP TRIGGER chart_revision_immutable_delete; DROP TABLE chart_revisions; DROP TABLE charts; ALTER TABLE song_blocks DROP COLUMN style_override_json; PRAGMA user_version=3;").unwrap();
         drop(db);
         let mut db = Database::open(&path).unwrap();
         let stored = db.get_song(&song.id).unwrap();

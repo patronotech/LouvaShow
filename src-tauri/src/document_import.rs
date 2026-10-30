@@ -294,7 +294,9 @@ fn decode_text(bytes: &[u8]) -> Result<String, String> {
             return Err("O texto UTF-16 está incompleto.".into());
         }
         let units: Vec<u16> = bytes[2..]
-            .chunks_exact(2)
+            .as_chunks::<2>()
+            .0
+            .iter()
             .map(|b| {
                 if little_endian {
                     u16::from_le_bytes([b[0], b[1]])
