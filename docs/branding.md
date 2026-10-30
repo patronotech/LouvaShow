@@ -1,11 +1,11 @@
 # Logos oficiais do LouvaShow
 
-Estes são os quatro arquivos originais fornecidos para a identidade do LouvaShow. Os downloads abaixo entregam os PNGs, sem redesenho ou alteração de proporções.
+Estas são as quatro versões oficiais da identidade do LouvaShow. Os links abaixo abrem os arquivos PNG usados pelo projeto.
 
-| Estilo | Uso visual indicado | Download do PNG original |
+| Estilo | Uso visual indicado | Download do PNG |
 | --- | --- | --- |
-| Colorida para fundo claro | Cabeçalhos e materiais claros; símbolo colorido e nome escuro | [Baixar colorida · fundo claro](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/src/shared/assets/logo-light.png) |
-| Colorida para fundo escuro | Interface escura e materiais escuros; símbolo colorido e nome claro | [Baixar colorida · fundo escuro](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/src/shared/assets/logo-dark.png) |
+| Mestre roxo · modo claro | Interface e materiais de fundo claro | [Baixar mestre roxo · modo claro](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/src/shared/assets/logo-light.png) |
+| Lavanda · modo escuro | Interface e materiais de fundo escuro | [Baixar lavanda · modo escuro](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/src/shared/assets/logo-dark.png) |
 | Preta | Aplicação monocromática sobre fundo claro | [Baixar logo preta](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/docs/brand/logo-black.png) |
 | Branca | Aplicação monocromática sobre fundo escuro | [Baixar logo branca](https://raw.githubusercontent.com/dantetesta/LouvaShow/main/docs/brand/logo-white.png) |
 

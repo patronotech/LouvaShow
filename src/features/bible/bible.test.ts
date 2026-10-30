@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { BibleChapter, Snapshot } from '../../shared/contracts';
 import { LatestRequest } from './latestRequest';
 import { isBibleVerseInSession } from './BiblePanels';
+import { initialSelection, passageAvailability, selectLocation, shouldProjectVerse } from './selection';
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -9,6 +10,61 @@ function deferred<T>() {
   const promise = new Promise<T>((resolvePromise, rejectPromise) => { resolve = resolvePromise; reject = rejectPromise; });
   return { promise, resolve, reject };
 }
+
+describe('troca de tradução preserva a passagem preparada', () => {
+  const prepared = { versionId: 'blivre', bookId: 'GEN', chapterNumber: 3, verseNumber: '16' };
+  const books = [{ id: 'GEN', name: 'Gênesis', chapterCount: 50 }];
+  it('troca e retorna sem perder livro, capítulo ou versículo', () => {
+    const changed = selectLocation(prepared, { type: 'version', id: 'onbv' });
+    expect(changed).toEqual({ ...prepared, versionId: 'onbv' });
+    expect(selectLocation(changed, { type: 'version', id: 'blivre' })).toEqual(prepared);
+    expect(passageAvailability(changed, books, 'onbv', null)).toBe('');
+  });
+  it('preserva Gênesis ao consultar uma versão só do Novo Testamento e permite voltar', () => {
+    const changed = selectLocation(prepared, { type: 'version', id: 'blt' });
+    expect(passageAvailability(changed, [{ id: 'MAT', name: 'Mateus', chapterCount: 28 }], 'blt', null)).toBe('Livro indisponível nesta versão');
+    expect(changed.bookId).toBe('GEN');
+    expect(selectLocation(changed, { type: 'version', id: 'blivre' })).toEqual(prepared);
+    expect(passageAvailability(changed, books, 'blivre', null)).toBe(''); // Previous books never decide availability.
+  });
+  it('informa capítulo ou versículo ausente sem inventar uma nova referência', () => {
+    expect(passageAvailability(prepared, [{ ...books[0]!, chapterCount: 2 }], 'blivre', null)).toBe('Capítulo indisponível nesta versão');
+    const chapter: BibleChapter = { versionId: 'blivre', bookId: 'GEN', bookName: 'Gênesis', chapter: 3, verses: [{ number: '15-16', text: 'Texto agrupado da fixture' }] };
+    expect(passageAvailability(prepared, books, 'blivre', chapter)).toBe('Versículo indisponível nesta versão');
+    expect(passageAvailability({ ...prepared, verseNumber: '15-16' }, books, 'blivre', chapter)).toBe('');
+  });
+  it('navegação explícita em livro e capítulo limpa somente seleções descendentes', () => {
+    expect(selectLocation(prepared, { type: 'book', id: 'MAT' })).toEqual({ versionId: 'blivre', bookId: 'MAT', chapterNumber: null, verseNumber: null });
+    expect(selectLocation(prepared, { type: 'chapter', number: 4 })).toEqual({ ...prepared, chapterNumber: 4, verseNumber: null });
+    expect(selectLocation(initialSelection, { type: 'version', id: 'blivre' }).bookId).toBe('');
+  });
+  it('descarta o capítulo antigo ao trocar de tradução antes da nova lista de livros', async () => {
+    const request = new LatestRequest();
+    const oldChapter = deferred<string>();
+    let displayed: string | null = null;
+    const handlers = { success: (text: string) => { displayed = text; }, failure: vi.fn(), settled: vi.fn() };
+    const pending = request.run(() => oldChapter.promise, handlers);
+    request.invalidate(); // Synchronous version-selection boundary, before effects.
+    const changed = selectLocation(prepared, { type: 'version', id: 'onbv' });
+    oldChapter.resolve('Texto da tradução antiga'); await pending;
+    expect(displayed).toBeNull();
+    expect(changed.chapterNumber).toBe(3); expect(changed.verseNumber).toBe('16');
+    await request.run(async () => 'Texto da nova tradução', handlers);
+    expect(displayed).toBe('Texto da nova tradução');
+  });
+});
+
+describe('modo de clique do versículo', () => {
+  it('preparar nunca envia à projeção, mesmo com a saída aberta', () => {
+    expect(shouldProjectVerse(false, true, false)).toBe(false);
+    expect(shouldProjectVerse(false, false, false)).toBe(false);
+  });
+  it('projetar ao clicar requer saída aberta e disponível', () => {
+    expect(shouldProjectVerse(true, true, false)).toBe(true);
+    expect(shouldProjectVerse(true, false, false)).toBe(false);
+    expect(shouldProjectVerse(true, true, true)).toBe(false);
+  });
+});
 
 describe('consulta bíblica assíncrona', () => {
   it('descarta a resposta de um capítulo antigo que termina depois do capítulo escolhido', async () => {

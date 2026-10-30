@@ -201,3 +201,72 @@ html,body,#root{margin:0;min-height:100%;background:#101014}body{margin:0}
   :root[data-color-mode="light"] .operator-shell select:not([multiple]):not([size]),
   :root[data-color-mode="light"] .operator-shell select[size="1"] { background-image: none; }
 }
+
+/* Desktop operation: compact hierarchy, clear controls, room for content. */
+.operator-shell{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.4}
+.operator-shell header.app-header{height:56px;min-height:56px;padding:0 16px;gap:20px}
+.operator-shell .context-navigation button{font-size:13px;min-height:40px;padding-inline:12px}
+.operator-shell .about-trigger{font-size:12px}
+.operator-shell .panel,.operator-shell .context-main .preparation-panel{padding:14px 16px}
+.operator-shell .section-heading{margin-bottom:12px;gap:10px}
+.operator-shell .section-heading h2,.operator-shell .context-main .preparation-panel .section-heading h2,.operator-shell .settings-content>.section-heading h2{font-size:18px;line-height:1.35;letter-spacing:0;margin-top:0}
+.operator-shell .compact-heading{justify-content:flex-start;align-items:baseline;flex-wrap:wrap;gap:6px 12px}
+.operator-shell .compact-heading .count{margin-left:auto}
+.operator-shell .compact-meta{font-size:12px;color:var(--muted);font-weight:400;overflow-wrap:anywhere}
+.operator-shell .preparation-empty.compact-empty{min-height:150px;align-items:flex-start;justify-content:flex-start;text-align:left;gap:12px;padding:20px 0}
+.operator-shell .compact-empty p{font-size:14px;line-height:1.4}
+.operator-shell .song-toolbar{margin-top:10px;gap:6px}
+.operator-shell .block-instruction{margin-top:12px;margin-bottom:8px;font-size:12px}
+.operator-shell .block-grid{gap:10px}
+.operator-shell .block-card{min-height:140px}
+.operator-shell .block-label{padding:7px 10px;font-size:12px;letter-spacing:0;min-height:32px}
+.operator-shell .block-label strong{font-size:10px;letter-spacing:0}
+.operator-shell .block-text{padding:12px;font-size:16px;line-height:1.45}
+.operator-shell .block-action{padding:6px 10px;font-size:11px}
+.operator-shell .song-row{padding:8px}
+.operator-shell .song-row strong{font-size:14px}
+.operator-shell .song-row small{font-size:12px;margin-top:2px}
+.operator-shell .library-category-filter{font-size:12px;margin-bottom:8px}
+.operator-shell .song-list{margin-top:8px;gap:2px}
+.operator-shell .empty{padding:12px 0;line-height:1.4}
+.operator-shell .empty button{margin-top:10px}
+.operator-shell .live-tools{margin-top:12px}
+.operator-shell .preview-caption{margin-top:8px;gap:2px}
+.operator-shell .preview-caption strong,.operator-shell .preview-caption span{font-size:12px}
+.operator-shell .context-selection{padding-top:12px}
+.operator-shell .context-selection h3{font-size:14px;line-height:1.4;margin-top:0!important}
+.operator-shell .context-selection button{margin-top:8px}
+.operator-shell .setlist-panel{padding-top:12px;margin-top:14px}
+.operator-shell .setlist-list{margin:10px 0;gap:6px}
+.operator-shell .setlist-item,.operator-shell .repertoire-workspace .setlist-item{min-height:46px;padding:5px 7px;gap:6px}
+.operator-shell .repertoire-workspace .setlist-title{font-size:14px!important}
+.operator-shell .repertoire-add{padding:10px 12px;margin-top:12px;gap:10px}
+.operator-shell .repertoire-add strong{margin-top:0;font-size:14px}
+.operator-shell .settings-sidebar h2{font-size:16px;margin:0 0 12px}
+.operator-shell .settings-sidebar nav{gap:3px;margin-bottom:0}
+.operator-shell .settings-sidebar nav button{padding:9px 10px}
+.operator-shell .settings-sidebar nav strong{font-size:14px;font-weight:500}
+.operator-shell .settings-content{padding:14px 16px!important}
+.operator-shell .settings-card,.operator-shell .settings-content .theme-editor{padding:14px;margin-top:12px;border-radius:7px}
+.operator-shell .settings-card h3,.operator-shell .settings-content .theme-editor summary{font-size:15px;line-height:1.4}
+.operator-shell .settings-card p{margin-top:8px!important;font-size:13px;line-height:1.4}
+.operator-shell .settings-card label{margin-top:12px;gap:5px;font-size:13px}
+.operator-shell .settings-content .theme-editor label{margin:8px 0;font-size:13px}
+.operator-shell .context-actions{margin-top:10px;gap:6px}
+.operator-shell .shortcut-list{margin:12px 0}
+.operator-shell .shortcut-list>div{padding:8px 0;gap:12px}
+.operator-shell .operation-bar{padding:9px 14px;gap:8px}
+.operator-shell .operation-bar button{font-size:13px}
+.operator-shell .operation-note{font-size:12px}
+.operator-shell .output-controls label{font-size:11px;letter-spacing:0;gap:3px}
+.operator-shell dialog{padding:20px;border-radius:9px}
+.operator-shell .dialog-actions{padding-top:12px;margin-top:14px;gap:8px}
+.operator-shell .appearance-choice{padding:10px 12px;gap:8px;min-height:80px}
+.operator-shell .about-heading{margin-bottom:14px}
+.operator-shell .about-author{margin:14px 0}
+@media(max-width:900px){
+ .operator-shell header.app-header{height:88px;min-height:88px;padding:6px 12px 0;gap:0 12px}
+ .operator-shell .context-navigation{height:40px}
+ .operator-shell .context-navigation button{font-size:12px;padding-inline:8px;gap:5px}
+ .operator-shell .panel,.operator-shell .context-main .preparation-panel,.operator-shell .settings-content{padding:12px!important}
+}

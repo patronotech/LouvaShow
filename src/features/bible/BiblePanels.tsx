@@ -1,6 +1,7 @@
 import type { BibleChapter, Snapshot } from '../../shared/contracts';
 import { searchKey } from '../songs/lyrics';
 import type { BibleBrowser } from './useBibleBrowser';
+import { shouldProjectVerse } from './selection';
 import './bible.css';
 
 export function isBibleVerseInSession(snapshot: Snapshot | null, chapter: BibleChapter, verse: string): boolean {
@@ -15,17 +16,13 @@ function Recovery({ error, retry, busy }: { error: string; retry: () => void; bu
 
 export function BibleSidebar({ browser }: { browser: BibleBrowser }) {
   const visibleBooks = browser.books.filter(book => searchKey(book.name).includes(searchKey(browser.query)));
-  return <aside className="bible-sidebar panel" aria-labelledby="bible-library-title" data-no-shortcuts>
-    <div className="section-heading"><h2 id="bible-library-title">Bíblia</h2><span className="count">{browser.books.length} livros</span></div>
-    <label className="bible-version">Versão<select value={browser.versionId} disabled={browser.loadingVersions || !browser.versions.length} onChange={event => browser.selectVersion(event.target.value)}>{!browser.versions.length && <option value="">{browser.loadingVersions ? 'Carregando versões…' : 'Nenhuma versão disponível'}</option>}{browser.versions.map(version => <option key={version.id} value={version.id}>{version.abbreviation} · {version.name}</option>)}</select></label>
-    {browser.versionsError && <Recovery error={browser.versionsError} retry={browser.retryVersions} busy={browser.loadingVersions} />}
+  return <aside className="bible-sidebar panel" aria-label="Livros da Bíblia" data-no-shortcuts>
     <label className="bible-book-search"><span className="sr-only">Buscar livro da Bíblia</span><input type="search" value={browser.query} placeholder="Buscar livro…" onChange={event => browser.setQuery(event.target.value)} /></label>
-    <p className="eyebrow">LIVROS</p>
     <div className="bible-book-list" role="group" aria-label="Livros da versão selecionada">
-      {browser.loadingBooks ? <p role="status" className="empty">Carregando livros…</p> : browser.booksError ? <Recovery error={browser.booksError} retry={browser.retryBooks} busy={browser.loadingBooks} /> : visibleBooks.map(book => <button key={book.id} aria-pressed={book.id === browser.bookId} onClick={() => browser.selectBook(book.id)}><strong>{book.name}</strong><small>{book.chapterCount} {book.chapterCount === 1 ? 'capítulo' : 'capítulos'}</small></button>)}
-      {!browser.loadingBooks && !browser.booksError && !visibleBooks.length && <p className="empty">{browser.query ? 'Nenhum livro encontrado. Tente outro nome.' : browser.versionsLoaded ? 'Nenhum livro disponível nesta instalação.' : 'Escolha uma versão para consultar os livros.'}</p>}
+      {browser.loadingBooks ? <p role="status" className="empty">Carregando livros…</p> : browser.booksError ? <Recovery error={browser.booksError} retry={browser.retryBooks} busy={browser.loadingBooks} /> : visibleBooks.map(book => <button key={book.id} aria-pressed={book.id === browser.bookId} onClick={() => browser.selectBook(book.id)}><strong>{book.name}</strong><small aria-label={`${book.chapterCount} capítulos`}>{book.chapterCount}</small></button>)}
+      {!browser.loadingBooks && !browser.booksError && !visibleBooks.length && <p className="empty">{browser.query ? 'Nenhum livro encontrado.' : 'Nenhum livro disponível.'}</p>}
     </div>
-    {browser.version && <details className="bible-license" open><summary>Fonte, licença e atribuição</summary><strong>{browser.version.name}</strong><p>{browser.version.attribution}</p><dl><dt>Idioma</dt><dd>{browser.version.language}</dd><dt>Licença</dt><dd>{browser.version.license}</dd><dt>Endereço da licença</dt><dd className="bible-source-url">{browser.version.licenseUrl}</dd><dt>Fonte do texto</dt><dd className="bible-source-url">{browser.version.sourceUrl}</dd></dl><p>Texto armazenado localmente. Os endereços podem ser selecionados e copiados.</p></details>}
+    {browser.version && <details className="bible-license"><summary>Fonte e licença · {browser.version.abbreviation}</summary><strong>{browser.version.name}</strong><p>{browser.version.attribution}</p><dl><dt>Idioma</dt><dd>{browser.version.language}</dd><dt>Licença</dt><dd>{browser.version.license}</dd><dt>Endereço da licença</dt><dd className="bible-source-url">{browser.version.licenseUrl}</dd><dt>Fonte do texto</dt><dd className="bible-source-url">{browser.version.sourceUrl}</dd></dl></details>}
   </aside>;
 }
 
@@ -35,26 +32,38 @@ export function BibleContent({ browser, snapshot, outputOpen, outputBusy, onPres
   const { book, chapter, verse, version } = browser;
   function chooseVerse(number: string) {
     browser.selectVerse(number);
-    if (outputOpen && !outputBusy) onPresent(number);
+    if (shouldProjectVerse(browser.projectOnClick, outputOpen, outputBusy)) onPresent(number);
   }
   return <section className="bible-workspace panel" aria-labelledby="bible-content-title">
-    <div className="section-heading"><div><span className="eyebrow">CONSULTA E PROJEÇÃO</span><h2 id="bible-content-title">{book?.name ?? 'Texto bíblico'}</h2></div>{version && <span className="count">{version.abbreviation}</span>}</div>
-    <p className="muted bible-description">Escolher versão, livro ou capítulo prepara a consulta e preserva a saída ao vivo.</p>
-    {!book ? <div className="preparation-empty"><span aria-hidden="true">▤</span><h3>Escolha um livro para começar.</h3><p>Depois, selecione o capítulo e o versículo.<br />O texto fica disponível mesmo sem internet.</p></div> : <>
-      <section className="bible-number-section" aria-labelledby="bible-chapters-title" data-no-shortcuts><div className="section-heading"><h3 id="bible-chapters-title">Capítulos</h3><span className="muted tiny">{book.chapterCount} disponíveis</span></div><div className="bible-number-grid chapter-grid">{Array.from({ length: book.chapterCount }, (_, index) => index + 1).map(number => <button key={number} aria-label={`${book.name}, capítulo ${number}`} aria-pressed={browser.chapterNumber === number} onClick={() => browser.selectChapter(number)}>{number}</button>)}</div></section>
-      {browser.loadingChapter && <p role="status" className="empty">Carregando capítulo {browser.chapterNumber}…</p>}
+    <div className="bible-version-strip" role="group" aria-label="Tradução da Bíblia" data-no-shortcuts>
+      {browser.versions.map(item => <button key={item.id} type="button" aria-pressed={item.id === browser.versionId} title={item.name} aria-label={`${item.abbreviation}: ${item.name}`} onClick={() => browser.selectVersion(item.id)}>{item.abbreviation}</button>)}
+      {browser.loadingVersions && <span role="status">Carregando versões…</span>}
+    </div>
+    <div className="bible-click-controls" data-no-shortcuts>
+      <div className="bible-click-mode" role="group" aria-label="Ação ao clicar em um versículo">
+        <button type="button" aria-pressed={!browser.projectOnClick} onClick={() => browser.setProjectOnClick(false)}>Preparar</button>
+        <button type="button" aria-pressed={browser.projectOnClick} onClick={() => browser.setProjectOnClick(true)}>Projetar ao clicar</button>
+      </div>
+      {!outputOpen && <span className="muted" role="status">Saída fechada</span>}
+    </div>
+    {browser.versionsError && <Recovery error={browser.versionsError} retry={browser.retryVersions} busy={browser.loadingVersions} />}
+    <div className="section-heading bible-heading"><h2 id="bible-content-title">{book?.name ?? browser.bookName ?? 'Bíblia'}{browser.chapterNumber !== null && ` ${browser.chapterNumber}`}</h2>{version && <span className="muted" title={version.name}>{version.abbreviation}</span>}</div>
+    {browser.locationMessage && <p className="bible-location-message" role="status">{browser.locationMessage}</p>}
+    {!book ? !browser.locationMessage && <p className="empty">{browser.loadingBooks ? 'Carregando livros…' : 'Selecione um livro.'}</p> : <>
+      <section className="bible-number-section" aria-labelledby="bible-chapters-title" data-no-shortcuts><h3 id="bible-chapters-title">Capítulos</h3><div className="bible-number-grid chapter-grid">{Array.from({ length: book.chapterCount }, (_, index) => index + 1).map(number => <button key={number} aria-label={`${book.name}, capítulo ${number}`} aria-pressed={browser.chapterNumber === number} onClick={() => browser.selectChapter(number)}>{number}</button>)}</div></section>
+      {browser.loadingChapter && <p role="status" className="empty">Carregando capítulo…</p>}
       {browser.chapterError && <Recovery error={browser.chapterError} retry={browser.retryChapter} busy={browser.loadingChapter} />}
-      {chapter && <section className="bible-number-section" aria-labelledby="bible-verses-title" data-no-shortcuts><div className="section-heading"><h3 id="bible-verses-title">{chapter.bookName} {chapter.chapter} · Versículos</h3><span className="count">{chapter.verses.length}</span></div><p className={`bible-click-hint ${outputOpen ? 'output-active' : ''}`}>{outputOpen ? 'Saída aberta: clicar em um versículo prepara e projeta imediatamente.' : 'Saída fechada: clicar em um versículo apenas prepara o texto.'}</p><div className="bible-number-grid verse-grid">{chapter.verses.map(item => {
+      {chapter && <section className="bible-number-section" aria-labelledby="bible-verses-title" data-no-shortcuts><h3 id="bible-verses-title">Versículos</h3><div className="bible-number-grid verse-grid">{chapter.verses.map(item => {
         const inSession = isBibleVerseInSession(snapshot, chapter, item.number);
         const onAir = inSession && outputOpen && !snapshot?.blanked;
-        return <button key={item.number} className={onAir ? 'on-air' : inSession ? 'in-session' : ''} aria-label={`${outputOpen ? 'Projetar' : 'Preparar'} ${chapter.bookName} ${chapter.chapter}:${item.number}${inSession ? onAir ? ', ao vivo' : ', na sessão' : ''}`} aria-pressed={browser.verseNumber === item.number} disabled={outputBusy} onClick={() => chooseVerse(item.number)}><span>{item.number}</span>{inSession && <small>{onAir ? 'Ao vivo' : 'Na sessão'}</small>}</button>;
-      })}</div>{!chapter.verses.length && <p className="empty">Este capítulo não contém versículos disponíveis.</p>}</section>}
-      {chapter && verse && <article className="bible-prepared" aria-labelledby="bible-prepared-title"><div className="section-heading"><div><span className="eyebrow">VERSÍCULO EM PREPARAÇÃO</span><h3 id="bible-prepared-title">{chapter.bookName} {chapter.chapter}:{verse.number} <span>{version?.abbreviation}</span></h3></div><span className="status-badge">{isBibleVerseInSession(snapshot, chapter, verse.number) ? outputOpen && !snapshot?.blanked ? '● Ao vivo' : '■ Na sessão' : 'Preparado'}</span></div><p className="bible-verse-text">{verse.text}</p><div className="bible-prepared-actions"><button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button><span className="muted tiny">{outputOpen ? 'As setas da barra navegam no capítulo que está na sessão.' : 'Abra a projeção pela barra inferior para enviar este texto.'}</span></div></article>}
+        return <button key={item.number} className={onAir ? 'on-air' : inSession ? 'in-session' : ''} aria-label={`${shouldProjectVerse(browser.projectOnClick, outputOpen, outputBusy) ? 'Projetar' : 'Preparar'} ${chapter.bookName} ${chapter.chapter}:${item.number}${inSession ? onAir ? ', ao vivo' : ', na sessão' : ''}`} aria-pressed={browser.verseNumber === item.number} onClick={() => chooseVerse(item.number)}>{item.number}</button>;
+      })}</div>{!chapter.verses.length && <p className="empty">Sem versículos disponíveis.</p>}</section>}
+      {chapter && verse && <article className="bible-prepared" aria-labelledby="bible-prepared-title"><div className="section-heading"><h3 id="bible-prepared-title">{chapter.bookName} {chapter.chapter}:{verse.number} <span>{version?.abbreviation}</span></h3>{(isBibleVerseInSession(snapshot, chapter, verse.number) || !browser.projectOnClick) && <span className="status-badge">{isBibleVerseInSession(snapshot, chapter, verse.number) ? outputOpen && !snapshot?.blanked ? '● Ao vivo' : '■ Na sessão' : 'Preparado'}</span>}</div><p className="bible-verse-text">{verse.text}</p><div className="bible-prepared-actions"><button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button></div></article>}
     </>}
   </section>;
 }
 
 export function BiblePreparationSummary({ browser, outputOpen, outputBusy, onPresent }: Omit<ContentProps, 'snapshot'>) {
   const { chapter, verse, version } = browser;
-  return <section className="context-selection"><span className="eyebrow">BÍBLIA EM PREPARAÇÃO</span><h3>{chapter && verse ? `${chapter.bookName} ${chapter.chapter}:${verse.number}` : browser.book?.name ?? 'Selecione um livro'}</h3><p>{version ? `${version.abbreviation} · ${version.name}` : 'Escolha a versão na coluna esquerda.'}</p>{chapter && verse ? <><p className="muted tiny">O texto completo está na área central. A prévia acima mostra a sessão efetivamente projetada.</p><button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button></> : <p>Escolha um capítulo e um versículo. Consultar outro livro não altera a projeção.</p>}<p className="muted tiny">Anterior e Próximo permanecem no capítulo já enviado à sessão, mesmo se você preparar outro livro.</p></section>;
+  return <section className="context-selection bible-preparation-summary"><h3>{chapter && verse ? `${chapter.bookName} ${chapter.chapter}:${verse.number}` : browser.book?.name ?? browser.bookName ?? 'Bíblia'}</h3>{version && <p>{version.abbreviation}</p>}{chapter && verse && <button className="primary" disabled={!outputOpen || outputBusy} onClick={() => onPresent(verse.number)}>↗ Projetar versículo</button>}</section>;
 }

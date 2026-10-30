@@ -15,7 +15,7 @@
   <a href="https://github.com/dantetesta/LouvaShow/releases/latest/download/LouvaShow-macos-arm64.dmg"><img src="https://img.shields.io/badge/macOS-Baixar_DMG-34333D?style=for-the-badge&amp;logo=apple&amp;logoColor=white" alt="Baixar instalador macOS Apple Silicon — DMG"></a>
 </p>
 
-<p align="center"><a href="https://github.com/dantetesta/LouvaShow/releases/latest">Notas da versão e arquivos</a> · <a href="docs/branding.md">Logos oficiais</a> · <a href="https://chat.whatsapp.com/FTsYpsy6YbG8Z3gDI2u1Bp?mode=gi_t">Comunidade no WhatsApp</a></p>
+<p align="center"><a href="https://github.com/dantetesta/LouvaShow/releases/latest">Notas da versão e arquivos</a> · <a href="docs/user-guide.md">Manual de uso</a> · <a href="docs/branding.md">Logos oficiais</a> · <a href="https://chat.whatsapp.com/FTsYpsy6YbG8Z3gDI2u1Bp?mode=gi_t">Comunidade no WhatsApp</a></p>
 
 ## Instalar
 
@@ -62,6 +62,8 @@ Os dois dados também estão em **Créditos e comunidade** no aplicativo. Expand
 
 ## Preparar e projetar
 
+Consulte o [manual de uso](docs/user-guide.md) para operação, ajustes de texto, painéis e atalhos.
+
 A navegação separa cinco áreas: **Operação ao vivo** para enviar blocos, **Repertórios** para montar a sequência de cada evento, **Músicas** para revisar e cadastrar letras, **Bíblia** para consultar e projetar passagens e **Configurações** para preparar a saída e consultar atalhos. Trocar de área preserva a música preparada e o conteúdo ao vivo. Na área Músicas, os blocos são somente leitura; a projeção musical direta fica na Operação ao vivo.
 
 Arraste as bordas das laterais para ajustar sua largura ou recolhê-las. Pelo teclado, foque o separador e use as setas; Enter recolhe ou reabre, e Escape cancela um arraste. As dimensões ficam salvas por área. A prévia ao vivo permanece fixa enquanto os blocos e o repertório rolam de forma independente. Em janelas estreitas, use os botões Mostrar para alternar as laterais. Para restaurar as dimensões iniciais, acesse **Configurações → Aparência**.
@@ -89,7 +91,9 @@ A prévia à direita continua mostrando a saída efetivamente ao vivo. **Aplicar
 
 ## Consulta bíblica offline
 
-Em **Bíblia**, escolha a tradução, filtre o nome do livro e clique no capítulo. A grade seguinte mostra os versículos disponíveis naquela edição, preservando sua numeração original. Com a saída fechada, clicar prepara o texto; com a saída aberta, clicar projeta o versículo. O aviso acima da grade identifica esse comportamento.
+Em **Bíblia**, escolha a tradução, filtre o nome do livro e clique no capítulo. A grade mostra os versículos disponíveis naquela edição, preservando sua numeração original. O modo inicial **Preparar** permite selecionar um versículo sem alterar a saída; use **Projetar** quando estiver pronto. Ative explicitamente **Projetar ao clicar** para enviar o versículo ao clicar, com a saída aberta. Abrir a projeção não envia automaticamente a seleção.
+
+Trocar de tradução preserva o livro, o capítulo e o versículo em consulta. Se a passagem não existir na edição escolhida, a interface informa sua indisponibilidade, sem selecionar outro texto automaticamente. A troca de tradução não altera a sessão ao vivo.
 
 Anterior/Próximo navegam nas páginas do capítulo que está na sessão. Versículos longos são divididos em partes identificadas, sem reescrever o texto; a referência e a sigla da versão aparecem na projeção. O último versículo não avança para outro capítulo automaticamente. Consultar outro livro ou tradução preserva a saída, e apagar/restaurar mantém a passagem selecionada.
 

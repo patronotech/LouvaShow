@@ -14,11 +14,11 @@ export function ContextNavigation({ value, onChange }: { value: OperatorContext;
 }
 
 export function SettingsNavigation({ value, onChange }: { value: SettingsSection; onChange: (next: SettingsSection) => void }) {
-  const sections: { id: SettingsSection; label: string; description: string }[] = [
-    { id: 'projection', label: 'Projeção', description: 'Monitor, texto e fundo' },
-    { id: 'appearance', label: 'Aparência', description: 'Tamanho e posição dos painéis' },
-    { id: 'shortcuts', label: 'Atalhos', description: 'Operação pelo teclado' },
-    { id: 'about', label: 'Sobre', description: 'Créditos e comunidade' },
+  const sections: { id: SettingsSection; label: string }[] = [
+    { id: 'projection', label: 'Projeção' },
+    { id: 'appearance', label: 'Aparência' },
+    { id: 'shortcuts', label: 'Atalhos' },
+    { id: 'about', label: 'Sobre' },
   ];
-  return <aside className="settings-sidebar panel" data-no-shortcuts><span className="eyebrow">PREFERÊNCIAS</span><h2>Configurações</h2><nav aria-label="Seções de configurações">{sections.map(section => <button key={section.id} aria-current={value === section.id ? 'page' : undefined} onClick={() => onChange(section.id)}><strong>{section.label}</strong><span>{section.description}</span></button>)}</nav><p className="muted tiny">As configurações de apresentação só mudam a saída quando você aplica.</p></aside>;
+  return <aside className="settings-sidebar panel" data-no-shortcuts><h2>Configurações</h2><nav aria-label="Seções de configurações">{sections.map(section => <button key={section.id} aria-current={value === section.id ? 'page' : undefined} onClick={() => onChange(section.id)}><strong>{section.label}</strong></button>)}</nav></aside>;
 }

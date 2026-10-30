@@ -109,7 +109,7 @@ export function TextBoxEditor({ box, bible, disabled, onChange, children }: {
         {active && handles.map(handle => <button key={handle.id} type="button" className={`text-box-handle handle-${handle.id}`} disabled={disabled} aria-label={`Redimensionar ${handle.label}. Use as setas ou arraste.`} onPointerDown={event => begin(event, handle.id)} onKeyDown={event => keyboard(event, handle.id)} {...pointerEvents} />)}
       </div>
     </div>
-    <p className="text-box-help">Clique na caixa para mostrar as alças. Arraste para mover ou redimensionar; Escape cancela o arraste. Pelo teclado, use as setas na caixa ou nas alças (Shift: 5%).</p>
+    <details className="text-box-help"><summary>Ajuda</summary><p>Clique na caixa para mostrar as alças. Arraste para mover ou redimensionar; Escape cancela o arraste. Pelo teclado, use as setas na caixa ou nas alças (Shift: 5%).</p><p>Largura e altura mínimas: 10%. {bible ? 'A área bíblica termina em 81% da altura para reservar o rodapé de referência e versão.' : 'A caixa deve ficar dentro da tela.'} A saída só muda ao aplicar o tema.</p></details>
     <span className="sr-only" role="status">{status}</span>
   </div>;
 }

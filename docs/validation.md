@@ -183,3 +183,11 @@ No ensaio nativo, a demonstração foi projetada no bloco Abertura. Alterar a fo
 Interações externas posteriores mudaram a janela para o modo claro e abriram os créditos. Uma captura confirmou logo colorida, diálogo claro e controles legíveis; a sequência de alternância, aplicação do tema e reinício não foi contabilizada como ensaio controlado. Cancelamento de arraste nativo, persistência da aparência após reinício e teste manual de aplicação com falha permanecem pendentes; os comportamentos correspondentes têm validação de código e testes de domínio.
 
 O ícone oficial foi convertido pela CLI do Tauri para ICNS, ICO e PNG. Os PNGs de marca preservam os dados de pixels originais; metadados não necessários foram excluídos. O aplicativo debug observado ainda antecede a troca final do ícone do bundle.
+
+## Interface compacta e modos da Bíblia — v0.5.1
+
+Passaram 49 testes frontend e o build TypeScript/Vite. A revisão independente conferiu a separação entre preparar e projetar, a referência preservada entre versões e as grades de tamanho fixo. Um conflito de especificidade que anulava a redução do cabeçalho foi corrigido; as regras finais de 56px/88px foram conferidas no CSS compilado.
+
+No aplicativo nativo isolado em 1360 × 860, abrir a saída iniciou a prévia apagada. Selecionar Gênesis 1:1 no modo Preparar não apresentou conteúdo; o botão Projetar enviou o texto. Selecionar 1:2 manteve 1:1 na prévia ao vivo. Ativar Projetar ao clicar também preservou a sessão; clicar em 1:3 atualizou a prévia imediatamente. Capturas confirmaram quadrados uniformes, indicação verde sem texto adicional dentro do botão e versões no topo.
+
+Trocar BLIVRE por ONBV preservou Gênesis 1:3 e carregou o texto correspondente na consulta, mantendo BLIVRE na saída. Trocar para BLT informou livro indisponível, preservando o nome Gênesis e a sessão. Voltar a BLIVRE recuperou capítulo 1 e versículo 3. O diálogo de créditos foi conferido com logo final, retrato do autor e opções de apoio. O ensaio antecede apenas a correção final de altura do cabeçalho; essa correção recebeu verificação de build/CSS. Não houve teste em projetor físico nem operação nativa em Windows ou Linux.

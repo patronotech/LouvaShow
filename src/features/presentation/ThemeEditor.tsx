@@ -78,24 +78,22 @@ export function ThemeEditor({ theme, snapshot, onApply, defaultOpen = false, bus
 
   return <details className="theme-editor" open={defaultOpen} data-no-shortcuts>
     <summary>Tema da projeção</summary>
-    <p>Altere fonte, cores e posição para ver o resultado imediatamente nesta prévia. A saída só muda ao aplicar.</p>
     <fieldset disabled={disabled}>
       <div className="theme-editor-fields">
         <label>Fonte<select value={draft.fontFamily} onChange={event => update('fontFamily', event.target.value)}>{['Arial', 'Georgia', 'Verdana'].map(font => <option key={font}>{font}</option>)}</select></label>
-        <label>Tamanho solicitado<input type="number" min={32} max={100} step={1} value={fontInput} aria-invalid={numberInRange(fontInput, 32, 100) === null} onChange={event => updateFont(event.target.value)} /></label>
+        <label>Tamanho<input type="number" min={32} max={100} step={1} value={fontInput} aria-invalid={numberInRange(fontInput, 32, 100) === null} onChange={event => updateFont(event.target.value)} /></label>
         <label>Cor do texto<input type="color" value={draft.textColor} onInput={event => update('textColor', event.currentTarget.value)} onChange={event => update('textColor', event.target.value)} /></label>
         <label>Cor do fundo<input type="color" value={draft.backgroundColor} onInput={event => update('backgroundColor', event.currentTarget.value)} onChange={event => update('backgroundColor', event.target.value)} /></label>
       </div>
-      <div className="theme-editor-preview-heading"><strong>Prévia de edição — não está ao vivo</strong><span className="muted tiny">{snapshot?.blocks[snapshot.blockIndex] ? 'Conteúdo da sessão com o tema em edição' : 'Texto de demonstração'}</span></div>
+      <div className="theme-editor-preview-heading"><strong>Prévia de edição</strong><span className="theme-draft-badge">Rascunho</span></div>
       <TextBoxEditor box={draft.textBox} bible={bible} disabled={disabled} onChange={updateBox}>
         <Slide snapshot={draftSnapshot} preview previewLabel="Prévia de edição — não está ao vivo" onFit={setFit} />
       </TextBoxEditor>
-      {fit && <p className="theme-fit-status">Fonte solicitada: {fit.requestedFontSize.toLocaleString('pt-BR')} · Fonte usada neste texto: {fit.actualFontSize.toLocaleString('pt-BR')}{fit.actualFontSize < fit.requestedFontSize ? ' (reduzida para caber na caixa)' : ''}. Mínimo: 32.</p>}
+      {fit && fit.actualFontSize < fit.requestedFontSize && <p className="theme-fit-status">Fonte ajustada para caber: {fit.actualFontSize.toLocaleString('pt-BR')} (solicitada: {fit.requestedFontSize.toLocaleString('pt-BR')}).</p>}
       {fit?.overflow && <p role="status" className="warning">O texto ainda não cabe no tamanho mínimo de 32. Amplie a caixa{bible ? ' ou ajuste o tema antes de aplicar.' : ' ou divida o bloco antes de projetar.'}</p>}
       <section className="theme-box-section" aria-labelledby="theme-box-heading">
         <h3 id="theme-box-heading">Área do texto (% da tela)</h3>
         <div className="theme-box-fields">{([{ key: 'x', label: 'Posição X' }, { key: 'y', label: 'Posição Y' }, { key: 'width', label: 'Largura' }, { key: 'height', label: 'Altura' }] as const).map(field => <label key={field.key}>{field.label}<input type="number" step={0.1} min={field.key === 'width' || field.key === 'height' ? 10 : 0} max={100} value={coordinates[field.key]} aria-invalid={!coordinateBox} onChange={event => updateCoordinate(field.key, event.target.value)} /></label>)}</div>
-        <p className="muted tiny">{bible ? 'A Bíblia reserva o rodapé para referência e versão. A área útil termina em 81% da altura; os campos e alças mostram essa área efetiva. Ao mover ou redimensionar, a caixa é salva dentro desse limite.' : 'A caixa deve ficar dentro da tela. Largura e altura mínimas: 10%.'}</p>
       </section>
       <div className="theme-editor-fields">
         <label>Alinhamento<select value={draft.textAlign} onChange={event => update('textAlign', event.target.value as Theme['textAlign'])}><option value="left">Esquerda</option><option value="center">Centro</option><option value="right">Direita</option></select></label>
@@ -106,6 +104,6 @@ export function ThemeEditor({ theme, snapshot, onApply, defaultOpen = false, bus
     {invalid && <p role="status" className="draft-invalid">{invalid}</p>}
     {error && <p role="alert" className="error-message">{error}</p>}
     {status && <p role="status" className="theme-applied">{status}</p>}
-    <div className="theme-actions"><button className="primary" disabled={disabled || Boolean(invalid)} onClick={() => void apply()}>{pending ? 'Aplicando…' : 'Aplicar tema à saída'}</button><button className="secondary" disabled={disabled} onClick={restoreApplied}>Restabelecer tema aplicado</button></div>
+    <div className="theme-actions"><button className="primary" disabled={disabled || Boolean(invalid)} onClick={() => void apply()}>{pending ? 'Aplicando…' : 'Aplicar tema à saída'}</button><button className="secondary" disabled={disabled} onClick={restoreApplied} aria-label="Reverter rascunho para o tema aplicado">Reverter rascunho</button></div>
   </details>;
 }

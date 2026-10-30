@@ -1,19 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import type { BibleBook, BibleChapter, BibleVersion } from '../../shared/contracts';
 import { api } from '../../shared/contracts/api';
 import { LatestRequest } from './latestRequest';
+import { initialSelection, passageAvailability, selectLocation } from './selection';
 
 /** Owned by Operator so context changes preserve the reader without affecting the live snapshot. */
 export function useBibleBrowser(enabled: boolean) {
   const [versions, setVersions] = useState<BibleVersion[]>([]);
   const [versionsLoaded, setVersionsLoaded] = useState(false);
-  const [versionId, setVersionId] = useState('');
+  const [selection, dispatch] = useReducer(selectLocation, initialSelection);
+  const { versionId, bookId, chapterNumber, verseNumber } = selection;
+  const [booksVersionId, setBooksVersionId] = useState('');
   const [books, setBooks] = useState<BibleBook[]>([]);
-  const [bookId, setBookId] = useState('');
-  const [chapterNumber, setChapterNumber] = useState<number | null>(null);
+  const [bookNames, setBookNames] = useState<ReadonlyMap<string, string>>(() => new Map());
   const [chapter, setChapter] = useState<BibleChapter | null>(null);
-  const [verseNumber, setVerseNumber] = useState<string | null>(null);
   const [query, setQuery] = useState('');
+  const [projectOnClick, setProjectOnClick] = useState(false);
   const [loadingVersions, setLoadingVersions] = useState(false);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [loadingChapter, setLoadingChapter] = useState(false);
@@ -32,7 +34,7 @@ export function useBibleBrowser(enabled: boolean) {
     const request = versionsRequest.current;
     setLoadingVersions(true); setVersionsError('');
     void request.run(api.listBibleVersions, {
-      success: next => { setVersions(next); setVersionsLoaded(true); setVersionId(current => current || next[0]?.id || ''); },
+      success: next => { setVersions(next); setVersionsLoaded(true); dispatch({ type: 'version', id: next[0]?.id || '' }); },
       failure: reason => setVersionsError(`Não foi possível carregar as versões da Bíblia. ${String(reason)}`),
       settled: () => setLoadingVersions(false),
     });
@@ -44,7 +46,11 @@ export function useBibleBrowser(enabled: boolean) {
     const request = booksRequest.current;
     setLoadingBooks(true); setBooksError('');
     void request.run(() => api.listBibleBooks(versionId), {
-      success: next => setBooks(next),
+      success: next => {
+        setBooks(next); setBooksVersionId(versionId);
+        // Retain labels only: text and availability still belong to the current translation.
+        setBookNames(current => new Map([...current, ...next.map(book => [book.id, book.name] as const)]));
+      },
       failure: reason => setBooksError(`Não foi possível carregar os livros. ${String(reason)}`),
       settled: () => setLoadingBooks(false),
     });
@@ -52,7 +58,9 @@ export function useBibleBrowser(enabled: boolean) {
   }, [versionId, booksRetry]);
 
   useEffect(() => {
-    if (!versionId || !bookId || chapterNumber === null) return;
+    if (!versionId || !bookId || chapterNumber === null || booksVersionId !== versionId) return;
+    const selectedBook = books.find(book => book.id === bookId);
+    if (!selectedBook || chapterNumber > selectedBook.chapterCount) return;
     const request = chapterRequest.current;
     setLoadingChapter(true); setChapterError('');
     void request.run(() => api.getBibleChapter(versionId, bookId, chapterNumber), {
@@ -61,31 +69,33 @@ export function useBibleBrowser(enabled: boolean) {
       settled: () => setLoadingChapter(false),
     });
     return () => request.invalidate();
-  }, [versionId, bookId, chapterNumber, chapterRetry]);
+  }, [versionId, bookId, chapterNumber, chapterRetry, books, booksVersionId]);
 
   function selectVersion(id: string) {
     if (id === versionId) return;
     booksRequest.current.invalidate(); chapterRequest.current.invalidate();
-    setVersionId(id); setBooks([]); setBookId(''); setChapterNumber(null); setChapter(null); setVerseNumber(null);
-    setBooksError(''); setChapterError(''); setLoadingChapter(false); setQuery('');
+    dispatch({ type: 'version', id }); setBooks([]); setBooksVersionId(''); setChapter(null);
+    setBooksError(''); setChapterError(''); setLoadingChapter(false);
   }
   function selectBook(id: string) {
     if (id === bookId) return;
     chapterRequest.current.invalidate();
-    setBookId(id); setChapterNumber(null); setChapter(null); setVerseNumber(null); setChapterError(''); setLoadingChapter(false);
+    dispatch({ type: 'book', id }); setChapter(null); setChapterError(''); setLoadingChapter(false);
   }
   function selectChapter(number: number) {
     if (number === chapterNumber) return;
     chapterRequest.current.invalidate();
-    setChapterNumber(number); setChapter(null); setVerseNumber(null); setChapterError('');
+    dispatch({ type: 'chapter', number }); setChapter(null); setChapterError('');
   }
   return {
-    versions, versionId, books, bookId, chapterNumber, chapter, verseNumber, query,
+    versions, versionId, books, bookId, chapterNumber, chapter, verseNumber, query, projectOnClick, setProjectOnClick,
     version: versions.find(version => version.id === versionId) ?? null,
     book: books.find(book => book.id === bookId) ?? null,
+    bookName: bookNames.get(bookId) ?? null,
     verse: chapter?.verses.find(verse => verse.number === verseNumber) ?? null,
     loadingVersions, loadingBooks, loadingChapter, versionsLoaded, versionsError, booksError, chapterError,
-    setQuery, selectVersion, selectBook, selectChapter, selectVerse: setVerseNumber,
+    locationMessage: passageAvailability(selection, books, booksVersionId, chapter),
+    setQuery, selectVersion, selectBook, selectChapter, selectVerse: (number: string) => dispatch({ type: 'verse', number }),
     retryVersions: () => setVersionsRetry(current => current + 1),
     retryBooks: () => setBooksRetry(current => current + 1),
     retryChapter: () => setChapterRetry(current => current + 1),
