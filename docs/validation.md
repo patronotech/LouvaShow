@@ -233,3 +233,18 @@ Permanecem sem ensaio real: chamada à Groq com chave válida, cofre em cada sis
 - 74 testes frontend e 70 testes Rust públicos passaram; formatação e Clippy com `-D warnings` passaram.
 - Reinício do bundle isolado macOS Apple Silicon confirmou versão 0.6.0, vídeo de abertura, persistência da cifra e servidor desligado. Modo palco cobriu toda a área da aplicação, sem a barra de operação por cima.
 - Navegador de teste retomou dispositivo aprovado e repertório pessoal salvo depois do reinício. Os ajustes finais de editor e isolamento de notas possuem testes automatizados; não equivalem a teste de instalação em outros sistemas.
+
+### Fechamento da distribuição 0.6.1
+
+- A revisão final independente confirmou bloqueio de edição durante operações, visibilidade fixa nas cifras existentes, proveniência ao duplicar e notas separadas por perfil.
+- No bundle isolado Apple Silicon, o seletor nativo de exportação ChordPro abriu e o cancelamento retornou ao editor. A sugestão capo 2 converteu E/G# em D/F#, mantendo o tom declarado E; a nova revisão foi salva. O repertório pessoal no navegador continuou exibindo a revisão 1, com capo 0, mesmo com a biblioteca na revisão 2.
+- Repertório com duas ocorrências da mesma cifra: próximo chegou a 2/2 e foi desabilitado; anterior voltou a 1/2. Sessão aprovada persistiu após reiniciar o aplicativo. O servidor começou desligado e foi encerrado ao final do teste.
+- 72 testes Rust com a feature privada de hinário passaram localmente, incluindo o pacote de 640 hinos. Esse pacote não integra o Git ou a distribuição pública.
+- DMGs públicos 0.6.1 arm64 e x86_64 e o DMG local privado arm64 foram assinados, aceitos pela notarização Apple, receberam os tickets e passaram Gatekeeper, integridade e leitura dos arquivos internos. Assinatura/notarização não comprovam execução em hardware Intel.
+
+- GitHub Actions da tag `v0.6.1`: [verificações de código](https://github.com/dantetesta/LouvaShow/actions/runs/40994317979) passaram em Windows, macOS e Ubuntu. No Windows, o harness iniciou e completou 70 testes Rust; 74 testes frontend também passaram. O erro de carregamento de 0.6.0 foi resolvido pelo manifesto v6. O job Windows 2022 dos instaladores manteve testes e Clippy e passou essa etapa.
+
+- [Instaladores da tag v0.6.1](https://github.com/dantetesta/LouvaShow/actions/runs/40994317942): três targets concluídos com sucesso. Windows 2022 confirmou 74 testes frontend, 70 Rust e Clippy; NSIS com WebView2 offline gerado. Isso comprova o build e a execução das suítes no runner, sem afirmar instalação ou operação em Windows 10/11 de uso final.
+
+- EXE final inspecionado com 7zz: NSIS íntegro, nove arquivos de instalação/runtime, incluindo WebView2 offline e avisos bíblicos. Executável PE x86_64 com manifesto Common Controls v6 confirmado. Verificação dos padrões de segredo e ausência do pacote privado de hinos passou.
+- [Release pública 0.6.1](https://github.com/dantetesta/LouvaShow/releases/tag/v0.6.1) publicada com três instaladores e SHA256SUMS.txt. Os dois DMGs do CI foram substituídos pelos builds locais públicos assinados/notarizados. Hashes locais e digests dos quatro assets remotos conferidos.
